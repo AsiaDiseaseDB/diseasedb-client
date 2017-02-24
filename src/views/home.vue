@@ -1,4 +1,4 @@
 <template lang="pug">
-div#app
-  el-button 默认按钮
+div#home
+  h1 This is home
 </template>
