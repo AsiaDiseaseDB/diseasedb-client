@@ -1,6 +1,6 @@
+//  从服务器端取回
 module.exports = {
   state: {
-    token: false,
-    islogin: false
+    islogin: true
   }
 }
