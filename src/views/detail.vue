@@ -4,16 +4,21 @@
   <h1>Detail Page</h1>
   <div id="detail-page-container">
     <el-row>
-      <el-col :span="8">
-        <el-tree :data="data2" :props="defaultProps"
+      <el-col id="detail-left-part" :span="9">
+        <el-tree id="detail-tree" :data="treedata" :props="defaultProps"
           node-key="id" default-expand-all :expand-on-click-node="false"
-          :render-content="renderContent">
+          :highlight-current="true" :render-content="renderContent"
+          @node-click="clickEvent">
         </el-tree>
       </el-col>
-      <el-col :span="16">
+      <el-col id="detail-right-part" :span="15">
         <el-row>
           <span class="dt-title">Basic Source</span>
           <span>Report ID 1</span>
+        </el-row>
+        <el-row>
+          <el-input placeholder="text" v-model="inputData"></el-input>
+          <el-button @click="addTest">Add</el-button>
         </el-row>
         <el-row>
         </el-row>
@@ -24,46 +29,16 @@
 </template>
 
 <script>
+//  should get this data from Server
+import tmpTreeData from '../store/tmpTreeData.js'
 let id = 1000;
 
 export default {
   data() {
     return {
-      data2: [{
-        id: 1,
-        label: '一级 1',
-        children: [{
-          id: 4,
-          label: '二级 1-1',
-          children: [{
-            id: 9,
-            label: '三级 1-1-1'
-          }, {
-            id: 10,
-            label: '三级 1-1-2'
-          }]
-        }]
-      }, {
-        id: 2,
-        label: '一级 2',
-        children: [{
-          id: 5,
-          label: '二级 2-1'
-        }, {
-          id: 6,
-          label: '二级 2-2'
-        }]
-      }, {
-        id: 3,
-        label: '一级 3',
-        children: [{
-          id: 7,
-          label: '二级 3-1'
-        }, {
-          id: 8,
-          label: '二级 3-2'
-        }]
-      }],
+      inputData: '',
+      highLightData: '',
+      treedata: tmpTreeData,
       defaultProps: {
         children: 'children',
         label: 'label'
@@ -77,6 +52,27 @@ export default {
 
     remove(store, data) {
       store.remove(data);
+    },
+
+    clickEvent(data, node, tree) {
+      this.highLightData = {
+        data: data,
+        node: node
+      }
+      console.log(node);
+    },
+
+    addTest() {
+      if (this.highLightData === '') {
+        console.log('No Element Selected');
+      } else {
+        var newNode = {
+          id: id++,
+          label: this.inputData,
+          children: []
+        }
+        this.highLightData.node.store.append(newNode, this.highLightData.node.data);
+      }
     },
 
     renderContent(h, { node, data, store }) {
@@ -98,14 +94,26 @@ export default {
 <style>
 #detail-page-container {
   text-align: left;
-  border: solid;
+  border-style: solid;
   border-radius: 4px;
   border-width: 1px;
+}
+
+#detail-left-part {
+  height: 400px;
+  overflow: scroll;
+  border-right-width: 2px;
+  border-right-style: solid;
+  border-color: #BFCBD9;
 }
 
 .dt-title {
   font-size: 18pt;
   font-weight: bold;
   margin: 20px;
+}
+
+#detail-tree {
+  border-width: 0;
 }
 </style>

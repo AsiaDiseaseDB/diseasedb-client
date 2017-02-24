@@ -28,7 +28,7 @@
     </el-row>
     <el-row id="buttons" type="flex" justify="end" :gutter="10">
       <el-col :span="20" class="btn-container">
-        <el-button>Search </el-button>
+        <el-button>Search</el-button>
         <el-button>Export</el-button>
         <el-button>Batch Input</el-button>
         <el-button @click="editItem">Edit</el-button>
