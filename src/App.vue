@@ -4,8 +4,6 @@ div#app
 </template>
 
 <script>
-import login from './views/login.vue'
-
 export default {
   name: 'app',
   data() {

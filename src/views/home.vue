@@ -6,12 +6,12 @@
       <el-col v-bind:span="4">
         <el-input placeholder="Report ID"></el-input>
       </el-col>
-      <el-col v-bind:span="4">
-        <el-select v-model="d_value" placeholder="Disease" clearable @change="changeEvent">
+      <el-col :span="4">
+        <el-select v-model="d_value" placeholder="Disease" clearable>
           <el-option v-for="item in diseaseOptions" v-bind:label="item.label" v-bind:value="item.d_value"></el-option>
         </el-select>
       </el-col>
-      <el-col v-bind:span="4">
+      <el-col :span="4">
         <el-select v-model="c_value" placeholder="Country" clearable>
           <el-option v-for="item in countryOptions" v-bind:label="item.label" v-bind:value="item.c_value"></el-option>
         </el-select>
@@ -31,7 +31,7 @@
         <el-button>Search </el-button>
         <el-button>Export</el-button>
         <el-button>Batch Input</el-button>
-        <el-button>Edit</el-button>
+        <el-button @click="editItem">Edit</el-button>
         <el-button type="primary" @click="newItem">New</el-button>
       </el-col>
     </el-row>
@@ -52,6 +52,7 @@
 import staticRes from '../store/staticRes.js'
 
 export default {
+  name: 'home',
   data() {
     return {
       //  disease
@@ -69,30 +70,24 @@ export default {
       }],
       double_click: '',
       // table
-      tableData: [{
-        title: 'Study of AIDS',
-        author: 'hhk',
-        disease: 'AIDS',
-        reporter: 'wyz',
-        time: '2016-05-02'
-      }],
+      tableData: [],
       currentRow: null
     }
   },
   methods: {
-    changeEvent: function() {
-      console.log(this.d_value);
-    },
     handleCurrentChange(val) {
       this.currentRow = val;
     },
-    newItem: function() {
+    editItem() {
+      this.$router.push('/detail')
+    },
+    newItem() {
       this.tableData.push({
         title: 'Study of AIDS',
         author: 'hhk',
         disease: 'AIDS',
         reporter: 'wyz',
-        time: '2016-05-02'
+        time: '2016'
       });
     }
   }
