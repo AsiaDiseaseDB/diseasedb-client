@@ -9,6 +9,10 @@ div#login
 
 <script>
 import store from '../store/store.js'
+import axios from 'axios'
+
+//  配置baseURL
+axios.defaults.baseURL = 'http://localhost:3000';
 
 //  从数据库读取用户信息
 var users = [{
@@ -26,13 +30,26 @@ export default {
     }
   },
   methods: {
-    login: function() {
-      if (users[0].name == this.username_input && users[0].password == this.password_input) {
-        store.state.islogin = true;
-        this.$router.push('/home')
-      } else {
-        console.log('Err: Username or Password Error');
-      }
+    login() {
+      // if (users[0].name == this.username_input && users[0].password == this.password_input) {
+      //   store.state.islogin = true;
+      //   this.$router.push('/home')
+      // } else {
+      //   console.log('Err: Username or Password Error');
+      // }
+      var tmpRouter = this.$router;
+      axios.post('/loginReq', {
+        username: this.username_input,
+        //  TODO: md5 加密
+        password: this.password_input
+      })
+      .then(function (response) {
+        console.log(response.data.success)
+        tmpRouter.push('/home')
+      })
+      .catch(function (response) {
+        console.log(response)
+      });
     }
   }
 }
