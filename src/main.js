@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
+import axios from 'axios'
 
 import App from './App.vue'
 import routes from './routes.js'
@@ -9,6 +10,9 @@ import store from './store/store.js'
 
 Vue.use(VueRouter)
 Vue.use(ElementUI)
+
+//  配置baseURL
+axios.defaults.baseURL = 'http://localhost:3000';
 
 const router = new VueRouter({
   mode: 'history',

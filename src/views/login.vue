@@ -8,12 +8,6 @@ div#login
 </template>
 
 <script>
-import store from '../store/store.js'
-import axios from 'axios'
-
-//  配置baseURL
-axios.defaults.baseURL = 'http://localhost:3000';
-
 //  从数据库读取用户信息
 var users = [{
   name: 'mingyu',
@@ -31,12 +25,13 @@ export default {
   },
   methods: {
     login() {
-      // if (users[0].name == this.username_input && users[0].password == this.password_input) {
-      //   store.state.islogin = true;
-      //   this.$router.push('/home')
-      // } else {
-      //   console.log('Err: Username or Password Error');
-      // }
+      if (users[0].name == this.username_input && users[0].password == this.password_input) {
+        this.$router.push('/home')
+      } else {
+        console.log('Err: Username or Password Error');
+      }
+    },
+    axiosLogin() {
       var tmpRouter = this.$router;
       axios.post('/loginReq', {
         username: this.username_input,

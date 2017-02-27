@@ -49,15 +49,15 @@
 </template>
 
 <script>
-import staticRes from '../store/staticRes.js'
+import homeData from '../store/homeData.js'
 
 export default {
   name: 'home',
   data() {
     return {
       //  disease
-      diseaseOptions: staticRes.diseaseOptions,
-      countryOptions: staticRes.countryOptions,
+      diseaseOptions: homeData.diseaseOptions,
+      countryOptions: homeData.countryOptions,
       d_value: '',
       c_value: '',
       y_value: '',
