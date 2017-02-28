@@ -4,115 +4,17 @@
   <h1>Detail Page</h1>
   <div id="detail-page-container">
     <el-row>
-      <el-col id="detail-left-part" :span="9">
+      <el-col id="detail-left-part" :span="7">
         <el-tree id="detail-tree" :data="treedata" :props="defaultProps"
           node-key="id" default-expand-all :expand-on-click-node="false"
-          :highlight-current="true" :render-content="renderContent"
-          @node-click="clickEvent">
+          :highlight-current="true" @node-click="clickEvent">
+          <!-- :render-content="renderContent" -->
         </el-tree>
       </el-col>
-      <el-col id="detail-right-part" :span="15">
-        <span class="dt-title">Basic Source</span>
-        <!-- <el-row>
-          <el-input placeholder="text" v-model="inputData"></el-input>
-          <el-button @click="addTest">Add</el-button>
-        </el-row> -->
-        <el-form ref="form" :model="form" label-width="80px" label-position="center">
-          <el-form-item label="ReportID">
-            <el-input v-model="form.id" :disabled="true"></el-input>
-          </el-form-item>
-          <el-form-item label="Reporter">
-            <el-select v-model="form.reporter" placeholder="Reporter">
-              <el-option v-for="item in form.reporterOptions" :label="item" :value="item"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="Disease">
-            <el-select v-model="form.disease" placeholder="Disease">
-              <el-option v-for="item in form.diseaseOptions" :label="item" :value="item"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="Country">
-            <el-select v-model="form.country" placeholder="Country">
-              <el-option v-for="item in form.countryOptions" v-bind:label="item" v-bind:value="item"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="DocumentCategory">
-            <el-select v-model="form.documentCategory" placeholder="DocumentCategory">
-              <el-option v-for="item in form.documentCategoryOptions" :label="item" :value="item"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-row>
-            <el-col :span="12">
-              <el-form-item label="Journal">
-                <el-input></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="Title">
-                <el-input></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="12">
-              <el-form-item label="Authors">
-                <el-input></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="Year of Pub">
-                <el-input></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="12">
-              <el-form-item label="Volume">
-                <el-input></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="Issue">
-                <el-input></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="12">
-              <el-form-item label="Page From">
-                <el-input></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="Page To">
-                <el-input></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-form-item label="Author contact needed">
-            <el-input></el-input>
-          </el-form-item>
-          <el-row>
-            <el-col :span="12">
-              <el-form-item label="Open access">
-                <el-input></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="checked">
-                <el-input></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-form-item label="note1">
-            <el-input></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="onSubmit">立即创建</el-button>
-            <el-button>取消</el-button>
-          </el-form-item>
-        </el-form>
+      <el-col id="detail-right-part" :span="17">
+        <router-view></router-view>
       </el-col>
+      <!--  -->
     </el-row>
   </div>
 </div>
@@ -121,7 +23,6 @@
 <script>
 //  should get this data from Server
 import tmpTreeData from '../store/tmpTreeData.js'
-import detailData from '../store/detailData.js'
 let id = 1000;
 
 export default {
@@ -133,37 +34,43 @@ export default {
       defaultProps: {
         children: 'children',
         label: 'label'
-      },
-      form: {
-        id: 1111,  //  自动生成的随机值，从数据库获取
-        reporterOptions: detailData.reporterOptions,
-        diseaseOptions: detailData.diseaseOptions,
-        countryOptions: detailData.countryOptions,
-        documentCategoryOptions: detailData.documentCategoryOptions,
-        reporter: '',
-        disease: '',
-        country: '',
-        documentCategory: ''
       }
     }
   },
   methods: {
+    //  test function
     append(store, data) {
       store.append({ id: id++, label: 'testtest', children: [] }, data);
     },
 
+    //  test function
     remove(store, data) {
       store.remove(data);
     },
 
+    //  点击树状视图，进行导航操作
     clickEvent(data, node, tree) {
+      //  标记当前选中的节点
       this.highLightData = {
         data: data,
         node: node
-      }
-      console.log(node);
+      };
+      //  TODO: 数据库查询默认数据操作
+      switch (node.level) {
+        case 1:
+          this.$router.push('/detail/basicsource');
+          break;
+        case 2:
+          this.$router.push('/detail/survey');
+          break;
+        default:
+          console.log('err');
+          //  do nothing
+      };
+      // console.log(node);
     },
 
+    //  test function
     addTest() {
       if (this.highLightData === '') {
         console.log('No Element Selected');
@@ -177,11 +84,7 @@ export default {
       }
     },
 
-    onSubmit() {
-      console.log('submit!');
-      console.log(this.form);
-    },
-
+    //  test function
     renderContent(h, { node, data, store }) {
       return (
           <span>
