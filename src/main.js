@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import Vuex from 'vuex'
 import VueRouter from 'vue-router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
@@ -6,7 +7,10 @@ import axios from 'axios'
 
 import App from './App.vue'
 import routes from './routes.js'
-import store from './store/store.js'
+//  TODO: replace it with Vuex
+import store from './static/store.js'
+
+Vue.use(Vuex)
 
 Vue.use(VueRouter)
 Vue.use(ElementUI)

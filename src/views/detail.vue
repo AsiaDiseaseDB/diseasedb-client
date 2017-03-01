@@ -22,7 +22,7 @@
 
 <script>
 //  should get this data from Server
-import tmpTreeData from '../store/tmpTreeData.js'
+import tmpTreeData from '../static/tmpTreeData.js'
 let id = 1000;
 
 export default {

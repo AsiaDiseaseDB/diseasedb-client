@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import detailData from '../store/detailData.js'
+import detailData from '../static/detailData.js'
 
 export default {
   name: 'app',

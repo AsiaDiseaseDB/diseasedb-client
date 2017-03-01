@@ -8,12 +8,12 @@
       </el-col>
       <el-col :span="4">
         <el-select v-model="d_value" placeholder="Disease" clearable>
-          <el-option v-for="item in diseaseOptions" v-bind:label="item.label" v-bind:value="item.d_value"></el-option>
+          <el-option v-for="item in diseaseOptions" v-bind:label="item" v-bind:value="item"></el-option>
         </el-select>
       </el-col>
       <el-col :span="4">
         <el-select v-model="c_value" placeholder="Country" clearable>
-          <el-option v-for="item in countryOptions" v-bind:label="item.label" v-bind:value="item.c_value"></el-option>
+          <el-option v-for="item in countryOptions" v-bind:label="item" v-bind:value="item"></el-option>
         </el-select>
       </el-col>
       <el-col :span="6">
@@ -22,7 +22,7 @@
       </el-col>
       <el-col :span="6">
         <el-select v-model="double_click" placeholder="Double Click" clearable>
-          <el-option v-for="item in clickOptions" v-bind:label="item.label" v-bind:value="item.click_value"></el-option>
+          <el-option v-for="item in clickOptions" v-bind:label="item" v-bind:value="item"></el-option>
         </el-select>
       </el-col>
     </el-row>
@@ -49,25 +49,19 @@
 </template>
 
 <script>
-import homeData from '../store/homeData.js'
+import detailData from '../static/detailData.js'
 
 export default {
   name: 'home',
   data() {
     return {
       //  disease
-      diseaseOptions: homeData.diseaseOptions,
-      countryOptions: homeData.countryOptions,
+      diseaseOptions: detailData.basicDetail.diseaseOptions,
+      countryOptions: detailData.basicDetail.countryOptions,
       d_value: '',
       c_value: '',
       y_value: '',
-      clickOptions: [{
-        click_value: 'Yes',
-        label: 'Yes'
-      }, {
-        click_value: 'No',
-        label: 'No'
-      }],
+      clickOptions: ['Yes', 'No'],
       double_click: '',
       // table
       tableData: [],
