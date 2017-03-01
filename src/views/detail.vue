@@ -63,6 +63,15 @@ export default {
         case 2:
           this.$router.push('/detail/survey');
           break;
+        case 3:
+          this.$router.push('/detail/location');
+          break;
+        case 4:
+          this.$router.push('/detail/disease');
+          break;
+        case 5:
+          this.$router.push('/detail/intervention');
+          break;
         default:
           console.log('err');
           //  do nothing

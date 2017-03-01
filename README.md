@@ -49,7 +49,7 @@ request: {
     disease: string,    //  如果未指定则设为null
     country: string,    //  如果未指定则设为null
     year: number,       //  如果未指定则设为null
-    double_click: bool  //  如果未指定则设为null
+    doubleClick: bool  //  如果未指定则设为null
     //  不会出现四个都为null的情况
   }
 }
@@ -88,7 +88,7 @@ request: {
   type: enum('Survey Description', 'Location Information', 'Disease Data', 'Intervention Data')
   id: number  //  type上一级的id
 }
-response: {
+response: {   //  格式:没有空格或下划线，首字母大写的CamelCase
   result: [{  //  如果查不到，返回null
     ...
   }]
@@ -119,7 +119,7 @@ request: {  //  递归地删除掉下层所有的表
   type: enum('Survey Description', 'Location Information', 'Disease Data', 'Intervention Data')
   id: number  //  type表的id
 }
-response: {
+response: {    //  格式:没有空格或下划线，首字母大写的CamelCase
   success: bool,
   err: string  // 错误信息，若成功设为null
 }

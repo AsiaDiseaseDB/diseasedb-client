@@ -6,7 +6,15 @@ module.exports = [{
       label: 'Survey 1-1',
       children: [{
         id: 9,
-        label: 'Location 1-1-1'
+        label: 'Location 1-1-1',
+        children: [{
+          id: 11,
+          label: 'Disease 1-1-1-1',
+          children: [{
+            id: 12,
+            label: 'Intervention 1-1-1-1-1'
+          }]
+        }]
       }, {
         id: 10,
         label: 'Location 1-1-2'

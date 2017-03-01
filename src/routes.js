@@ -14,6 +14,15 @@ const routes = [{
     }, {
       path: 'survey',
       component: require('./components/Survey.vue')
+    }, {
+      path: 'location',
+      component: require('./components/Location.vue')
+    }, {
+      path: 'disease',
+      component: require('./components/DiseaseData.vue')
+    }, {
+      path: 'intervention',
+      component: require('./components/InterventionData.vue')
     }]
   },
   {
