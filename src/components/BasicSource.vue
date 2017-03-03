@@ -92,8 +92,8 @@
       <el-input></el-input>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="onSubmit">立即创建</el-button>
-      <el-button>取消</el-button>
+      <el-button type="primary" @click="addTest">立即创建</el-button>
+      <el-button @click="removeTest">取消</el-button>
     </el-form-item>
   </el-form>
 </div>
@@ -104,6 +104,7 @@ import detailData from '../static/detailData.js'
 
 export default {
   name: 'app',
+  props: ['tree'],
   data() {
     return {
       form: {
@@ -121,8 +122,17 @@ export default {
   },
   methods: {
     onSubmit() {
-      console.log('submit!');
-      console.log(this.form);
+      console.log('submit!')
+      console.log(this.form)
+    },
+    addTest() {
+      // console.log(this.tree)
+      var curNode = this.tree.currentNode.node
+      curNode.store.append({id:this.id++, label:'1234', children:[]}, curNode.data)
+    },
+    removeTest() {
+      var curNode = this.tree.currentNode.node
+      curNode.store.remove(curNode.data)
     }
   }
 }

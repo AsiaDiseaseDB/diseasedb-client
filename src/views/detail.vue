@@ -7,12 +7,13 @@
       <el-col id="detail-left-part" :span="7">
         <el-tree id="detail-tree" :data="treedata" :props="defaultProps"
           node-key="id" default-expand-all :expand-on-click-node="false"
-          :highlight-current="true" @node-click="clickEvent">
+          :highlight-current="true" @node-click="clickEvent" ref="tree">
           <!-- :render-content="renderContent" -->
         </el-tree>
       </el-col>
       <el-col id="detail-right-part" :span="17">
-        <router-view></router-view>
+        <!--  向孩子传递参数: tree组件  -->
+        <router-view :tree="tree"></router-view>
       </el-col>
       <!--  -->
     </el-row>
@@ -22,20 +23,37 @@
 
 <script>
 //  should get this data from Server
-import tmpTreeData from '../static/tmpTreeData.js'
+//  import tmpTreeData from '../static/tmpTreeData.js'
 let id = 1000;
 
 export default {
   data() {
     return {
       inputData: '',
-      highLightData: '',
-      treedata: tmpTreeData,
       defaultProps: {
         children: 'children',
         label: 'label'
-      }
+      },
+      tree: null,
+      treeId: 2
     }
+  },
+  created: function() {
+    //  初始化 从服务器拿数据
+    var getid = 1234
+    this.treedata = [{
+      id: 1,
+      label: "Report ID " + getid,
+      children: []
+    }, {
+      id: 2,
+      label: "Report ID " + getid,
+      children: []
+    }, {
+      id: 3,
+      label: "Report ID " + getid,
+      children: []
+    }]
   },
   methods: {
     //  test function
@@ -50,11 +68,8 @@ export default {
 
     //  点击树状视图，进行导航操作
     clickEvent(data, node, tree) {
-      //  标记当前选中的节点
-      this.highLightData = {
-        data: data,
-        node: node
-      };
+      //  获取树组件
+      this.tree = this.$refs.tree
       //  TODO: 数据库查询默认数据操作
       switch (node.level) {
         case 1:
@@ -74,23 +89,7 @@ export default {
           break;
         default:
           console.log('err');
-          //  do nothing
       };
-      // console.log(node);
-    },
-
-    //  test function
-    addTest() {
-      if (this.highLightData === '') {
-        console.log('No Element Selected');
-      } else {
-        var newNode = {
-          id: id++,
-          label: this.inputData,
-          children: []
-        }
-        this.highLightData.node.store.append(newNode, this.highLightData.node.data);
-      }
     },
 
     //  test function
