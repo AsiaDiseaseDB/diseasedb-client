@@ -95,6 +95,17 @@ response: {   //  格式:没有空格或下划线，首字母大写的CamelCase
 }
 ```
 
+### 后端提供一个未被占用的ID
+```javascript
+url: '/getid'(post)
+request: {
+  type: enum('Basic Source', 'Survey Description', 'Location Information', 'Disease Data', 'Intervention Data')
+}
+response {
+  id: number  //  服务器提供的对应类型的ID
+}
+```
+
 ### 增添操作
 
 ```javascript
