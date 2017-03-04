@@ -76,6 +76,7 @@ export default {
       this.$router.push('/detail')
     },
     newItem() {
+      
       this.tableData.push({
         title: 'Study of AIDS',
         author: 'hhk',

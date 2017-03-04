@@ -13,7 +13,7 @@
       </el-col>
       <el-col id="detail-right-part" :span="17">
         <!--  向孩子传递参数: tree组件  -->
-        <router-view :tree="tree"></router-view>
+        <router-view :tree="tree" :idPath="idPath"></router-view>
       </el-col>
       <!--  -->
     </el-row>
@@ -35,7 +35,8 @@ export default {
         label: 'label'
       },
       tree: null,
-      treeId: 2
+      treeId: 2,
+      idPath: []
     }
   },
   created: function() {
@@ -44,15 +45,8 @@ export default {
     this.treedata = [{
       id: 1,
       label: "Report ID " + getid,
-      children: []
-    }, {
-      id: 2,
-      label: "Report ID " + getid,
-      children: []
-    }, {
-      id: 3,
-      label: "Report ID " + getid,
-      children: []
+      children: [],
+      dataID: getid  //  id from database
     }]
   },
   methods: {
@@ -70,6 +64,14 @@ export default {
     clickEvent(data, node, tree) {
       //  获取树组件
       this.tree = this.$refs.tree
+      var curNode = this.tree.currentNode.node
+      this.idPath = []
+      while (typeof(curNode.data.dataID) !== "undefined") {
+        this.idPath.push(curNode.data.dataID)
+        curNode = curNode.parent
+      }
+      this.idPath.reverse()
+      console.log(this.idPath)
       //  TODO: 数据库查询默认数据操作
       switch (node.level) {
         case 1:
