@@ -68,22 +68,34 @@ export default {
       currentRow: null
     }
   },
+  computed: {
+    opt: {
+      get() {
+        return this.$store.state.opt
+      },
+      set(value) {
+        this.$store.commit('updateOpt', value)
+      }
+    }
+  },
   methods: {
     handleCurrentChange(val) {
-      this.currentRow = val;
+      this.currentRow = val
     },
     editItem() {
+      this.opt = 'edit'
       this.$router.push('/detail')
     },
     newItem() {
-      
-      this.tableData.push({
-        title: 'Study of AIDS',
-        author: 'hhk',
-        disease: 'AIDS',
-        reporter: 'wyz',
-        time: '2016'
-      });
+      this.opt = 'new'
+      this.$router.push('/detail')
+      // this.tableData.push({
+      //   title: 'Study of AIDS',
+      //   author: 'hhk',
+      //   disease: 'AIDS',
+      //   reporter: 'wyz',
+      //   time: '2016'
+      // })
     }
   }
 }

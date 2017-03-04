@@ -35,19 +35,47 @@ export default {
         label: 'label'
       },
       tree: null,
+      treedata: [],
       treeId: 2,
       idPath: []
     }
   },
+  computed: {
+    opt: {
+      get() {
+        return this.$store.state.opt
+      },
+      set(value) {
+        this.$store.commit('updateOpt', value)
+      }
+    }
+  },
   created: function() {
     //  初始化 从服务器拿数据
-    var getid = 1234
-    this.treedata = [{
-      id: 1,
-      label: "Report ID " + getid,
-      children: [],
-      dataID: getid  //  id from database
-    }]
+    switch (this.opt) {
+      case 'new':
+        var getid = 1234
+        this.treedata = [{
+          id: 1,
+          label: "Report ID " + getid,
+          children: [],
+          dataID: getid  //  id from database
+        }]
+        break
+      case 'edit':
+        break
+      default:
+        //  do nothing
+    }
+  },
+  mounted: function () {
+    this.tree = this.$refs.tree
+    if (this.opt === 'new') {
+      this.$refs.tree.$children[0].handleClick()
+    }
+  },
+  beforeDestroy: function() {
+    this.opt = ''  //  清除痕迹
   },
   methods: {
     //  test function
@@ -63,7 +91,7 @@ export default {
     //  点击树状视图，进行导航操作
     clickEvent(data, node, tree) {
       //  获取树组件
-      this.tree = this.$refs.tree
+
       var curNode = this.tree.currentNode.node
       this.idPath = []
       while (typeof(curNode.data.dataID) !== "undefined") {
