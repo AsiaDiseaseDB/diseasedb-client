@@ -99,7 +99,7 @@ export default {
       }
       this.idPath.reverse()
       this.nodeID = this.idPath[node.level - 1]
-      console.log(this.idPath)
+      // console.log(this.idPath)
       //  TODO: 数据库查询默认数据操作
       switch (node.level) {
         case 1:

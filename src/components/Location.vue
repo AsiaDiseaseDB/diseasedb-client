@@ -58,7 +58,7 @@
       </el-col>
     </el-row>
     <el-form-item label="note3">
-      <el-input v-model="form.note3"></el-input>
+      <el-input v-model="form.note3" type="textarea"></el-input>
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="onNext">Next</el-button>

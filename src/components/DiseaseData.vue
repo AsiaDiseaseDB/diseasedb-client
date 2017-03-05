@@ -14,7 +14,8 @@
       <el-col :span="12">
         <el-form-item label="Information">
           <el-select v-model="form.information" placeholder="Information">
-            <el-option v-for="item in form.informationOptions" :label="item" :value="item"></el-option>
+            <el-option v-for="item in form.informationOptions"
+                       :label="item" :value="item"></el-option>
           </el-select>
         </el-form-item>
       </el-col>
@@ -68,56 +69,65 @@
     <el-row>
       <el-col :span="8">
         <el-form-item label-width="10px">
-          <el-input placeholder="Num_examine" v-model="form.numExamine"></el-input>
+          <el-input placeholder="Num_examine"
+                    v-model="form.numExamine"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label-width="10px">
-          <el-input placeholder="Num_positive" v-model="form.numPositive"></el-input>
+          <el-input placeholder="Num_positive"
+                    v-model="form.numPositive"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label-width="10px">
-          <el-input placeholder="Percent_positive" :disabled="true" v-model="form.percentPositive"></el-input>
-        </el-form-item>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="8">
-        <el-form-item label-width="10px">
-          <el-input placeholder="Num_examine_male" v-model="form.numExamineMale"></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
-        <el-form-item label-width="10px">
-          <el-input placeholder="Num_positive_male" v-model="form.numPositiveMale"></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
-        <el-form-item label-width="10px">
-          <el-input placeholder="Percent_positive_male" :disabled="true" v-model="form.percentPositiveMale"></el-input>
+          <el-input placeholder="Percent_positive" :disabled="true"
+                    v-model="form.percentPositive"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="8">
         <el-form-item label-width="10px">
-          <el-input placeholder="Num_examine_female" v-model="form.numExamineFemale"></el-input>
+          <el-input placeholder="Num_examine_male"
+                    v-model="form.numExamineMale"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label-width="10px">
-          <el-input placeholder="Num_positive_female" v-model="form.numPositiveFemale"></el-input>
+          <el-input placeholder="Num_positive_male"
+                    v-model="form.numPositiveMale"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label-width="10px">
-          <el-input placeholder="Percent_positive_female" :disabled="true" v-model="form.percentPositiveFemale"></el-input>
+          <el-input placeholder="Percent_positive_male" :disabled="true"
+                    v-model="form.percentPositiveMale"></el-input>
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="8">
+        <el-form-item label-width="10px">
+          <el-input placeholder="Num_examine_female"
+                    v-model="form.numExamineFemale"></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item label-width="10px">
+          <el-input placeholder="Num_positive_female"
+                    v-model="form.numPositiveFemale"></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item label-width="10px">
+          <el-input placeholder="Percent_positive_female" :disabled="true"
+                    v-model="form.percentPositiveFemale"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-form-item label="Note">
-      <el-input v-model="form.note4"></el-input>
+      <el-input v-model="form.note4" type="textarea"></el-input>
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="onNext">Next</el-button>
@@ -180,7 +190,7 @@ export default {
       var curNode = this.tree.currentNode.node
       curNode.store.append({
         id:this.id++,
-        label:'Location ' + nextId,
+        label:'Intervention ' + nextId,
         children:[],
         dataID: nextId
       }, curNode.data)
@@ -195,7 +205,7 @@ export default {
       setTimeout(function() {
         that.$notify({
             title: '保存成功',
-            message: '提交了一条Survey',
+            message: '提交了一条Disease',
             type: 'success'
         })
       }, 2000)
@@ -210,7 +220,7 @@ export default {
       var parent = curNode.parent
       parent.store.append({
         id:this.id++,
-        label:'Survey ' + nextId,
+        label:'Disease ' + nextId,
         children:[],
         dataID: nextId
       }, parent.data)
