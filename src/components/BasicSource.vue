@@ -112,10 +112,9 @@ import detailData from '../static/detailData.js'
 
 export default {
   name: 'app',
-  props: ['tree', 'idPath'],
+  props: ['tree', 'idPath', 'nodeID'],
   data() {
     return {
-      id: 100,
       form: {
         id: 2,  //  自动生成的随机值，从数据库获取
         reporterOptions: detailData.basicDetail.reporterOptions,
@@ -144,11 +143,22 @@ export default {
       }
     }
   },
+  computed: {
+    id: {
+      get() {
+        return this.$store.state.treeID
+      },
+      set(v) {
+        this.$store.commit('updateTreeID', v)
+      }
+    }
+  },
   methods: {
     onNext() {
-      var nextId = 2017  //  服务器取回数据
+      //  TODO: 从服务器端取回ID进行替换
+      var nextId = parseInt(200 + Math.random() * 100)
       var curNode = this.tree.currentNode.node
-      curNode.store.append({id:this.id++, label:'Survey ID ' + nextId, children:[], dataID: nextId}, curNode.data)
+      curNode.store.append({id:this.id++, label:'Survey ' + nextId, children:[], dataID: nextId}, curNode.data)
       var that = this
       var len = curNode.childNodes.length
       setTimeout(function() {
@@ -160,7 +170,7 @@ export default {
       setTimeout(function() {
         that.$notify({
             title: '保存成功',
-            message: '这是一条成功的提示消息',
+            message: '提交了一条Report',
             type: 'success'
         })
       }, 2000)
@@ -169,24 +179,31 @@ export default {
       this.$router.push('/home')
     },
     onAdd() {
-      var nextId = 2018  //  服务器取回数据
+      //  TODO: 从服务器端取回ID进行替换
+      var nextId = parseInt(100 + Math.random() * 100)
       var root = this.tree.root
       // root.insertChild({data: {id:this.id++, label:'Report ID 123', children:[]}})
-      root.store.append({id:this.id++, label:'Report ID ' + nextId, children:[]})
+      root.store.append({
+        id:this.id++,
+        label:'Report ID ' + nextId,
+        children:[],
+        dataID: nextId
+      })
       var len = this.tree.root.childNodes.length
       var that = this
       setTimeout(function() {
         that.tree.$children[len-1].handleClick()
       }, 0)
     },
-    addTest() {
-      // console.log(this.tree)
-      var curNode = this.tree.currentNode.node
-      curNode.store.append({id:this.id++, label:'1234', children:[], dataID: 1996}, curNode.data)
-    },
     removeTest() {
       var curNode = this.tree.currentNode.node
       curNode.store.remove(curNode.data)
+    }
+  },
+  watch: {
+    nodeID: function(val, oldVal) {
+      console.log(val)
+      //  切换显示数据
     }
   }
 }
