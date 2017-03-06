@@ -110,7 +110,7 @@
     </el-form-item>
     <el-form-item>
       <el-button @click="onSave">Save</el-button>
-      <el-button @click="onMenu">Menu</el-button>
+      <el-button @click="onCancel">Cancel</el-button>
       <el-button @click="onAdd">Add Intervention</el-button>
     </el-form-item>
   </el-form>
@@ -168,13 +168,23 @@ export default {
       setTimeout(function() {
         that.$notify({
             title: '保存成功',
-            message: '提交了一条Disease',
+            message: '提交了一条Intervention',
             type: 'success'
         })
       }, 2000)
     },
     onMenu() {
       this.$router.push('/home')
+    },
+    onCancel() {
+      var curNode = this.tree.currentNode.node
+      var parent = curNode.parent
+      var len = parent.childNodes.length
+      var that = this
+      setTimeout(function() {
+        that.tree.currentNode.$parent.handleClick()
+      }, 0)
+      curNode.store.remove(curNode.data)
     },
     onAdd() {
       //  TODO: 从服务器端取回ID进行替换

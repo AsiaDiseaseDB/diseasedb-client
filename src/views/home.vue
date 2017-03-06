@@ -28,17 +28,20 @@
     </el-row>
     <el-row id="buttons" type="flex" justify="end" :gutter="10">
       <el-col :span="20" class="btn-container">
-        <el-button>Search</el-button>
-        <el-button>Export</el-button>
-        <el-button>Batch Input</el-button>
-        <el-button @click="editItem">Edit</el-button>
-        <el-button type="primary" @click="newItem">New</el-button>
+        <el-button @click="onSearch">Search</el-button>
+        <el-button @click="onBatchExport">Export</el-button>
+        <el-button @click="onBatchInput">Batch Input</el-button>
+        <el-button @click="onEdit">Edit</el-button>
+        <el-button type="primary" @click="onNew">New</el-button>
       </el-col>
     </el-row>
     <el-table :data="tableData" highlight-current-row align="center" height="350"
-      @current-change="handleCurrentChange" style="width: 100%">
-      <el-table-column type="index" laber="index" width="60"></el-table-column>
-      <el-table-column property="title" label="Title" width="200"></el-table-column>
+      @current-change="handleCurrentChange"
+      style="width: 100%"
+      v-loading="isLoading" element-loading-text="Searching">
+      <!-- <el-table-column type="index" laber="index" width="40"></el-table-column> -->
+      <el-table-column property="id" label="id" width="100"></el-table-column>
+      <el-table-column property="title" label="Title" width="180"></el-table-column>
       <el-table-column property="author" label="Author" width="110"></el-table-column>
       <el-table-column property="disease" label="Disease" width="150"></el-table-column>
       <el-table-column property="reporter" label="Reporter" width="110"></el-table-column>
@@ -65,37 +68,64 @@ export default {
       double_click: '',
       // table
       tableData: [],
-      currentRow: null
+      currentRow: null,
+      isLoading: false
     }
   },
   computed: {
     opt: {
-      get() {
-        return this.$store.state.opt
-      },
-      set(value) {
-        this.$store.commit('updateOpt', value)
-      }
+      get() { return this.$store.state.opt },
+      set(v) { this.$store.commit('updateOpt', v) }
+    },
+    editID: {
+      get() { return this.$store.state.editID },
+      set(v) { this.$store.commit('updateEditID', v) }
     }
   },
   methods: {
+    //  记录当前选中的行
     handleCurrentChange(val) {
       this.currentRow = val
     },
-    editItem() {
-      this.opt = 'edit'
-      this.$router.push('/detail')
+    onBatchInput() {
+      //  TODO 批量导入
     },
-    newItem() {
+    onBatchExport() {
+      //  TODO 批量导出
+    },
+    onEdit() {
+      if (this.currentRow == null) {
+        this.$alert('请选中需要编辑的条目', '未选中任何条目', {
+          confirmButtonText: '确定',
+          callback: action => {
+            //  do nothing
+          }
+        });
+      } else {
+        this.opt = 'edit'
+        this.editID = this.currentRow.id
+        this.$router.push('/detail')
+      }
+    },
+    onNew() {
       this.opt = 'new'
       this.$router.push('/detail')
-      // this.tableData.push({
-      //   title: 'Study of AIDS',
-      //   author: 'hhk',
-      //   disease: 'AIDS',
-      //   reporter: 'wyz',
-      //   time: '2016'
-      // })
+    },
+    onSearch() {
+      var that = this
+      that.isLoading = true
+      //  TODO 依据查询条件向服务器发出请求
+      setTimeout(function() {
+        that.isLoading = false
+        that.tableData.push({
+          id: 1023,
+          title: 'Study of AIDS',
+          author: 'hhk',
+          disease: 'AIDS',
+          reporter: 'wyz',
+          time: '2016'
+        })
+      }, 1500)
     }
   }
 }

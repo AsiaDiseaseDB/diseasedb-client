@@ -73,6 +73,14 @@ export default {
         }]
         break
       case 'edit':
+        //  TODO 从服务器读取数据
+        var itemID = this.$store.state.editOpt.editID
+        this.treedata = [{
+          id: this.id++,
+          label: "Report ID " + parseInt(itemID),
+          children: [],
+          dataID: parseInt(itemID)  //  id from database
+        }]
         break
       default:
         //  do nothing
@@ -81,7 +89,7 @@ export default {
   mounted: function () {
     //  获取树组件的引用
     this.tree = this.$refs.tree
-    if (this.opt === 'new') {
+    if (this.opt === 'new' || this.opt === 'edit') {
       this.$refs.tree.$children[0].handleClick()
     }
   },

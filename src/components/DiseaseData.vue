@@ -132,7 +132,7 @@
     <el-form-item>
       <el-button type="primary" @click="onNext">Next</el-button>
       <el-button @click="onSave">Save</el-button>
-      <el-button @click="onMenu">Menu</el-button>
+      <el-button @click="onCancel">Cancel</el-button>
       <el-button @click="onAdd">Add Disease</el-button>
     </el-form-item>
   </el-form>
@@ -215,6 +215,16 @@ export default {
     },
     onMenu() {
       this.$router.push('/home')
+    },
+    onCancel() {
+      var curNode = this.tree.currentNode.node
+      var parent = curNode.parent
+      var len = parent.childNodes.length
+      var that = this
+      setTimeout(function() {
+        that.tree.currentNode.$parent.handleClick()
+      }, 0)
+      curNode.store.remove(curNode.data)
     },
     onAdd() {
       //  TODO: 从服务器端取回ID进行替换
