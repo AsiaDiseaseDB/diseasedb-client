@@ -3,18 +3,18 @@
   <span class="dt-title">Disease Data</span>
   <el-form ref="form" :model="form" label-width="80px" label-position="center">
     <el-form-item label="Disease ID">
-      <el-input v-model="form.id" :disabled="true"></el-input>
+      <el-input v-model="form.DiseaseID" :disabled="true"></el-input>
     </el-form-item>
     <el-row>
       <el-col :span="12">
         <el-form-item label="Species">
-          <el-input v-model="form.species"></el-input>
+          <el-input v-model="form.Species"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="Information">
-          <el-select v-model="form.information" placeholder="Information">
-            <el-option v-for="item in form.informationOptions"
+          <el-select v-model="form.LocationInformationLocationID" placeholder="Information">
+            <el-option v-for="item in informationOptions"
                        :label="item" :value="item"></el-option>
           </el-select>
         </el-form-item>
@@ -23,46 +23,46 @@
     <el-row id="diagonstic_info">
       <el-col :span="6">
         <el-form-item label-width="10px">
-          <el-input placeholder="Symptoms" v-model="form.diagnosticSymptoms"></el-input>
+          <el-input placeholder="Symptoms" v-model="form.DiagnosticSymptoms"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="6">
         <el-form-item label-width="10px">
-          <el-input placeholder="Blood" v-model="form.diagnosticBlood"></el-input>
+          <el-input placeholder="Blood" v-model="form.DiagnosticBlood"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="6">
         <el-form-item label-width="10px">
-          <el-input placeholder="Skin" v-model="form.diagnosticSkin"></el-input>
+          <el-input placeholder="Skin" v-model="form.DiagnosticSkin"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="6">
         <el-form-item label-width="10px">
-          <el-input placeholder="Stool" v-model="form.diagnosticStool"></el-input>
+          <el-input placeholder="Stool" v-model="form.DiagnosticStool"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="12">
         <el-form-item label="Num_samples">
-          <el-input v-model="form.numSamples"></el-input>
+          <el-input v-model="form.NumSamples"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="Num_specimen">
-          <el-input v-model="form.numSpecimen"></el-input>
+          <el-input v-model="form.NumSpecimen"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="12">
         <el-form-item label="AgeLower">
-          <el-input v-model="form.ageLower"></el-input>
+          <el-input v-model="form.AgeLower"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="AgeUpper">
-          <el-input v-model="form.ageUpper"></el-input>
+          <el-input v-model="form.AgeUpper"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
@@ -70,19 +70,19 @@
       <el-col :span="8">
         <el-form-item label-width="10px">
           <el-input placeholder="Num_examine"
-                    v-model="form.numExamine"></el-input>
+                    v-model="form.NumExamine"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label-width="10px">
           <el-input placeholder="Num_positive"
-                    v-model="form.numPositive"></el-input>
+                    v-model="form.NumPositive"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label-width="10px">
           <el-input placeholder="Percent_positive" :disabled="true"
-                    v-model="form.percentPositive"></el-input>
+                    v-model="form.PercentPositive"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
@@ -90,19 +90,19 @@
       <el-col :span="8">
         <el-form-item label-width="10px">
           <el-input placeholder="Num_examine_male"
-                    v-model="form.numExamineMale"></el-input>
+                    v-model="form.NumExamineMale"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label-width="10px">
           <el-input placeholder="Num_positive_male"
-                    v-model="form.numPositiveMale"></el-input>
+                    v-model="form.NumPositiveMale"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label-width="10px">
           <el-input placeholder="Percent_positive_male" :disabled="true"
-                    v-model="form.percentPositiveMale"></el-input>
+                    v-model="form.Percent_positive_male"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
@@ -110,24 +110,24 @@
       <el-col :span="8">
         <el-form-item label-width="10px">
           <el-input placeholder="Num_examine_female"
-                    v-model="form.numExamineFemale"></el-input>
+                    v-model="form.NumExamineFemale"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label-width="10px">
           <el-input placeholder="Num_positive_female"
-                    v-model="form.numPositiveFemale"></el-input>
+                    v-model="form.NumPositiveFemale"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label-width="10px">
           <el-input placeholder="Percent_positive_female" :disabled="true"
-                    v-model="form.percentPositiveFemale"></el-input>
+                    v-model="form.PercentPositiveFemale"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-form-item label="Note">
-      <el-input v-model="form.note4" type="textarea"></el-input>
+      <el-input v-model="form.Note4" type="textarea"></el-input>
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="onNext">Next</el-button>
@@ -144,33 +144,36 @@ import detailData from '../static/detailData.js'
 
 export default {
   name: 'app',
-  props: ['tree', 'idPath'],
+  props: ['tree', 'idPath', 'nodeID'],
   data() {
     return {
       form: {
-        id: 2333,
-        species: '',
-        diagnosticSymptoms: '',
-        diagnosticBlood: '',
-        diagnosticSkin: '',
-        diagnosticStool: '',
-        numSamples: '',
-        numSpecimen: '',
-        ageLower: '',
-        ageUpper: '',
-        numExamine: '',
-        numPositive: '',
-        percentPositive: '',
-        numExamineMale: '',
-        numPositiveMale: '',
-        percentPositiveMale: '',
-        numExamineFemale: '',
-        numPositiveFemale: '',
-        percentPositiveFemale: '',
-        note4: '',
-        information: '',  //  TODO: 待确定
-        informationOptions: detailData.diseaseDetail.informationOptions
-      }
+        DiseaseID: -1,
+        Species: '',
+        DiagnosticSymptoms: '',
+        DiagnosticBlood: '',
+        DiagnosticSkin: '',
+        DiagnosticStool: '',
+        NumSamples: '',
+        NumSpecimen: '',
+        AgeLower: '',
+        AgeUpper: '',
+        NumExamine: '',
+        NumPositive: '',
+        PercentPositive: '',
+        NumExamineMale: '',
+        NumPositiveMale: '',
+        Percent_positive_male: '',
+        NumExamineFemale: '',
+        NumPositiveFemale: '',
+        PercentPositiveFemale: '',
+        Note4: '',
+        LocationInformationLocationID: '',
+        LReportID: -1,
+        LocationInformationSurveyDescriptionSurveyID: -1,
+        LocationInformationLocationID1: -1
+      },
+      informationOptions: detailData.diseaseDetail.informationOptions
     }
   },
   computed: {
@@ -229,6 +232,20 @@ export default {
       setTimeout(function() {
         that.tree.currentNode.$parent.$children[len].handleClick()
       }, 0)
+    },
+    onChangeItem() {
+      this.form.LReportID = this.idPath[0]
+      this.form.LocationInformationSurveyDescriptionSurveyID = this.idPath[1]
+      this.form.LocationInformationLocationID1 = this.idPath[2]
+      this.form.DiseaseID = this.idPath[3]
+    },
+  },
+  created: function() {
+    this.onChangeItem()
+  },
+  watch: {
+    nodeID: function(val, oldVal) {
+      this.onChangeItem()
     }
   }
 }

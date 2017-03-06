@@ -3,20 +3,22 @@
   <span class="dt-title">Survey Description</span>
   <el-form ref="form" :model="form" label-width="80px" label-position="center">
     <el-form-item label="Survey ID">
-      <el-input v-model="form.id" :disabled="true"></el-input>
+      <el-input v-model="form.SurveyID" :disabled="true"></el-input>
     </el-form-item>
     <el-row>
       <el-col :span="12">
           <el-form-item label="DataType">
-            <el-select v-model="form.dataType" placeholder="Data Type">
-              <el-option v-for="item in form.dataTypeOptions" :label="item" :value="item"></el-option>
+            <el-select v-model="form.DataType" placeholder="Data Type">
+              <el-option v-for="item in dataTypeOptions" :label="item"
+                         :value="item"></el-option>
             </el-select>
           </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="SurveyType">
-          <el-select v-model="form.surveyType" placeholder="Survey Type">
-            <el-option v-for="item in form.surveyTypeOptions" :label="item" :value="item"></el-option>
+          <el-select v-model="form.SurveyType" placeholder="Survey Type">
+            <el-option v-for="item in form.surveyTypeOptions"
+                       :label="item" :value="item"></el-option>
           </el-select>
         </el-form-item>
       </el-col>
@@ -24,15 +26,17 @@
     <el-row>
       <el-col :span="12">
           <el-form-item label="MonthStart">
-            <el-select v-model="form.monthStart" placeholder="Month Start">
-              <el-option v-for="item in form.monthOptions" :label="item" :value="item"></el-option>
+            <el-select v-model="form.MonthStart" placeholder="Month Start">
+              <el-option v-for="item in monthOptions"
+                         :label="item" :value="item"></el-option>
             </el-select>
           </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="MonthFinish">
-          <el-select v-model="form.monthFinish" placeholder="Month Finish">
-            <el-option v-for="item in form.monthOptions" :label="item" :value="item"></el-option>
+          <el-select v-model="form.MonthFinish" placeholder="Month Finish">
+            <el-option v-for="item in monthOptions"
+                       :label="item" :value="item"></el-option>
           </el-select>
         </el-form-item>
       </el-col>
@@ -40,17 +44,17 @@
     <el-row>
       <el-col :span="12">
           <el-form-item label="YearStart">
-            <el-input v-model="form.yearStart"></el-input>
+            <el-input v-model="form.YearStart"></el-input>
           </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="YearFinish">
-          <el-input v-model="form.yearFinish"></el-input>
+          <el-input v-model="form.YearFinish"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-form-item label="Note">
-      <el-input type="textarea" v-model="form.note2"></el-input>
+      <el-input type="textarea" v-model="form.Note2"></el-input>
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="onNext">Next</el-button>
@@ -67,23 +71,23 @@ import detailData from '../static/detailData.js'
 
 export default {
   name: 'app',
-  props: ['tree', 'idPath'],
+  props: ['tree', 'idPath', 'nodeID'],
   data() {
     return {
       form: {
-        id: 1234,  // survey id, 自动生成的随机值，从数据库获取
-        reportID: 1111,  //  get from father
-        dataTypeOptions: detailData.surveyDetail.dataTypeOptions,
-        surveyTypeOptions: detailData.surveyDetail.surveyTypeOptions,
-        monthOptions: detailData.surveyDetail.monthOptions,
-        dataType: '',
-        surveyType: '',
-        monthStart: '',
-        monthFinish: '',
-        yearStart: '',
-        yearFinish: '',
-        note2: ''
-      }
+        SurveyID: -1,                // survey id, 自动生成的随机值，从数据库获取
+        BasicSources_ReportID: -1,   //  get from father
+        DataType: '',
+        SurveyType: '',
+        MonthStart: '',
+        MonthFinish: '',
+        YearStart: '',
+        YearFinish: '',
+        Note2: ''
+      },
+      dataTypeOptions: detailData.surveyDetail.dataTypeOptions,
+      surveyTypeOptions: detailData.surveyDetail.surveyTypeOptions,
+      monthOptions: detailData.surveyDetail.monthOptions
     }
   },
   computed: {
@@ -142,6 +146,18 @@ export default {
       setTimeout(function() {
         that.tree.currentNode.$parent.$children[len].handleClick()
       }, 0)
+    },
+    onChangeItem() {  //  同级页面切换时更新数据
+      this.form.BasicSources_ReportID = this.idPath[0]
+      this.form.SurveyID = this.idPath[1]
+    }
+  },
+  created: function() {
+    this.onChangeItem()
+  },
+  watch: {
+    nodeID: function(val, oldVal) {
+      this.onChangeItem()
     }
   }
 }

@@ -3,7 +3,7 @@
   <span class="dt-title">Location Information</span>
   <el-form ref="form" :model="form" label-width="80px" label-position="center">
     <el-form-item label="Location ID">
-      <el-input v-model="form.id" :disabled="true"></el-input>
+      <el-input v-model="form.LocationID" :disabled="true"></el-input>
     </el-form-item>
     <el-row>
       <el-col :span="12">
@@ -25,22 +25,22 @@
       </el-col>
       <el-col :span="12">
         <el-form-item label="PointName">
-          <el-input v-model="form.pointName"></el-input>
+          <el-input v-model="form.PointName"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="12">
         <el-form-item label="PointType">
-          <el-select v-model="form.pointType" placeholder="Point Type">
-            <el-option v-for="item in form.pointTypeOptions" :label="item" :value="item"></el-option>
+          <el-select v-model="form.PointType" placeholder="Point Type">
+            <el-option v-for="item in pointTypeOptions" :label="item" :value="item"></el-option>
           </el-select>
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="GeoRef">
-          <el-select v-model="form.grSource" placeholder="Point Type">
-            <el-option v-for="item in form.grSourceOptions" :label="item" :value="item"></el-option>
+          <el-select v-model="form.GeoReferenceSources" placeholder="Point Type">
+            <el-option v-for="item in grSourceOptions" :label="item" :value="item"></el-option>
           </el-select>
         </el-form-item>
       </el-col>
@@ -48,17 +48,17 @@
     <el-row>
       <el-col :span="12">
         <el-form-item label="Latitude">
-          <el-input v-model="form.latitude"></el-input>
+          <el-input v-model="form.Latitude"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="Longitude">
-          <el-input v-model="form.longitude"></el-input>
+          <el-input v-model="form.Longitude"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-form-item label="note3">
-      <el-input v-model="form.note3" type="textarea"></el-input>
+      <el-input v-model="form.Note3" type="textarea"></el-input>
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="onNext">Next</el-button>
@@ -74,23 +74,25 @@ import detailData from '../static/detailData.js'
 
 export default {
   name: 'app',
-  props: ['tree', 'idPath'],
+  props: ['tree', 'idPath', 'nodeID'],
   data() {
     return {
       form: {
-        id: 2333,
+        LocationID: -1,
+        SurveyDescription_BasicSources_ReportID: -1,
+        SurveyDescription_SurveyID: -1,
         ADM1: '',
         ADM2: '',
         ADM3: '',
-        pointName: '',
-        pointType: '',
-        latitude: '',
-        longitude: '',
-        grSource: '',
-        note3: '',
-        grSourceOptions: detailData.locationDetail.grSourceOptions,
-        pointTypeOptions: detailData.locationDetail.pointTypeOptions
-      }
+        PointName: '',
+        PointType: '',
+        Latitude: '',
+        Longitude: '',
+        GeoReferenceSources: '',
+        Note3: ''
+      },
+      grSourceOptions: detailData.locationDetail.grSourceOptions,
+      pointTypeOptions: detailData.locationDetail.pointTypeOptions
     }
   },
   computed: {
@@ -149,6 +151,19 @@ export default {
       setTimeout(function() {
         that.tree.currentNode.$parent.$children[len].handleClick()
       }, 0)
+    },
+    onChangeItem() {
+      this.form.SurveyDescription_BasicSources_ReportID = this.idPath[0]
+      this.form.SurveyDescription_SurveyID = this.idPath[1]
+      this.form.LocationID = this.idPath[2]
+    }
+  },
+  created: function() {
+    this.onChangeItem()
+  },
+  watch: {
+    nodeID: function(val, oldVal) {
+      this.onChangeItem()
     }
   }
 }

@@ -3,99 +3,99 @@
   <span class="dt-title">Basic Source</span>
   <el-form ref="form" :model="form" label-width="80px" label-position="center">
     <el-form-item label="ReportID">
-      <el-input v-model="form.id" :disabled="true"></el-input>
+      <el-input v-model="form.ReportID" :disabled="true"></el-input>
     </el-form-item>
     <el-form-item label="Reporter">
-      <el-select v-model="form.reporter" placeholder="Reporter">
-        <el-option v-for="item in form.reporterOptions" :label="item" :value="item"></el-option>
+      <el-select v-model="form.Reporter" placeholder="Reporter">
+        <el-option v-for="item in reporterOptions" :label="item" :value="item"></el-option>
       </el-select>
     </el-form-item>
     <el-form-item label="Disease">
-      <el-select v-model="form.disease" placeholder="Disease">
-        <el-option v-for="item in form.diseaseOptions" :label="item" :value="item"></el-option>
+      <el-select v-model="form.Disease" placeholder="Disease">
+        <el-option v-for="item in diseaseOptions" :label="item" :value="item"></el-option>
       </el-select>
     </el-form-item>
     <el-form-item label="Country">
-      <el-select v-model="form.country" placeholder="Country">
-        <el-option v-for="item in form.countryOptions" v-bind:label="item" v-bind:value="item"></el-option>
+      <el-select v-model="form.Country" placeholder="Country">
+        <el-option v-for="item in countryOptions" v-bind:label="item" v-bind:value="item"></el-option>
       </el-select>
     </el-form-item>
     <el-form-item label="Document Category">
-      <el-select v-model="form.documentCategory" placeholder="DocumentCategory">
-        <el-option v-for="item in form.documentCategoryOptions" :label="item" :value="item"></el-option>
+      <el-select v-model="form.DocumentCategory" placeholder="DocumentCategory">
+        <el-option v-for="item in documentCategoryOptions" :label="item" :value="item"></el-option>
       </el-select>
     </el-form-item>
     <el-row>
       <el-col :span="12">
         <el-form-item label="Journal">
-          <el-input v-model="form.journal"></el-input>
+          <el-input v-model="form.Journal"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="Title">
-          <el-input v-model="form.title"></el-input>
+          <el-input v-model="form.Title"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="12">
         <el-form-item label="Authors">
-          <el-input v-model="form.authors"></el-input>
+          <el-input v-model="form.Authors"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="Year of Pub">
-          <el-input v-model="form.yearOfPub"></el-input>
+          <el-input v-model="form.YearOfPub"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="12">
         <el-form-item label="Volume">
-          <el-input v-model="form.volume"></el-input>
+          <el-input v-model="form.Volume"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="Issue">
-          <el-input v-model="form.issue"></el-input>
+          <el-input v-model="form.Issue"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="12">
         <el-form-item label="Page From">
-          <el-input v-model="form.pageFrom"></el-input>
+          <el-input v-model="form.PageFrom"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="Page To">
-          <el-input v-model="form.pageTo"></el-input>
+          <el-input v-model="form.PageTo"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-form-item label="Author Contact Needed">
-      <el-select v-model="form.authorContactNeeded" placeholder="Author Contact Needed">
-        <el-option v-for="item in form.contactNeededOptions" :label="item" :value="item"></el-option>
+      <el-select v-model="form.AuthorContactNeeded" placeholder="Author Contact Needed">
+        <el-option v-for="item in contactNeededOptions" :label="item" :value="item"></el-option>
       </el-select>
     </el-form-item>
     <el-row>
       <el-col :span="12">
         <el-form-item label="Open Access">
-          <el-select v-model="form.openAccess" placeholder="Open Access">
-            <el-option v-for="item in form.openAccessOptions" :label="item" :value="item"></el-option>
+          <el-select v-model="form.OpenAccess" placeholder="Open Access">
+            <el-option v-for="item in openAccessOptions" :label="item" :value="item"></el-option>
           </el-select>
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="Checked">
-          <el-select v-model="form.checked" placeholder="Checked">
-            <el-option v-for="item in form.checkedOptions" :label="item" :value="item"></el-option>
+          <el-select v-model="form.Checked" placeholder="Checked">
+            <el-option v-for="item in checkedOptions" :label="item" :value="item"></el-option>
           </el-select>
         </el-form-item>
       </el-col>
     </el-row>
     <el-form-item label="Note">
-      <el-input type="textarea" :rows="2" placeholder="Note" v-model="form.note"></el-input>
+      <el-input type="textarea" :rows="2" placeholder="Note" v-model="form.Note1"></el-input>
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="onNext">Next</el-button>
@@ -116,31 +116,31 @@ export default {
   data() {
     return {
       form: {
-        id: 2,  //  自动生成的随机值，从数据库获取
-        reporterOptions: detailData.basicDetail.reporterOptions,
-        diseaseOptions: detailData.basicDetail.diseaseOptions,
-        countryOptions: detailData.basicDetail.countryOptions,
-        documentCategoryOptions: detailData.basicDetail.documentCategoryOptions,
-        contactNeededOptions: ['No', 'Yes', 'Already'],
-        openAccessOptions: ['No', 'Yes'],
-        checkedOptions: ['No', 'Yes'],
-        reporter: '',
-        disease: '',
-        country: '',
-        documentCategory: '',
-        journal: '',
-        title: '',
-        authors: '',
-        yearOfPub: '',
-        volume: '',
-        issue: '',
-        pageFrom: '',
-        pageTo: '',
-        authorContactNeeded: '',
-        openAccess: '',
-        checked: '',
-        note: ''  //  note1
-      }
+        ReportID: -1,  //  自动生成的随机值，从数据库获取
+        Reporter: '',
+        Disease: '',
+        Country: '',
+        DocumentCategory: '',
+        Journal: '',
+        Title: '',
+        Authors: '',
+        YearOfPub: '',
+        Volume: '',
+        Issue: '',
+        PageFrom: '',
+        PageTo: '',
+        AuthorContactNeeded: '',
+        OpenAccess: '',
+        Checked: '',
+        Note1: ''  //  note1
+      },
+      reporterOptions: detailData.basicDetail.reporterOptions,
+      diseaseOptions: detailData.basicDetail.diseaseOptions,
+      countryOptions: detailData.basicDetail.countryOptions,
+      documentCategoryOptions: detailData.basicDetail.documentCategoryOptions,
+      contactNeededOptions: ['No', 'Yes', 'Already'],
+      openAccessOptions: ['No', 'Yes'],
+      checkedOptions: ['No', 'Yes']
     }
   },
   computed: {
@@ -158,7 +158,12 @@ export default {
       //  TODO: 从服务器端取回ID进行替换
       var nextId = parseInt(200 + Math.random() * 100)
       var curNode = this.tree.currentNode.node
-      curNode.store.append({id:this.id++, label:'Survey ' + nextId, children:[], dataID: nextId}, curNode.data)
+      curNode.store.append({
+        id:this.id++,
+        label:'Survey ' + nextId,
+        children:[],
+        dataID: nextId
+      }, curNode.data)
       var that = this
       var len = curNode.childNodes.length
       setTimeout(function() {
@@ -182,7 +187,6 @@ export default {
       //  TODO: 从服务器端取回ID进行替换
       var nextId = parseInt(100 + Math.random() * 100)
       var root = this.tree.root
-      // root.insertChild({data: {id:this.id++, label:'Report ID 123', children:[]}})
       root.store.append({
         id:this.id++,
         label:'Report ID ' + nextId,
@@ -200,9 +204,13 @@ export default {
       curNode.store.remove(curNode.data)
     }
   },
+  created: function() {
+    this.form.ReportID = this.nodeID
+  },
   watch: {
     nodeID: function(val, oldVal) {
-      console.log(val)
+      // console.log(val)
+      this.form.ReportID = val
       //  切换显示数据
     }
   }
