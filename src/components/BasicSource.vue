@@ -109,6 +109,7 @@
 
 <script>
 import detailData from '../static/detailData.js'
+import api from '../api.js'
 
 export default {
   name: 'app',
@@ -171,14 +172,8 @@ export default {
       }, 0)
     },
     onSave() {
-      let that = this
-      setTimeout(function() {
-        that.$notify({
-            title: '保存成功',
-            message: '提交了一条Report',
-            type: 'success'
-        })
-      }, 2000)
+      var that = this
+      api.add('Basic Sources', this.form, this)
     },
     onMenu() {
       this.$router.push('/home')
@@ -198,10 +193,21 @@ export default {
       setTimeout(function() {
         that.tree.$children[len-1].handleClick()
       }, 0)
+      this.updateData()
     },
     removeTest() {
       var curNode = this.tree.currentNode.node
       curNode.store.remove(curNode.data)
+    },
+    updateData() {
+      //  TODO 从服务端通过ID获取对应数据
+      this.form = {
+        ReportID: this.id, Reporter: '', Disease: '', Country: '',
+        DocumentCategory: '', Journal: '', Title: '', Authors: '',
+        YearOfPub: '', Volume: '', Issue: '', PageFrom: '',
+        PageTo: '', AuthorContactNeeded: '', OpenAccess: '', Checked: '',
+        Note1: ''
+      }
     }
   },
   created: function() {
@@ -209,7 +215,6 @@ export default {
   },
   watch: {
     nodeID: function(val, oldVal) {
-      // console.log(val)
       this.form.ReportID = val
       //  切换显示数据
     }
