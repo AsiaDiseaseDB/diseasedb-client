@@ -14,7 +14,9 @@
       </el-col>
       <el-col id="detail-right-part" :span="17">
         <!--  向孩子传递参数: tree组件  -->
-        <router-view :tree="tree" :idPath="idPath" :nodeID="nodeID"></router-view>
+        <router-view @getBuffer="updateBuff"
+          :buff="buff" :tree="tree" :idPath="idPath" :nodeID="nodeID">
+        </router-view>
       </el-col>
       <!--  -->
     </el-row>
@@ -39,7 +41,8 @@ export default {
       treedata: [],
       treeId: 2,
       idPath: [],
-      nodeID: -1
+      nodeID: -1,
+      buff: { 'B': {}, 'S': {}, 'L': {}, 'D': {}, 'I': {} }
     }
   },
   computed: {
@@ -129,6 +132,11 @@ export default {
           console.log('err');
       };
     },
+    updateBuff(type, id, form) {
+      // console.log('getBuffer: ' + type)
+      // console.log(form)
+      this.buff[type][id] = form
+    }
   }
 }
 </script>

@@ -4,7 +4,7 @@
     <h1>Home Page</h1>
     <el-row id="input_row" :gutter="10">
       <el-col v-bind:span="4">
-        <el-input placeholder="Report ID"></el-input>
+        <el-input placeholder="Report ID" v-model="searchID"></el-input>
       </el-col>
       <el-col :span="4">
         <el-select v-model="d_value" placeholder="Disease" clearable>
@@ -43,7 +43,7 @@
       <el-table-column property="id" label="id" width="100"></el-table-column>
       <el-table-column property="title" label="Title" width="180"></el-table-column>
       <el-table-column property="author" label="Author" width="110"></el-table-column>
-      <el-table-column property="disease" label="Disease" width="150"></el-table-column>
+      <el-table-column property="disease" label="Disease" width="200"></el-table-column>
       <el-table-column property="reporter" label="Reporter" width="110"></el-table-column>
       <el-table-column property="time" label="Year of publish"></el-table-column>
     </el-table>
@@ -53,19 +53,22 @@
 
 <script>
 import detailData from '../static/detailData.js'
+import api from '../api.js'
 
 export default {
   name: 'home',
   data() {
     return {
-      //  disease
-      diseaseOptions: detailData.basicDetail.diseaseOptions,
-      countryOptions: detailData.basicDetail.countryOptions,
+      //  search conditions
+      searchID: null,
       d_value: '',
       c_value: '',
       y_value: '',
-      clickOptions: ['Yes', 'No'],
       double_click: '',
+      //  options
+      diseaseOptions: detailData.basicDetail.diseaseOptions,
+      countryOptions: detailData.basicDetail.countryOptions,
+      clickOptions: ['Yes', 'No'],
       // table
       tableData: [],
       currentRow: null,
@@ -114,18 +117,12 @@ export default {
     onSearch() {
       var that = this
       that.isLoading = true
-      //  TODO 依据查询条件向服务器发出请求
-      setTimeout(function() {
-        that.isLoading = false
-        that.tableData.push({
-          id: 1023,
-          title: 'Study of AIDS',
-          author: 'hhk',
-          disease: 'AIDS',
-          reporter: 'wyz',
-          time: '2016'
-        })
-      }, 1500)
+      api.query(this.searchID, {
+        disease: this.d_value,
+        country: this.c_value,
+        year: parseInt(this.y_value),
+        doubleClick: this.double_click == 'Yes'
+      }, that)
     }
   }
 }

@@ -113,7 +113,7 @@ import api from '../api.js'
 
 export default {
   name: 'app',
-  props: ['tree', 'idPath', 'nodeID'],
+  props: ['tree', 'idPath', 'nodeID', 'buff'],
   data() {
     return {
       form: {
@@ -199,24 +199,32 @@ export default {
       var curNode = this.tree.currentNode.node
       curNode.store.remove(curNode.data)
     },
-    updateData() {
-      //  TODO 从服务端通过ID获取对应数据
-      this.form = {
-        ReportID: this.id, Reporter: '', Disease: '', Country: '',
-        DocumentCategory: '', Journal: '', Title: '', Authors: '',
-        YearOfPub: '', Volume: '', Issue: '', PageFrom: '',
-        PageTo: '', AuthorContactNeeded: '', OpenAccess: '', Checked: '',
-        Note1: ''
+    //  根据ReportID更新当前页面上的数据
+    updateData(indexID) {
+      // console.log(this.buff)
+      if (this.buff.B[this.nodeID] !== undefined) {
+        this.form = this.buff.B[this.nodeID]
+      } else {
+        this.form = {
+          ReportID: this.nodeID, Reporter: '', Disease: '', Country: '',
+          DocumentCategory: '', Journal: '', Title: '', Authors: '',
+          YearOfPub: '', Volume: '', Issue: '', PageFrom: '',
+          PageTo: '', AuthorContactNeeded: '', OpenAccess: '', Checked: '',
+          Note1: ''
+        }
       }
     }
   },
   created: function() {
+    // console.log(this.nodeID)
     this.form.ReportID = this.nodeID
+    this.$emit('getBuffer', 'B', this.nodeID, this.form)
+    console.log(this.buff.B)
   },
   watch: {
     nodeID: function(val, oldVal) {
-      this.form.ReportID = val
-      //  切换显示数据
+      this.$emit('getBuffer', 'B', oldVal, this.form)
+      this.updateData()
     }
   }
 }

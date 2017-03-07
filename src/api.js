@@ -85,14 +85,50 @@ export default {
   login: function(name, password) {
     const url = '/loginReq'
   },
-  query: function(id, condition) {
+  query: function(id, condition, context) {
     const url = '/query'
+    axios.post(url, {
+      id: id,
+      condition: condition
+    }).then(function(res) {
+      console.log(res)
+      if (res.data.result !== null && res.data.result !== undefined) {
+        context.tableData = []  //  清空上次搜索结果
+        for (let i in res.data.result) {
+          context.tableData.push({
+            id: res.data.result[i].ReportID,
+            title: res.data.result[i].Title,
+            author: res.data.result[i].Authors,
+            disease: res.data.result[i].Disease,
+            reporter: res.data.result[i].Reporter,
+            time: res.data.result[i].YearOfPub
+          })
+        }
+      } else {
+        console.log('>> /query Error \n' + res.data.err)
+      }
+      context.isLoading = false
+      // setTimeout(function() {
+      //   that.isLoading = false
+      //   that.tableData.push({
+      //     id: 1023,
+      //     title: 'Study of AIDS',
+      //     author: 'hhk',
+      //     disease: 'AIDS',
+      //     reporter: 'wyz',
+      //     time: '2016'
+      //   })
+      // }, 1500)
+    }).catch(function(err) {
+      console.log('>> /query catch Error \n' + err)
+      context.isLoading = false
+    })
   },
   queryNext: function(type, id) {
     const url = '/querynext'
   },
-  add: function(type, data, that) {
-    var thisthat = this
+  add: function(type, data, context) {
+    var that = this
     const url = '/add'
     var handledData = getHandledData(type, data)
     axios.post(url, {
@@ -103,7 +139,7 @@ export default {
         console.log(res)
         if (res.data.success == true) {
           setTimeout(function() {
-            that.$notify({
+            context.$notify({
                 title: '保存成功',
                 message: '提交了一条' + type,
                 type: 'success'
@@ -112,7 +148,7 @@ export default {
         } else {
           //  若是由于重复id导致的错误，调用editAPI进行更新数据的操作
           if (res.data.err.errno == 1062) {
-            thisthat.edit(type, getID(type, data), data, that)
+            that.edit(type, getID(type, data), data, context)
           } else {
             console.log('>> /add Error: \n' + res.data.err)
           }
@@ -122,7 +158,7 @@ export default {
         console.log('>> /add catch Error' + err)
       })
   },
-  edit: function(type, id, data, that) {
+  edit: function(type, id, data, context) {
     const url = '/edit'
     var handledData = data
     axios.post(url, {
@@ -131,12 +167,12 @@ export default {
       data: handledData
     })
     .then(function(res) {
-      if (that === undefined) {
-        console.log(res)
+      if (context === undefined) {
+        console.log('>> /edit Error: undefined context')
       } else {
         if (res.data.success == true) {
           setTimeout(function() {
-            that.$notify({
+            context.$notify({
                 title: '更改成功',
                 message: '修改了一条' + type,
                 type: 'success'
