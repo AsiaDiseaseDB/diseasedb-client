@@ -17,7 +17,7 @@
       <el-col :span="12">
         <el-form-item label="SurveyType">
           <el-select v-model="form.SurveyType" placeholder="Survey Type">
-            <el-option v-for="item in form.surveyTypeOptions"
+            <el-option v-for="item in surveyTypeOptions"
                        :label="item" :value="item"></el-option>
           </el-select>
         </el-form-item>
@@ -68,15 +68,16 @@
 
 <script>
 import detailData from '../static/detailData.js'
+import api from '../api.js'
 
 export default {
   name: 'app',
-  props: ['tree', 'idPath', 'nodeID'],
+  props: ['tree', 'idPath', 'nodeID', 'buff'],
   data() {
     return {
       form: {
         SurveyID: -1,                // survey id, 自动生成的随机值，从数据库获取
-        BasicSources_ReportID: -1,   //  get from father
+        BasicSourcesReportID: -1,   //  get from father
         DataType: '',
         SurveyType: '',
         MonthStart: '',
@@ -119,13 +120,14 @@ export default {
     },
     onSave() {
       let that = this
-      setTimeout(function() {
-        that.$notify({
-            title: '保存成功',
-            message: '提交了一条Survey',
-            type: 'success'
-        })
-      }, 2000)
+      api.add('Survey Description', this.form, that)
+      // setTimeout(function() {
+      //   that.$notify({
+      //       title: '保存成功',
+      //       message: '提交了一条Survey',
+      //       type: 'success'
+      //   })
+      // }, 2000)
     },
     onMenu() {
       this.$router.push('/home')
@@ -159,7 +161,7 @@ export default {
       }, 0)
     },
     onChangeItem() {  //  同级页面切换时更新数据
-      this.form.BasicSources_ReportID = this.idPath[0]
+      this.form.BasicSourcesReportID = this.idPath[0]
       this.form.SurveyID = this.idPath[1]
     }
   },

@@ -132,7 +132,7 @@ export default {
     const url = '/add'
     var handledData = getHandledData(type, data)
     axios.post(url, {
-        type: 'Basic Sources',
+        type: type,
         data: handledData
       })
       .then(function(res) {
@@ -179,7 +179,8 @@ export default {
             })
           }, 2000)
         } else {
-          console.log('>> /edit Error: \n' + res.data.err)
+          console.log('>> /edit Error:')
+          console.log(res.data.err)
         }
       }
     })

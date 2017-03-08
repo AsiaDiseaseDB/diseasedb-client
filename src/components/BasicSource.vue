@@ -216,10 +216,11 @@ export default {
     }
   },
   created: function() {
-    // console.log(this.nodeID)
     this.form.ReportID = this.nodeID
+    this.updateData()
+  },
+  beforeDestroy: function() {
     this.$emit('getBuffer', 'B', this.nodeID, this.form)
-    console.log(this.buff.B)
   },
   watch: {
     nodeID: function(val, oldVal) {

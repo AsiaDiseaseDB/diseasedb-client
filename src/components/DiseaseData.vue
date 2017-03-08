@@ -82,7 +82,7 @@
       <el-col :span="8">
         <el-form-item label-width="10px">
           <el-input placeholder="Percent_positive" :disabled="true"
-                    v-model="form.PercentPositive"></el-input>
+                    v-model="PercentPositive"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
@@ -102,7 +102,7 @@
       <el-col :span="8">
         <el-form-item label-width="10px">
           <el-input placeholder="Percent_positive_male" :disabled="true"
-                    v-model="form.Percent_positive_male"></el-input>
+                    v-model="PercentPositiveMale"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
@@ -122,7 +122,7 @@
       <el-col :span="8">
         <el-form-item label-width="10px">
           <el-input placeholder="Percent_positive_female" :disabled="true"
-                    v-model="form.PercentPositiveFemale"></el-input>
+                    v-model="PercentPositiveFemale"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
@@ -141,10 +141,11 @@
 
 <script>
 import detailData from '../static/detailData.js'
+import api from '../api.js'
 
 export default {
   name: 'app',
-  props: ['tree', 'idPath', 'nodeID'],
+  props: ['tree', 'idPath', 'nodeID', 'buff'],
   data() {
     return {
       form: {
@@ -163,7 +164,7 @@ export default {
         PercentPositive: '',
         NumExamineMale: '',
         NumPositiveMale: '',
-        Percent_positive_male: '',
+        PercentPositiveMale: '',
         NumExamineFemale: '',
         NumPositiveFemale: '',
         PercentPositiveFemale: '',
@@ -184,6 +185,21 @@ export default {
       set(v) {
         this.$store.commit('updateTreeID', v)
       }
+    },
+    PercentPositive: function() {
+      if (this.form.NumPositive == '' || this.form.NumExamine == '')
+        return ''
+      return parseInt(this.form.NumPositive) / parseInt(this.form.NumExamine)
+    },
+    PercentPositiveMale: function() {
+      if (this.form.NumPositiveMale == '' || this.form.NumExamineMale == '')
+        return ''
+      return parseInt(this.form.NumPositiveMale) / parseInt(this.form.NumExamineMale)
+    },
+    PercentPositiveFemale: function() {
+      if (this.form.NumPositiveFemale == '' || this.form.NumExamineFemale == '')
+        return ''
+      return parseInt(this.form.NumPositiveFemale) / parseInt(this.form.NumExamineFemale)
     }
   },
   methods: {
@@ -205,13 +221,7 @@ export default {
     },
     onSave() {
       let that = this
-      setTimeout(function() {
-        that.$notify({
-            title: '保存成功',
-            message: '提交了一条Disease',
-            type: 'success'
-        })
-      }, 2000)
+      api.add('Disease Data', this.form, that)
     },
     onMenu() {
       this.$router.push('/home')
@@ -256,6 +266,15 @@ export default {
   watch: {
     nodeID: function(val, oldVal) {
       this.onChangeItem()
+    },
+    PercentPositive: function(val, oldVal) {
+      this.form.PercentPositive = val
+    },
+    PercentPositiveMale: function(val, oldVal) {
+      this.form.PercentPositiveMale = val
+    },
+    PercentPositiveFemale: function(val, oldVal) {
+      this.form.PercentPositiveFemale = val
     }
   }
 }

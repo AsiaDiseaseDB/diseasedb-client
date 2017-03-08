@@ -28,7 +28,7 @@
       </el-col>
       <el-col :span="12">
         <el-form-item label="Frequency">
-          <el-input placeholder="Frequency" v-model="form.FrequencyAfterYear"></el-input>
+          <el-input placeholder="Frequency" v-model="form.FrequencyPerYear"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
@@ -62,8 +62,8 @@
       </el-col>
       <el-col :span="8">
         <el-form-item label-width="10px">
-          <el-input placeholder="Percent_positive"
-                    :disabled="true" v-model="form.IPercentPositive"></el-input>
+          <el-input placeholder="Percent_positive" :disabled="true"
+                    v-model="IPercentPositive"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
@@ -81,7 +81,7 @@
       <el-col :span="8">
         <el-form-item label-width="10px">
           <el-input placeholder="Percent_positive_male" :disabled="true"
-                    v-model="form.IPercentPositiveMale"></el-input>
+                    v-model="IPercentPositiveMale"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
@@ -95,13 +95,13 @@
       <el-col :span="8">
         <el-form-item label-width="10px">
           <el-input placeholder="Num_positive_female"
-                    v-model="form.IPercentPositiveFemale"></el-input>
+                    v-model="form.INumPositiveFemale"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label-width="10px">
-          <el-input placeholder="Percent_positive_female"
-                    :disabled="true" v-model="form.IPercentPositiveFemale"></el-input>
+          <el-input placeholder="Percent_positive_female" :disabled="true"
+                    v-model="IPercentPositiveFemale"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
@@ -119,10 +119,11 @@
 
 <script>
 import detailData from '../static/detailData.js'
+import api from '../api.js'
 
 export default {
   name: 'app',
-  props: ['tree', 'idPath', 'nodeID'],
+  props: ['tree', 'idPath', 'nodeID', 'buff'],
   data() {
     return {
       form: {
@@ -130,7 +131,7 @@ export default {
         Group: '',
         MonthsAfterBaseline: '',
         Drug: '',
-        FrequencyAfterYear: '',
+        FrequencyPerYear: '',
         PeriodMonths: '',
         Coverage: '',
         OtherMethod: '',
@@ -160,18 +161,27 @@ export default {
       set(v) {
         this.$store.commit('updateTreeID', v)
       }
+    },
+    IPercentPositive: function() {
+      if (this.form.INumPositive == '' || this.form.INumExamine == '')
+        return ''
+      return parseInt(this.form.INumPositive) / parseInt(this.form.INumExamine)
+    },
+    IPercentPositiveMale: function() {
+      if (this.form.INumPositiveMale == '' || this.form.INumExamineMale == '')
+        return ''
+      return parseInt(this.form.INumPositiveMale) / parseInt(this.form.INumExamineMale)
+    },
+    IPercentPositiveFemale: function() {
+      if (this.form.INumPositiveFemale == '' || this.form.INumExamineFemale == '')
+        return ''
+      return parseInt(this.form.INumPositiveFemale) / parseInt(this.form.INumExamineFemale)
     }
   },
   methods: {
     onSave() {
       let that = this
-      setTimeout(function() {
-        that.$notify({
-            title: '保存成功',
-            message: '提交了一条Intervention',
-            type: 'success'
-        })
-      }, 2000)
+      api.add('Intervention Data', this.form, that)
     },
     onMenu() {
       this.$router.push('/home')
@@ -219,6 +229,15 @@ export default {
       this.form.DiseaseDataLocationInformationSurveyDescriptionSurveyID = this.idPath[1]
       this.form.DiseaseDataLocationInformationLocationID1 = this.idPath[2]
       this.form.DiseaseDataDiseaseID = this.idPath[3]
+    },
+    IPercentPositive: function(val, oldVal) {
+      this.form.IPercentPositive = val
+    },
+    IPercentPositiveMale: function(val, oldVal) {
+      this.form.IPercentPositiveMale = val
+    },
+    IPercentPositiveFemale: function(val, oldVal) {
+      this.form.IPercentPositiveFemale = val
     }
   }
 }

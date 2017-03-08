@@ -71,16 +71,17 @@
 
 <script>
 import detailData from '../static/detailData.js'
+import api from '../api.js'
 
 export default {
   name: 'app',
-  props: ['tree', 'idPath', 'nodeID'],
+  props: ['tree', 'idPath', 'nodeID', 'buff'],
   data() {
     return {
       form: {
         LocationID: -1,
-        SurveyDescription_BasicSources_ReportID: -1,
-        SurveyDescription_SurveyID: -1,
+        SurveyDescriptionBasicSourcesReportID: -1,
+        SurveyDescriptionSurveyID: -1,
         ADM1: '',
         ADM2: '',
         ADM3: '',
@@ -124,13 +125,7 @@ export default {
     },
     onSave() {
       let that = this
-      setTimeout(function() {
-        that.$notify({
-            title: '保存成功',
-            message: '提交了一条Location',
-            type: 'success'
-        })
-      }, 2000)
+      api.add('Location Information', this.form, that)
     },
     onMenu() {
       this.$router.push('/home')
@@ -163,8 +158,8 @@ export default {
       }, 0)
     },
     onChangeItem() {
-      this.form.SurveyDescription_BasicSources_ReportID = this.idPath[0]
-      this.form.SurveyDescription_SurveyID = this.idPath[1]
+      this.form.SurveyDescriptionBasicSourcesReportID = this.idPath[0]
+      this.form.SurveyDescriptionSurveyID = this.idPath[1]
       this.form.LocationID = this.idPath[2]
     }
   },
