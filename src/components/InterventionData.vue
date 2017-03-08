@@ -212,23 +212,37 @@ export default {
       setTimeout(function() {
         that.tree.currentNode.$parent.$children[len].handleClick()
       }, 0)
+    },
+    updateData() {
+      if (this.buff.I[this.nodeID] !== undefined) {
+        this.form = this.buff.I[this.nodeID]
+      } else {
+        this.form = {
+          InterventionID: this.idPath[4],
+          Group: '', MonthsAfterBaseline: '', Drug: '',
+          FrequencyPerYear: '', PeriodMonths: '', Coverage: '',
+          OtherMethod: '', Note5: '',
+          INumExamine: '', INumPositive: '', IPercentPositive: '',
+          INumExamineMale: '', INumPositiveMale: '', IPercentPositiveMale: '',
+          INumExamineFemale: '', INumPositiveFemale: '', IPercentPositiveFemale: '',
+          DiseaseDataDiseaseID: this.idPath[3],
+          DiseaseDataLocationInformationLocationID1: this.idPath[2],
+          DiseaseDataLReportID: this.idPath[0],
+          DiseaseDataLocationInformationSurveyDescriptionSurveyID: this.idPath[1]
+        }
+      }
     }
   },
   created: function() {
-    this.form.DiseaseDataLReportID = this.idPath[0]
-    this.form.DiseaseDataLocationInformationSurveyDescriptionSurveyID = this.idPath[1]
-    this.form.DiseaseDataLocationInformationLocationID1 = this.idPath[2]
-    this.form.DiseaseDataDiseaseID = this.idPath[3]
-    this.form.InterventionID = this.idPath[4]
+    this.updateData()
+  },
+  beforeDestroy: function() {
+    this.$emit('getBuffer', 'I', this.nodeID, this.form)
   },
   watch: {
     nodeID: function(val, oldVal) {
-      // console.log(val)
-      this.form.InterventionID = val
-      this.form.DiseaseDataLReportID = this.idPath[0]
-      this.form.DiseaseDataLocationInformationSurveyDescriptionSurveyID = this.idPath[1]
-      this.form.DiseaseDataLocationInformationLocationID1 = this.idPath[2]
-      this.form.DiseaseDataDiseaseID = this.idPath[3]
+      this.$emit('getBuffer', 'I', oldVal, this.form)
+      this.updateData()
     },
     IPercentPositive: function(val, oldVal) {
       this.form.IPercentPositive = val

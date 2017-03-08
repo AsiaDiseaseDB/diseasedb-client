@@ -200,7 +200,7 @@ export default {
       curNode.store.remove(curNode.data)
     },
     //  根据ReportID更新当前页面上的数据
-    updateData(indexID) {
+    updateData() {
       // console.log(this.buff)
       if (this.buff.B[this.nodeID] !== undefined) {
         this.form = this.buff.B[this.nodeID]
@@ -216,7 +216,7 @@ export default {
     }
   },
   created: function() {
-    this.form.ReportID = this.nodeID
+    // this.form.ReportID = this.nodeID
     this.updateData()
   },
   beforeDestroy: function() {

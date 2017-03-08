@@ -121,13 +121,6 @@ export default {
     onSave() {
       let that = this
       api.add('Survey Description', this.form, that)
-      // setTimeout(function() {
-      //   that.$notify({
-      //       title: '保存成功',
-      //       message: '提交了一条Survey',
-      //       type: 'success'
-      //   })
-      // }, 2000)
     },
     onMenu() {
       this.$router.push('/home')
@@ -160,17 +153,28 @@ export default {
         that.tree.currentNode.$parent.$children[len].handleClick()
       }, 0)
     },
-    onChangeItem() {  //  同级页面切换时更新数据
-      this.form.BasicSourcesReportID = this.idPath[0]
-      this.form.SurveyID = this.idPath[1]
+    updateData() {
+      if (this.buff.S[this.nodeID] !== undefined) {
+        this.form = this.buff.S[this.nodeID]
+      } else {
+        this.form = {
+          SurveyID: this.idPath[1], BasicSourcesReportID: this.idPath[0], DataType: '',
+          SurveyType: '', MonthStart: '', MonthFinish: '',
+          YearStart: '', YearFinish: '', Note2: ''
+        }
+      }
     }
   },
   created: function() {
-    this.onChangeItem()
+    this.updateData()
+  },
+  beforeDestroy: function() {
+    this.$emit('getBuffer', 'S', this.nodeID, this.form)
   },
   watch: {
     nodeID: function(val, oldVal) {
-      this.onChangeItem()
+      this.$emit('getBuffer', 'S', oldVal, this.form)
+      this.updateData()
     }
   }
 }

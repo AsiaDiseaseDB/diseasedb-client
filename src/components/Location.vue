@@ -157,18 +157,37 @@ export default {
         that.tree.currentNode.$parent.$children[len].handleClick()
       }, 0)
     },
-    onChangeItem() {
-      this.form.SurveyDescriptionBasicSourcesReportID = this.idPath[0]
-      this.form.SurveyDescriptionSurveyID = this.idPath[1]
-      this.form.LocationID = this.idPath[2]
+    updateData() {
+      if (this.buff.L[this.nodeID] !== undefined) {
+        this.form = this.buff.L[this.nodeID]
+      } else {
+        this.form = {
+          LocationID: this.idPath[2],
+          SurveyDescriptionBasicSourcesReportID: this.idPath[0],
+          SurveyDescriptionSurveyID: this.idPath[1],
+          ADM1: '',
+          ADM2: '',
+          ADM3: '',
+          PointName: '',
+          PointType: '',
+          Latitude: '',
+          Longitude: '',
+          GeoReferenceSources: '',
+          Note3: ''
+        }
+      }
     }
   },
   created: function() {
-    this.onChangeItem()
+    this.updateData()
+  },
+  beforeDestroy: function() {
+    this.$emit('getBuffer', 'L', this.nodeID, this.form)
   },
   watch: {
     nodeID: function(val, oldVal) {
-      this.onChangeItem()
+      this.$emit('getBuffer', 'L', oldVal, this.form)
+      this.updateData()
     }
   }
 }

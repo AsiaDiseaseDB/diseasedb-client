@@ -259,13 +259,47 @@ export default {
       this.form.LocationInformationLocationID1 = this.idPath[2]
       this.form.DiseaseID = this.idPath[3]
     },
+    updateData() {
+      if (this.buff.D[this.nodeID] !== undefined) {
+        this.form = this.buff.D[this.nodeID]
+      } else {
+        this.form = {
+          DiseaseID: this.idPath[3],
+          Species: '', DiagnosticSymptoms: '', DiagnosticBlood: '',
+          DiagnosticSkin: '', DiagnosticStool: '', NumSamples: '',
+          NumSpecimen: '',
+          AgeLower: '',
+          AgeUpper: '',
+          NumExamine: '',
+          NumPositive: '',
+          PercentPositive: '',
+          NumExamineMale: '',
+          NumPositiveMale: '',
+          PercentPositiveMale: '',
+          NumExamineFemale: '',
+          NumPositiveFemale: '',
+          PercentPositiveFemale: '',
+          Note4: '',
+          LocationInformationLocationID: '',
+          LReportID: this.idPath[0],
+          LocationInformationSurveyDescriptionSurveyID: this.idPath[1],
+          LocationInformationLocationID1: this.idPath[2]
+        }
+      }
+    }
   },
   created: function() {
-    this.onChangeItem()
+    // this.onChangeItem()
+    this.updateData()
+  },
+  beforeDestroy: function() {
+    this.$emit('getBuffer', 'D', this.nodeID, this.form)
   },
   watch: {
     nodeID: function(val, oldVal) {
-      this.onChangeItem()
+      this.$emit('getBuffer', 'D', oldVal, this.form)
+      this.updateData()
+      // this.onChangeItem()
     },
     PercentPositive: function(val, oldVal) {
       this.form.PercentPositive = val
