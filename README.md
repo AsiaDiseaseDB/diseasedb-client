@@ -108,7 +108,7 @@ response: {
 }
 ```
 
-### 通过一个ID获取到其页面下的所有内容 （尚未实现）
+### 通过一个ID获取到其页面下的所有内容
 
 ```javascript
 url: '/getidcontent'(post)
@@ -117,9 +117,10 @@ request: {
   id: number  //  ReportID
 }
 response: {
-  result: [{  //  如果查不到，返回null
+  data: {  //  如果查不到，返回null
     ...
-  }]
+  },
+  err: err
 }
 ```
 

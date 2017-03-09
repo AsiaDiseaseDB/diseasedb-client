@@ -199,24 +199,36 @@ export default {
       var curNode = this.tree.currentNode.node
       curNode.store.remove(curNode.data)
     },
+    initForm() {
+      this.form = {
+        ReportID: this.nodeID, Reporter: '', Disease: '', Country: '',
+        DocumentCategory: '', Journal: '', Title: '', Authors: '',
+        YearOfPub: '', Volume: '', Issue: '', PageFrom: '',
+        PageTo: '', AuthorContactNeeded: '', OpenAccess: '', Checked: '',
+        Note1: ''
+      }
+    },
     //  根据ReportID更新当前页面上的数据
     updateData() {
-      // console.log(this.buff)
       if (this.buff.B[this.nodeID] !== undefined) {
         this.form = this.buff.B[this.nodeID]
       } else {
-        this.form = {
-          ReportID: this.nodeID, Reporter: '', Disease: '', Country: '',
-          DocumentCategory: '', Journal: '', Title: '', Authors: '',
-          YearOfPub: '', Volume: '', Issue: '', PageFrom: '',
-          PageTo: '', AuthorContactNeeded: '', OpenAccess: '', Checked: '',
-          Note1: ''
-        }
+        //  从服务器取回数据
+        api.getIdContent(this.nodeID, 'Basic Sources')
+          .then((res) => {
+            if (res.data.data == null) {
+              this.initForm()
+            } else {
+              this.form = res.data.data
+            }
+          })
+          .catch((err) => {
+            this.initForm()
+          })
       }
     }
   },
   created: function() {
-    // this.form.ReportID = this.nodeID
     this.updateData()
   },
   beforeDestroy: function() {

@@ -259,37 +259,40 @@ export default {
       this.form.LocationInformationLocationID1 = this.idPath[2]
       this.form.DiseaseID = this.idPath[3]
     },
+    initForm() {
+      this.form = {
+        DiseaseID: this.idPath[3],
+        Species: '', DiagnosticSymptoms: '', DiagnosticBlood: '',
+        DiagnosticSkin: '', DiagnosticStool: '', NumSamples: '',
+        NumSpecimen: '', AgeLower: '', AgeUpper: '',
+        NumExamine: '', NumPositive: '', PercentPositive: '',
+        NumExamineMale: '', NumPositiveMale: '', PercentPositiveMale: '',
+        NumExamineFemale: '', NumPositiveFemale: '', PercentPositiveFemale: '',
+        Note4: '', LocationInformationLocationID: '',
+        LReportID: this.idPath[0],
+        LocationInformationSurveyDescriptionSurveyID: this.idPath[1],
+        LocationInformationLocationID1: this.idPath[2]
+      }
+    },
     updateData() {
       if (this.buff.D[this.nodeID] !== undefined) {
         this.form = this.buff.D[this.nodeID]
       } else {
-        this.form = {
-          DiseaseID: this.idPath[3],
-          Species: '', DiagnosticSymptoms: '', DiagnosticBlood: '',
-          DiagnosticSkin: '', DiagnosticStool: '', NumSamples: '',
-          NumSpecimen: '',
-          AgeLower: '',
-          AgeUpper: '',
-          NumExamine: '',
-          NumPositive: '',
-          PercentPositive: '',
-          NumExamineMale: '',
-          NumPositiveMale: '',
-          PercentPositiveMale: '',
-          NumExamineFemale: '',
-          NumPositiveFemale: '',
-          PercentPositiveFemale: '',
-          Note4: '',
-          LocationInformationLocationID: '',
-          LReportID: this.idPath[0],
-          LocationInformationSurveyDescriptionSurveyID: this.idPath[1],
-          LocationInformationLocationID1: this.idPath[2]
-        }
+        api.getIdContent(this.nodeID, 'Disease Data')
+          .then((res) => {
+            if (res.data.data == null) {
+              this.initForm()
+            } else {
+              this.form = res.data.data
+            }
+          })
+          .catch((err) => {
+            this.initForm()
+          })
       }
     }
   },
   created: function() {
-    // this.onChangeItem()
     this.updateData()
   },
   beforeDestroy: function() {

@@ -157,24 +157,37 @@ export default {
         that.tree.currentNode.$parent.$children[len].handleClick()
       }, 0)
     },
+    initForm() {
+      this.form = {
+        LocationID: this.idPath[2],
+        SurveyDescriptionBasicSourcesReportID: this.idPath[0],
+        SurveyDescriptionSurveyID: this.idPath[1],
+        ADM1: '',
+        ADM2: '',
+        ADM3: '',
+        PointName: '',
+        PointType: '',
+        Latitude: '',
+        Longitude: '',
+        GeoReferenceSources: '',
+        Note3: ''
+      }
+    },
     updateData() {
       if (this.buff.L[this.nodeID] !== undefined) {
         this.form = this.buff.L[this.nodeID]
       } else {
-        this.form = {
-          LocationID: this.idPath[2],
-          SurveyDescriptionBasicSourcesReportID: this.idPath[0],
-          SurveyDescriptionSurveyID: this.idPath[1],
-          ADM1: '',
-          ADM2: '',
-          ADM3: '',
-          PointName: '',
-          PointType: '',
-          Latitude: '',
-          Longitude: '',
-          GeoReferenceSources: '',
-          Note3: ''
-        }
+        api.getIdContent(this.nodeID, 'Location Information')
+          .then((res) => {
+            if (res.data.data == null) {
+              this.initForm()
+            } else {
+              this.form = res.data.data
+            }
+          })
+          .catch((err) => {
+            this.initForm()
+          })
       }
     }
   },

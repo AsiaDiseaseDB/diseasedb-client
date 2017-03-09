@@ -153,15 +153,28 @@ export default {
         that.tree.currentNode.$parent.$children[len].handleClick()
       }, 0)
     },
+    initForm() {
+      this.form = {
+        SurveyID: this.idPath[1], BasicSourcesReportID: this.idPath[0], DataType: '',
+        SurveyType: '', MonthStart: '', MonthFinish: '',
+        YearStart: '', YearFinish: '', Note2: ''
+      }
+    },
     updateData() {
       if (this.buff.S[this.nodeID] !== undefined) {
         this.form = this.buff.S[this.nodeID]
       } else {
-        this.form = {
-          SurveyID: this.idPath[1], BasicSourcesReportID: this.idPath[0], DataType: '',
-          SurveyType: '', MonthStart: '', MonthFinish: '',
-          YearStart: '', YearFinish: '', Note2: ''
-        }
+        api.getIdContent(this.nodeID, 'Survey Description')
+          .then((res) => {
+            if (res.data.data == null) {
+              this.initForm()
+            } else {
+              this.form = res.data.data
+            }
+          })
+          .catch((err) => {
+            this.initForm()
+          })
       }
     }
   },

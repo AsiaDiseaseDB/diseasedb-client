@@ -91,6 +91,13 @@ export default {
       id: id
     })
   },
+  getIdContent: function(id, type) {
+    const url = '/getidcontent'
+    return axios.post(url, {
+      id: id,
+      type: type
+    })
+  },
   query: function(id, condition, context) {
     const url = '/query'
     axios.post(url, {

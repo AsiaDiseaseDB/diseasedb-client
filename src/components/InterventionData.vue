@@ -213,23 +213,36 @@ export default {
         that.tree.currentNode.$parent.$children[len].handleClick()
       }, 0)
     },
+    initForm() {
+      this.form = {
+        InterventionID: this.idPath[4],
+        Group: '', MonthsAfterBaseline: '', Drug: '',
+        FrequencyPerYear: '', PeriodMonths: '', Coverage: '',
+        OtherMethod: '', Note5: '',
+        INumExamine: '', INumPositive: '', IPercentPositive: '',
+        INumExamineMale: '', INumPositiveMale: '', IPercentPositiveMale: '',
+        INumExamineFemale: '', INumPositiveFemale: '', IPercentPositiveFemale: '',
+        DiseaseDataDiseaseID: this.idPath[3],
+        DiseaseDataLocationInformationLocationID1: this.idPath[2],
+        DiseaseDataLReportID: this.idPath[0],
+        DiseaseDataLocationInformationSurveyDescriptionSurveyID: this.idPath[1]
+      }
+    },
     updateData() {
       if (this.buff.I[this.nodeID] !== undefined) {
         this.form = this.buff.I[this.nodeID]
       } else {
-        this.form = {
-          InterventionID: this.idPath[4],
-          Group: '', MonthsAfterBaseline: '', Drug: '',
-          FrequencyPerYear: '', PeriodMonths: '', Coverage: '',
-          OtherMethod: '', Note5: '',
-          INumExamine: '', INumPositive: '', IPercentPositive: '',
-          INumExamineMale: '', INumPositiveMale: '', IPercentPositiveMale: '',
-          INumExamineFemale: '', INumPositiveFemale: '', IPercentPositiveFemale: '',
-          DiseaseDataDiseaseID: this.idPath[3],
-          DiseaseDataLocationInformationLocationID1: this.idPath[2],
-          DiseaseDataLReportID: this.idPath[0],
-          DiseaseDataLocationInformationSurveyDescriptionSurveyID: this.idPath[1]
-        }
+        api.getIdContent(this.nodeID, 'Intervention Data')
+          .then((res) => {
+            if (res.data.data == null) {
+              this.initForm()
+            } else {
+              this.form = res.data.data
+            }
+          })
+          .catch((err) => {
+            this.initForm()
+          })
       }
     }
   },
