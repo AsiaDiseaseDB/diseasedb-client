@@ -27,6 +27,8 @@
 <script>
 //  should get this data from Server
 //  import tmpTreeData from '../static/tmpTreeData.js'
+import api from '../api.js'
+
 let id = 1000;
 
 export default {
@@ -37,6 +39,7 @@ export default {
         children: 'children',
         label: 'label'
       },
+      nodeType: ['ReportID', 'Survey', 'Location', 'Disease', 'Intervention'],
       tree: null,
       treedata: [],
       treeId: 2,
@@ -63,42 +66,6 @@ export default {
       }
     }
   },
-  created: function() {
-    //  初始化 从服务器拿数据
-    switch (this.opt) {
-      case 'new':
-        var getid = 1234
-        this.treedata = [{
-          id: this.id++,
-          label: "Report ID " + getid,
-          children: [],
-          dataID: getid  //  id from database
-        }]
-        break
-      case 'edit':
-        //  TODO 从服务器读取数据
-        var itemID = this.$store.state.editOpt.editID
-        this.treedata = [{
-          id: this.id++,
-          label: "Report ID " + parseInt(itemID),
-          children: [],
-          dataID: parseInt(itemID)  //  id from database
-        }]
-        break
-      default:
-        //  do nothing
-    }
-  },
-  mounted: function () {
-    //  获取树组件的引用
-    this.tree = this.$refs.tree
-    if (this.opt === 'new' || this.opt === 'edit') {
-      this.$refs.tree.$children[0].handleClick()
-    }
-  },
-  beforeDestroy: function() {
-    this.opt = ''  //  清除痕迹
-  },
   methods: {
     //  点击树状视图，进行导航操作
     clickEvent(data, node, tree) {
@@ -110,7 +77,6 @@ export default {
       }
       this.idPath.reverse()
       this.nodeID = this.idPath[node.level - 1]
-      // console.log(this.idPath)
       //  TODO: 数据库查询默认数据操作
       switch (node.level) {
         case 1:
@@ -133,10 +99,72 @@ export default {
       };
     },
     updateBuff(type, id, form) {
-      // console.log('getBuffer: ' + type)
-      // console.log(form)
       this.buff[type][id] = form
+    },
+    buildNode(node, nodeData, level) {
+      var len = 0
+      for (let i in nodeData) len++
+      if (len === 0) return
+      for (let i in nodeData) {
+        let newNode = {
+          id: this.id++,
+          label: this.nodeType[level] + ' ' + i,
+          children: [],
+          dataID: i
+        }
+        node.push(newNode)
+        this.buildNode(newNode.children, nodeData[i], level + 1)
+      }
+    },
+    initTreeData(rawData) {
+      this.buildNode(this.treedata, rawData, 0)
+      console.log(this.treedata)
     }
+  },
+  created: function() {
+    //  初始化 从服务器拿数据
+  },
+  mounted: function () {
+    //  获取树组件的引用
+    this.tree = this.$refs.tree
+    switch (this.opt) {
+      case 'new':
+        var getid = 1234
+        this.treedata = [{
+          id: this.id++,
+          label: "Report ID " + getid,
+          children: [],
+          dataID: getid  //  id from database
+        }]
+        setTimeout(() => {
+          this.$refs.tree.$children[0].handleClick()
+        }, 0)
+        break
+      case 'edit':
+        //  从服务器读取数据
+        api.getIdTree(this.$store.state.editOpt.editID)
+          .then((res) => {
+            if (res.data.err === null) {
+              console.log(res.data.data);
+              this.initTreeData(res.data.data)
+            } else {
+              console.log('>> /getidtree Error')
+              console.log(res.data.err)
+            }
+            setTimeout(() => {
+              this.$refs.tree.$children[0].handleClick()
+            }, 0)
+          }).catch((err) => {
+            console.log('>> /getidtree catch Error')
+            console.log(err)
+          })
+        break
+      default:
+        //  do nothing
+    }
+  },
+  beforeDestroy: function() {
+    this.opt = ''  //  清除痕迹
   }
 }
 </script>

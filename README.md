@@ -80,7 +80,7 @@ response: {
 }
 ```
 
-### 获取完整树状结构
+### 获取下一级信息（弃用）
 
 ```javascript
 url: '/querynext'(post)
@@ -89,6 +89,34 @@ request: {
   id: number  //  type上一级的id
 }
 response: {   //  格式:没有空格或下划线，首字母大写的CamelCase
+  result: [{  //  如果查不到，返回null
+    ...
+  }]
+}
+```
+
+### 通过ReportID获取与之相关的只包含ID层次信息的整棵树
+
+```javascript
+url: '/getidtree'(post)
+request: {
+  id: number  //  ReportID
+}
+response: {
+  data: "获取的ID树",  //  若发生错误设置成null
+  err: "错误信息"      //  若未发生错误设置为null
+}
+```
+
+### 通过一个ID获取到其页面下的所有内容 （尚未实现）
+
+```javascript
+url: '/getidcontent'(post)
+request: {
+  type: enum('Basic Sources', 'Survey Description', 'Location Information', 'Disease Data', 'Intervention Data'),
+  id: number  //  ReportID
+}
+response: {
   result: [{  //  如果查不到，返回null
     ...
   }]

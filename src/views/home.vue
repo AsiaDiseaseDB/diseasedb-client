@@ -117,11 +117,13 @@ export default {
     onSearch() {
       var that = this
       that.isLoading = true
+      var yearArr = String(this.y_value).split(' ')
+      console.log(yearArr[3])
       api.query(this.searchID, {
-        disease: this.d_value,
-        country: this.c_value,
-        year: parseInt(this.y_value),
-        doubleClick: this.double_click == 'Yes'
+        disease: this.d_value == '' ? null : this.d_value,
+        country: this.c_value == '' ? null : this.c_value,
+        year: this.y_value == '' ? null : parseInt(yearArr[3]),
+        doubleClick: this.double_click == '' ? null : (this.double_click == 'Yes' ? 'Yes' : 'No')
       }, that)
     }
   }

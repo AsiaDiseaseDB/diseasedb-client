@@ -85,6 +85,12 @@ export default {
   login: function(name, password) {
     const url = '/loginReq'
   },
+  getIdTree: function(id) {
+    const url = '/getidtree'
+    return axios.post(url, {
+      id: id
+    })
+  },
   query: function(id, condition, context) {
     const url = '/query'
     axios.post(url, {
@@ -108,17 +114,6 @@ export default {
         console.log('>> /query Error \n' + res.data.err)
       }
       context.isLoading = false
-      // setTimeout(function() {
-      //   that.isLoading = false
-      //   that.tableData.push({
-      //     id: 1023,
-      //     title: 'Study of AIDS',
-      //     author: 'hhk',
-      //     disease: 'AIDS',
-      //     reporter: 'wyz',
-      //     time: '2016'
-      //   })
-      // }, 1500)
     }).catch(function(err) {
       console.log('>> /query catch Error \n' + err)
       context.isLoading = false
