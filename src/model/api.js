@@ -85,6 +85,12 @@ export default {
   login: function(name, password) {
     const url = '/loginReq'
   },
+  getId: function(type) {
+    const url = '/getid'
+    return axios.post(url, {
+      type: type
+    })
+  },
   getIdTree: function(id) {
     const url = '/getidtree'
     return axios.post(url, {

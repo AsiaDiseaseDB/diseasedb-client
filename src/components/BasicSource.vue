@@ -109,7 +109,8 @@
 
 <script>
 import detailData from '../static/detailData.js'
-import api from '../api.js'
+import api from '../model/api.js'
+import util from '../model/util.js'
 
 export default {
   name: 'app',
@@ -156,20 +157,15 @@ export default {
   },
   methods: {
     onNext() {
-      //  TODO: 从服务器端取回ID进行替换
-      var nextId = parseInt(200 + Math.random() * 100)
-      var curNode = this.tree.currentNode.node
-      curNode.store.append({
-        id:this.id++,
-        label:'Survey ' + nextId,
-        children:[],
-        dataID: nextId
-      }, curNode.data)
-      var that = this
-      var len = curNode.childNodes.length
-      setTimeout(function() {
-        that.tree.currentNode.$children[len].handleClick()
-      }, 0)
+      api.getId('Survey Description')
+        .then((res) => {
+          var nextId = res.data.id
+          var cur = this.tree.currentNode
+          util.appendNode.call(this, cur, res.data.id, 'Survey')
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     },
     onSave() {
       var that = this
@@ -179,21 +175,14 @@ export default {
       this.$router.push('/home')
     },
     onAdd() {
-      //  TODO: 从服务器端取回ID进行替换
-      var nextId = parseInt(100 + Math.random() * 100)
-      var root = this.tree.root
-      root.store.append({
-        id:this.id++,
-        label:'Report ID ' + nextId,
-        children:[],
-        dataID: nextId
-      })
-      var len = this.tree.root.childNodes.length
-      var that = this
-      setTimeout(function() {
-        that.tree.$children[len-1].handleClick()
-      }, 0)
-      this.updateData()
+      api.getId('Basic Sources')
+        .then((res) => {
+          var parent = this.tree.currentNode.$parent
+          util.appendNode.call(this, parent, res.data.id, 'Report ID')
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     },
     removeTest() {
       var curNode = this.tree.currentNode.node

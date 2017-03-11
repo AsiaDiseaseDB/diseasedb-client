@@ -53,7 +53,7 @@
 
 <script>
 import detailData from '../static/detailData.js'
-import api from '../api.js'
+import api from '../model/api.js'
 
 export default {
   name: 'home',

@@ -27,7 +27,7 @@
 <script>
 //  should get this data from Server
 //  import tmpTreeData from '../static/tmpTreeData.js'
-import api from '../api.js'
+import api from '../model/api.js'
 
 let id = 1000;
 
@@ -129,16 +129,22 @@ export default {
     this.tree = this.$refs.tree
     switch (this.opt) {
       case 'new':
-        var getid = 1234
-        this.treedata = [{
-          id: this.id++,
-          label: "Report ID " + getid,
-          children: [],
-          dataID: getid  //  id from database
-        }]
-        setTimeout(() => {
-          this.$refs.tree.$children[0].handleClick()
-        }, 0)
+        api.getId('Basic Sources')
+          .then((res) => {
+            var getid = res.data.id
+            this.treedata = [{
+              id: this.id++,
+              label: "Report ID " + getid,
+              children: [],
+              dataID: getid  //  id from database
+            }]
+            setTimeout(() => {
+              this.$refs.tree.$children[0].handleClick()
+            }, 0)
+          })
+          .catch((err) => {
+            console.log(err)
+          })
         break
       case 'edit':
         //  从服务器读取数据

@@ -119,7 +119,8 @@
 
 <script>
 import detailData from '../static/detailData.js'
-import api from '../api.js'
+import api from '../model/api.js'
+import util from '../model/util.js'
 
 export default {
   name: 'app',
@@ -197,21 +198,14 @@ export default {
       curNode.store.remove(curNode.data)
     },
     onAdd() {
-      //  TODO: 从服务器端取回ID进行替换
-      var nextId = parseInt(200 + Math.random() * 100)
-      var curNode = this.tree.currentNode.node
-      var parent = curNode.parent
-      parent.store.append({
-        id:this.id++,
-        label:'Intervention ' + nextId,
-        children:[],
-        dataID: nextId
-      }, parent.data)
-      var len = parent.childNodes.length
-      var that = this
-      setTimeout(function() {
-        that.tree.currentNode.$parent.$children[len].handleClick()
-      }, 0)
+      api.getId('Intervention Data')
+        .then((res) => {
+          var parent = this.tree.currentNode.$parent
+          util.appendNode.call(this, parent, res.data.id, 'Intervention')
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     },
     initForm() {
       this.form = {
