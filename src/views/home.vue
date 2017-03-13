@@ -28,18 +28,20 @@
     </el-row>
     <el-row id="buttons" type="flex" justify="end" :gutter="10">
       <el-col :span="20" class="btn-container">
-        <el-button @click="onSearch">Search</el-button>
-        <el-button @click="onBatchExport">Export</el-button>
-        <el-button @click="onBatchInput">Batch Input</el-button>
-        <el-button @click="onEdit">Edit</el-button>
-        <el-button type="primary" @click="onNew">New</el-button>
+        <el-button-group>
+          <el-button @click="onSearch" icon="search">Search</el-button>
+          <el-button @click="onBatchExport" icon="share">Export</el-button>
+          <el-button @click="onBatchInput" icon="upload2">Batch Input</el-button>
+          <el-button @click="onView" icon="view">View</el-button>
+          <el-button @click="onEdit" icon="edit">Edit</el-button>
+          <el-button type="primary" @click="onNew" icon="plus">New</el-button>
+        </el-button-group>
       </el-col>
     </el-row>
-    <el-table :data="tableData" highlight-current-row align="center" height="350"
-      @current-change="handleCurrentChange"
+    <el-table id="result-table" :data="tableData" highlight-current-row align="center" height="350"
+      @current-change="handleCurrentChange" @row-dblclick="doubleClickEvent"
       style="width: 100%"
       v-loading="isLoading" element-loading-text="Searching">
-      <!-- <el-table-column type="index" laber="index" width="40"></el-table-column> -->
       <el-table-column property="id" label="id" width="100"></el-table-column>
       <el-table-column property="title" label="Title" width="180"></el-table-column>
       <el-table-column property="author" label="Author" width="110"></el-table-column>
@@ -83,9 +85,16 @@ export default {
     editID: {
       get() { return this.$store.state.editID },
       set(v) { this.$store.commit('updateEditID', v) }
+    },
+    viewID: {
+      get() { return this.$store.state.viewID },
+      set(v) { this.$store.commit('updateViewID', v) }
     }
   },
   methods: {
+    doubleClickEvent(row, e) {
+      this.onView()
+    },
     //  记录当前选中的行
     handleCurrentChange(val) {
       this.currentRow = val
@@ -95,6 +104,16 @@ export default {
     },
     onBatchExport() {
       //  TODO 批量导出
+    },
+    onView() {
+      if (this.currentRow == null) {
+        this.$alert('请选中需要查看的条目', '未选中任何条目',
+          { confirmButtonText: '确定', callback: action => {} });
+      } else {
+        this.opt = 'view'
+        this.viewID = this.currentRow.id
+        this.$router.push('/detail')
+      }
     },
     onEdit() {
       if (this.currentRow == null) {
@@ -141,6 +160,10 @@ export default {
   border: solid;
   border-width: 1px;
   border-radius: 4px;
+}
+
+#result-table {
+  user-select: none;
 }
 
 .btn-container {

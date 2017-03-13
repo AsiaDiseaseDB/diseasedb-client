@@ -8,12 +8,13 @@
     <el-row>
       <el-col :span="12">
         <el-form-item label="Species">
-          <el-input v-model="form.Species"></el-input>
+          <el-input v-model="form.Species" :disabled="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="Information">
-          <el-select v-model="form.LocationInformationLocationID" placeholder="Information">
+          <el-select v-model="form.LocationInformationLocationID" placeholder="Information"
+                     :disabled="uneditable">
             <el-option v-for="item in informationOptions"
                        :label="item" :value="item"></el-option>
           </el-select>
@@ -23,46 +24,46 @@
     <el-row id="diagonstic_info">
       <el-col :span="6">
         <el-form-item label-width="10px">
-          <el-input placeholder="Symptoms" v-model="form.DiagnosticSymptoms"></el-input>
+          <el-input placeholder="Symptoms" v-model="form.DiagnosticSymptoms" :disabled="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="6">
         <el-form-item label-width="10px">
-          <el-input placeholder="Blood" v-model="form.DiagnosticBlood"></el-input>
+          <el-input placeholder="Blood" v-model="form.DiagnosticBlood" :disabled="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="6">
         <el-form-item label-width="10px">
-          <el-input placeholder="Skin" v-model="form.DiagnosticSkin"></el-input>
+          <el-input placeholder="Skin" v-model="form.DiagnosticSkin" :disabled="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="6">
         <el-form-item label-width="10px">
-          <el-input placeholder="Stool" v-model="form.DiagnosticStool"></el-input>
+          <el-input placeholder="Stool" v-model="form.DiagnosticStool" :disabled="uneditable"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="12">
         <el-form-item label="Num_samples">
-          <el-input v-model="form.NumSamples"></el-input>
+          <el-input v-model="form.NumSamples" :disabled="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="Num_specimen">
-          <el-input v-model="form.NumSpecimen"></el-input>
+          <el-input v-model="form.NumSpecimen" :disabled="uneditable"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="12">
         <el-form-item label="AgeLower">
-          <el-input v-model="form.AgeLower"></el-input>
+          <el-input v-model="form.AgeLower" :disabled="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="AgeUpper">
-          <el-input v-model="form.AgeUpper"></el-input>
+          <el-input v-model="form.AgeUpper" :disabled="uneditable"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
@@ -70,72 +71,81 @@
       <el-col :span="8">
         <el-form-item label-width="10px">
           <el-input placeholder="Num_examine"
-                    v-model="form.NumExamine"></el-input>
+                    v-model="form.NumExamine" :disabled="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label-width="10px">
           <el-input placeholder="Num_positive"
-                    v-model="form.NumPositive"></el-input>
+                    v-model="form.NumPositive" :disabled="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label-width="10px">
-          <el-input placeholder="Percent_positive" :disabled="true"
-                    v-model="PercentPositive"></el-input>
+          <el-input placeholder="Percent_positive" :disabled="uneditable"
+                    v-model="form.PercentPositive"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="8">
         <el-form-item label-width="10px">
-          <el-input placeholder="Num_examine_male"
+          <el-input placeholder="Num_examine_male" :disabled="uneditable"
                     v-model="form.NumExamineMale"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label-width="10px">
-          <el-input placeholder="Num_positive_male"
+          <el-input placeholder="Num_positive_male" :disabled="uneditable"
                     v-model="form.NumPositiveMale"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label-width="10px">
-          <el-input placeholder="Percent_positive_male" :disabled="true"
-                    v-model="PercentPositiveMale"></el-input>
+          <el-input placeholder="Percent_positive_male" :disabled="uneditable"
+                    v-model="form.PercentPositiveMale"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="8">
         <el-form-item label-width="10px">
-          <el-input placeholder="Num_examine_female"
+          <el-input placeholder="Num_examine_female" :disabled="uneditable"
                     v-model="form.NumExamineFemale"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label-width="10px">
-          <el-input placeholder="Num_positive_female"
+          <el-input placeholder="Num_positive_female" :disabled="uneditable"
                     v-model="form.NumPositiveFemale"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label-width="10px">
-          <el-input placeholder="Percent_positive_female" :disabled="true"
-                    v-model="PercentPositiveFemale"></el-input>
+          <el-input placeholder="Percent_positive_female" :disabled="uneditable"
+                    v-model="form.PercentPositiveFemale"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-form-item label="Note">
-      <el-input v-model="form.Note4" type="textarea"></el-input>
+      <el-input v-model="form.Note4" type="textarea" :disabled="uneditable"></el-input>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="onNext">Next</el-button>
-      <el-button @click="onSave">Save</el-button>
-      <el-button @click="onCancel">Cancel</el-button>
-      <el-button @click="onAdd">Add Disease</el-button>
+      <el-button type="primary" @click="onNext" v-show="editable">Next</el-button>
+      <el-button @click="onSave" v-show="editable">Save</el-button>
+      <el-button @click="onAdd" v-show="editable">Add Disease</el-button>
+      <el-button @click="onCancel" v-show="editable">Cancel</el-button>
+      <el-button @click="onDelete" v-show="editable" icon="delete">Delete</el-button>
     </el-form-item>
   </el-form>
+
+  <el-dialog :title="dialogMsg" v-model="dialogVisible" size="small">
+    <span>此操作将无法撤销</span>
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="dialogVisible = false">取 消</el-button>
+      <el-button type="danger" @click="deleteConfrim">删 除</el-button>
+    </span>
+  </el-dialog>
 </div>
 </template>
 
@@ -175,7 +185,8 @@ export default {
         LocationInformationSurveyDescriptionSurveyID: -1,
         LocationInformationLocationID1: -1
       },
-      informationOptions: detailData.diseaseDetail.informationOptions
+      informationOptions: detailData.diseaseDetail.informationOptions,
+      dialogVisible: false
     }
   },
   computed: {
@@ -187,20 +198,14 @@ export default {
         this.$store.commit('updateTreeID', v)
       }
     },
-    PercentPositive: function() {
-      if (this.form.NumPositive == '' || this.form.NumExamine == '')
-        return ''
-      return parseInt(this.form.NumPositive) / parseInt(this.form.NumExamine)
+    uneditable: function() {
+      return this.$store.state.opt === 'view'
     },
-    PercentPositiveMale: function() {
-      if (this.form.NumPositiveMale == '' || this.form.NumExamineMale == '')
-        return ''
-      return parseInt(this.form.NumPositiveMale) / parseInt(this.form.NumExamineMale)
+    editable: function() {
+      return this.$store.state.opt !== 'view'
     },
-    PercentPositiveFemale: function() {
-      if (this.form.NumPositiveFemale == '' || this.form.NumExamineFemale == '')
-        return ''
-      return parseInt(this.form.NumPositiveFemale) / parseInt(this.form.NumExamineFemale)
+    dialogMsg: function() {
+      return '确认删除Disease ' + this.nodeID + '？'
     }
   },
   methods: {
@@ -222,14 +227,14 @@ export default {
       this.$router.push('/home')
     },
     onCancel() {
-      var curNode = this.tree.currentNode.node
-      var parent = curNode.parent
-      var len = parent.childNodes.length
-      var that = this
-      setTimeout(function() {
-        that.tree.currentNode.$parent.handleClick()
-      }, 0)
-      curNode.store.remove(curNode.data)
+      util.deleteNode(this.tree.currentNode)
+    },
+    onDelete() {
+      this.dialogVisible = true
+    },
+    deleteConfrim() {
+      this.dialogVisible = false
+      api.delete.call(this, this.nodeID, 'Disease Data')
     },
     onAdd() {
       api.getId('Disease Data')
@@ -291,15 +296,6 @@ export default {
       this.$emit('getBuffer', 'D', oldVal, this.form)
       this.updateData()
       // this.onChangeItem()
-    },
-    PercentPositive: function(val, oldVal) {
-      this.form.PercentPositive = val
-    },
-    PercentPositiveMale: function(val, oldVal) {
-      this.form.PercentPositiveMale = val
-    },
-    PercentPositiveFemale: function(val, oldVal) {
-      this.form.PercentPositiveFemale = val
     }
   }
 }

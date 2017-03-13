@@ -6,104 +6,114 @@
       <el-input v-model="form.ReportID" :disabled="true"></el-input>
     </el-form-item>
     <el-form-item label="Reporter">
-      <el-select v-model="form.Reporter" placeholder="Reporter">
+      <el-select v-model="form.Reporter" placeholder="Reporter" :disabled="uneditable">
         <el-option v-for="item in reporterOptions" :label="item" :value="item"></el-option>
       </el-select>
     </el-form-item>
     <el-form-item label="Disease">
-      <el-select v-model="form.Disease" placeholder="Disease">
+      <el-select v-model="form.Disease" placeholder="Disease" :disabled="uneditable">
         <el-option v-for="item in diseaseOptions" :label="item" :value="item"></el-option>
       </el-select>
     </el-form-item>
     <el-form-item label="Country">
-      <el-select v-model="form.Country" placeholder="Country">
+      <el-select v-model="form.Country" placeholder="Country" :disabled="uneditable">
         <el-option v-for="item in countryOptions" v-bind:label="item" v-bind:value="item"></el-option>
       </el-select>
     </el-form-item>
     <el-form-item label="Document Category">
-      <el-select v-model="form.DocumentCategory" placeholder="DocumentCategory">
+      <el-select v-model="form.DocumentCategory" placeholder="DocumentCategory" :disabled="uneditable">
         <el-option v-for="item in documentCategoryOptions" :label="item" :value="item"></el-option>
       </el-select>
     </el-form-item>
     <el-row>
       <el-col :span="12">
         <el-form-item label="Journal">
-          <el-input v-model="form.Journal"></el-input>
+          <el-input v-model="form.Journal" :disabled="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="Title">
-          <el-input v-model="form.Title"></el-input>
+          <el-input v-model="form.Title" :disabled="uneditable"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="12">
         <el-form-item label="Authors">
-          <el-input v-model="form.Authors"></el-input>
+          <el-input v-model="form.Authors" :disabled="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="Year of Pub">
-          <el-input v-model="form.YearOfPub"></el-input>
+          <el-input v-model="form.YearOfPub" :disabled="uneditable"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="12">
         <el-form-item label="Volume">
-          <el-input v-model="form.Volume"></el-input>
+          <el-input v-model="form.Volume" :disabled="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="Issue">
-          <el-input v-model="form.Issue"></el-input>
+          <el-input v-model="form.Issue" :disabled="uneditable"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="12">
         <el-form-item label="Page From">
-          <el-input v-model="form.PageFrom"></el-input>
+          <el-input v-model="form.PageFrom" :disabled="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="Page To">
-          <el-input v-model="form.PageTo"></el-input>
+          <el-input v-model="form.PageTo" :disabled="uneditable"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-form-item label="Author Contact Needed">
-      <el-select v-model="form.AuthorContactNeeded" placeholder="Author Contact Needed">
+      <el-select v-model="form.AuthorContactNeeded" placeholder="Author Contact Needed" :disabled="uneditable">
         <el-option v-for="item in contactNeededOptions" :label="item" :value="item"></el-option>
       </el-select>
     </el-form-item>
     <el-row>
       <el-col :span="12">
         <el-form-item label="Open Access">
-          <el-select v-model="form.OpenAccess" placeholder="Open Access">
+          <el-select v-model="form.OpenAccess" placeholder="Open Access" :disabled="uneditable">
             <el-option v-for="item in openAccessOptions" :label="item" :value="item"></el-option>
           </el-select>
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="Checked">
-          <el-select v-model="form.Checked" placeholder="Checked">
+          <el-select v-model="form.Checked" placeholder="Checked" :disabled="uneditable">
             <el-option v-for="item in checkedOptions" :label="item" :value="item"></el-option>
           </el-select>
         </el-form-item>
       </el-col>
     </el-row>
     <el-form-item label="Note">
-      <el-input type="textarea" :rows="2" placeholder="Note" v-model="form.Note1"></el-input>
+      <el-input type="textarea" :rows="2" placeholder="Note" v-model="form.Note1"
+                :disabled="uneditable"></el-input>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="onNext">Next</el-button>
-      <el-button @click="onSave">Save</el-button>
+      <el-button type="primary" @click="onNext" v-show="editable">Next</el-button>
+      <el-button @click="onSave" v-show="editable">Save</el-button>
+      <el-button @click="onAdd" v-show="editable">Add Report</el-button>
       <el-button @click="onMenu">Menu</el-button>
-      <el-button @click="onAdd">Add Report</el-button>
+      <el-button @click="onDelete" v-show="editable" icon="delete">Delete</el-button>
     </el-form-item>
   </el-form>
+
+  <el-dialog :title="dialogMsg" v-model="dialogVisible" size="small">
+    <span>此操作将无法撤销</span>
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="dialogVisible = false">取 消</el-button>
+      <el-button type="danger" @click="deleteConfrim">删 除</el-button>
+    </span>
+  </el-dialog>
 </div>
 </template>
 
@@ -142,7 +152,8 @@ export default {
       documentCategoryOptions: detailData.basicDetail.documentCategoryOptions,
       contactNeededOptions: ['No', 'Yes', 'Already'],
       openAccessOptions: ['No', 'Yes'],
-      checkedOptions: ['No', 'Yes']
+      checkedOptions: ['No', 'Yes'],
+      dialogVisible: false
     }
   },
   computed: {
@@ -153,6 +164,15 @@ export default {
       set(v) {
         this.$store.commit('updateTreeID', v)
       }
+    },
+    uneditable: function() {
+      return this.$store.state.opt === 'view'
+    },
+    editable: function() {
+      return this.$store.state.opt !== 'view'
+    },
+    dialogMsg: function() {
+      return '确认删除Report ' + this.nodeID + '？'
     }
   },
   methods: {
@@ -168,11 +188,17 @@ export default {
         })
     },
     onSave() {
-      var that = this
       api.add('Basic Sources', this.form, this)
     },
     onMenu() {
       this.$router.push('/home')
+    },
+    onDelete() {
+      this.dialogVisible = true
+    },
+    deleteConfrim() {
+      this.dialogVisible = false
+      api.delete.call(this, this.nodeID, 'Basic Sources')
     },
     onAdd() {
       api.getId('Basic Sources')

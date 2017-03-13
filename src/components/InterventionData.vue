@@ -8,14 +8,14 @@
     <el-row>
       <el-col :span="8">
         <el-form-item label="Group">
-          <el-select v-model="form.Group" placeholder="Group">
+          <el-select v-model="form.Group" placeholder="Group" :disabled="uneditable">
             <el-option v-for="item in groupOptions" :label="item" :value="item"></el-option>
           </el-select>
         </el-form-item>
       </el-col>
       <el-col :span="16">
         <el-form-item label="Months">
-          <el-input v-model="form.MonthsAfterBaseline"
+          <el-input v-model="form.MonthsAfterBaseline" :disabled="uneditable"
                     placeholder="Months after baseline"></el-input>
         </el-form-item>
       </el-col>
@@ -23,97 +23,108 @@
     <el-row>
       <el-col :span="12">
         <el-form-item label="Drug">
-          <el-input placeholder="Drug" v-model="form.Drug"></el-input>
+          <el-input placeholder="Drug" v-model="form.Drug" :disabled="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="Frequency">
-          <el-input placeholder="Frequency" v-model="form.FrequencyPerYear"></el-input>
+          <el-input placeholder="Frequency" v-model="form.FrequencyPerYear" :disabled="uneditable"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="12">
         <el-form-item label="Period">
-          <el-input placeholder="Period" v-model="form.PeriodMonths"></el-input>
+          <el-input placeholder="Period" v-model="form.PeriodMonths" :disabled="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="Coverage">
-          <el-input placeholder="Coverage" v-model="form.Coverage"></el-input>
+          <el-input placeholder="Coverage" v-model="form.Coverage" :disabled="uneditable"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-form-item label="Other Method">
-        <el-input placeholder="Other Method" v-model="form.OtherMethod"></el-input>
+        <el-input placeholder="Other Method" v-model="form.OtherMethod" :disabled="uneditable"></el-input>
       </el-form-item>
     </el-row>
     <el-row>
       <el-col :span="8">
         <el-form-item label-width="10px">
-          <el-input placeholder="Num_examine" v-model="form.INumExamine"></el-input>
+          <el-input placeholder="Num_examine" v-model="form.INumExamine" :disabled="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label-width="10px">
-          <el-input placeholder="Num_positive" v-model="form.INumPositive"></el-input>
+          <el-input placeholder="Num_positive" v-model="form.INumPositive" :disabled="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label-width="10px">
-          <el-input placeholder="Percent_positive" :disabled="true"
-                    v-model="IPercentPositive"></el-input>
-        </el-form-item>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="8">
-        <el-form-item label-width="10px">
-          <el-input placeholder="Num_examine_male" v-model="form.INumExamineMale"></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
-        <el-form-item label-width="10px">
-          <el-input placeholder="Num_positive_male" v-model="form.INumPositiveMale"></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
-        <el-form-item label-width="10px">
-          <el-input placeholder="Percent_positive_male" :disabled="true"
-                    v-model="IPercentPositiveMale"></el-input>
+          <el-input placeholder="Percent_positive" :disabled="uneditable"
+                    v-model="form.IPercentPositive"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="8">
         <el-form-item label-width="10px">
-          <el-input placeholder="Num_examine_female"
+          <el-input placeholder="Num_examine_male" v-model="form.INumExamineMale"
+                    :disabled="uneditable"></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item label-width="10px">
+          <el-input placeholder="Num_positive_male" v-model="form.INumPositiveMale"
+                    :disabled="uneditable"></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item label-width="10px">
+          <el-input placeholder="Percent_positive_male" :disabled="uneditable"
+                    v-model="form.IPercentPositiveMale"></el-input>
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="8">
+        <el-form-item label-width="10px">
+          <el-input placeholder="Num_examine_female" :disabled="uneditable"
                     v-model="form.INumExamineFemale"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label-width="10px">
-          <el-input placeholder="Num_positive_female"
+          <el-input placeholder="Num_positive_female" :disabled="uneditable"
                     v-model="form.INumPositiveFemale"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label-width="10px">
-          <el-input placeholder="Percent_positive_female" :disabled="true"
-                    v-model="IPercentPositiveFemale"></el-input>
+          <el-input placeholder="Percent_positive_female" :disabled="uneditable"
+                    v-model="form.IPercentPositiveFemale"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-form-item label="Note">
-      <el-input v-model="form.Note5" type="textarea"></el-input>
+      <el-input v-model="form.Note5" type="textarea" :disabled="uneditable"></el-input>
     </el-form-item>
     <el-form-item>
-      <el-button @click="onSave">Save</el-button>
-      <el-button @click="onCancel">Cancel</el-button>
-      <el-button @click="onAdd">Add Intervention</el-button>
+      <el-button @click="onSave" v-show="editable">Save</el-button>
+      <el-button @click="onAdd" v-show="editable">Add Intervention</el-button>
+      <el-button @click="onCancel" v-show="editable">Cancel</el-button>
+      <el-button @click="onDelete" v-show="editable" icon="delete">Delete</el-button>
     </el-form-item>
   </el-form>
+
+  <el-dialog :title="dialogMsg" v-model="dialogVisible" size="small">
+    <span>此操作将无法撤销</span>
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="dialogVisible = false">取 消</el-button>
+      <el-button type="danger" @click="deleteConfrim">删 除</el-button>
+    </span>
+  </el-dialog>
 </div>
 </template>
 
@@ -151,7 +162,8 @@ export default {
         DiseaseDataLReportID: -1,
         DiseaseDataLocationInformationSurveyDescriptionSurveyID: -1
       },
-      groupOptions: detailData.interventionDetail.groupOptions
+      groupOptions: detailData.interventionDetail.groupOptions,
+      dialogVisible: false
     }
   },
   computed: {
@@ -163,20 +175,14 @@ export default {
         this.$store.commit('updateTreeID', v)
       }
     },
-    IPercentPositive: function() {
-      if (this.form.INumPositive == '' || this.form.INumExamine == '')
-        return ''
-      return parseInt(this.form.INumPositive) / parseInt(this.form.INumExamine)
+    uneditable: function() {
+      return this.$store.state.opt === 'view'
     },
-    IPercentPositiveMale: function() {
-      if (this.form.INumPositiveMale == '' || this.form.INumExamineMale == '')
-        return ''
-      return parseInt(this.form.INumPositiveMale) / parseInt(this.form.INumExamineMale)
+    editable: function() {
+      return this.$store.state.opt !== 'view'
     },
-    IPercentPositiveFemale: function() {
-      if (this.form.INumPositiveFemale == '' || this.form.INumExamineFemale == '')
-        return ''
-      return parseInt(this.form.INumPositiveFemale) / parseInt(this.form.INumExamineFemale)
+    dialogMsg: function() {
+      return '确认删除Intervention ' + this.nodeID + '？'
     }
   },
   methods: {
@@ -188,14 +194,7 @@ export default {
       this.$router.push('/home')
     },
     onCancel() {
-      var curNode = this.tree.currentNode.node
-      var parent = curNode.parent
-      var len = parent.childNodes.length
-      var that = this
-      setTimeout(function() {
-        that.tree.currentNode.$parent.handleClick()
-      }, 0)
-      curNode.store.remove(curNode.data)
+      util.deleteNode(this.tree.currentNode)
     },
     onAdd() {
       api.getId('Intervention Data')
@@ -206,6 +205,13 @@ export default {
         .catch((err) => {
           console.log(err)
         })
+    },
+    onDelete() {
+      this.dialogVisible = true
+    },
+    deleteConfrim() {
+      this.dialogVisible = false
+      api.delete.call(this, this.nodeID, 'Intervention Data')
     },
     initForm() {
       this.form = {
@@ -250,15 +256,6 @@ export default {
     nodeID: function(val, oldVal) {
       this.$emit('getBuffer', 'I', oldVal, this.form)
       this.updateData()
-    },
-    IPercentPositive: function(val, oldVal) {
-      this.form.IPercentPositive = val
-    },
-    IPercentPositiveMale: function(val, oldVal) {
-      this.form.IPercentPositiveMale = val
-    },
-    IPercentPositiveFemale: function(val, oldVal) {
-      this.form.IPercentPositiveFemale = val
     }
   }
 }

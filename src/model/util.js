@@ -1,4 +1,5 @@
 export default {
+  //  扩展对树形控件的操作
   appendNode: function(parent, nextId, typeString) {
     var parentNode = parent.node
     var nodeToAppend = {
@@ -16,5 +17,16 @@ export default {
     }
     //  click the created node
     setTimeout(() => { parent.$children[key].handleClick() }, 0)
+  },
+  deleteNode: function(cur) {
+    var curNode = cur.node
+    var parent = curNode.parent
+    var len = parent.childNodes.length
+    if (cur.$parent.handleClick !== undefined) {
+      setTimeout(function() {
+        cur.$parent.handleClick()
+      }, 0)
+    }
+    curNode.store.remove(curNode.data)
   }
 }

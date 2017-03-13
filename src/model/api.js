@@ -1,5 +1,7 @@
 import axios from 'axios'
 
+import util from './util'
+
 //  为form中的属性值前后加上单引号
 function addQuote(form, ex) {
   var newObj = {}
@@ -203,5 +205,32 @@ export default {
     .catch(function(err) {
       console.log('>> /edit catch Error: \n' + err)
     })
+  },
+  delete: function(id, type) {
+    const url = '/delete'
+    axios.post(url, {
+        id: id,
+        type: type
+      })
+      .then((res) => {
+        if (res.data.success) {
+          this.$notify({
+              title: '删除成功',
+              message: '删除了一条' + type,
+              type: 'success'
+          })
+          util.deleteNode(this.tree.currentNode)
+          if (type === 'Basic Sources') {
+            this.$router.push('/home')
+          }
+        } else {
+          console.log('>> /add Error: \n' + res.data.err)
+          console.log(res.data.err)
+        }
+      })
+      .catch((err) => {
+        console.log('>> /delete catch Error')
+        console.log(err)
+      })
   }
 }

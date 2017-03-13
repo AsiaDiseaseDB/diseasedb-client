@@ -18,15 +18,12 @@
           :buff="buff" :tree="tree" :idPath="idPath" :nodeID="nodeID">
         </router-view>
       </el-col>
-      <!--  -->
     </el-row>
   </div>
 </div>
 </template>
 
 <script>
-//  should get this data from Server
-//  import tmpTreeData from '../static/tmpTreeData.js'
 import api from '../model/api.js'
 
 let id = 1000;
@@ -118,7 +115,6 @@ export default {
     },
     initTreeData(rawData) {
       this.buildNode(this.treedata, rawData, 0)
-      console.log(this.treedata)
     }
   },
   created: function() {
@@ -149,6 +145,24 @@ export default {
       case 'edit':
         //  从服务器读取数据
         api.getIdTree(this.$store.state.editOpt.editID)
+          .then((res) => {
+            if (res.data.err === null) {
+              console.log(res.data.data);
+              this.initTreeData(res.data.data)
+            } else {
+              console.log('>> /getidtree Error')
+              console.log(res.data.err)
+            }
+            setTimeout(() => {
+              this.$refs.tree.$children[0].handleClick()
+            }, 0)
+          }).catch((err) => {
+            console.log('>> /getidtree catch Error')
+            console.log(err)
+          })
+        break
+      case 'view':
+        api.getIdTree(this.$store.state.viewOpt.viewID)
           .then((res) => {
             if (res.data.err === null) {
               console.log(res.data.data);

@@ -8,7 +8,7 @@
     <el-row>
       <el-col :span="12">
           <el-form-item label="DataType">
-            <el-select v-model="form.DataType" placeholder="Data Type">
+            <el-select v-model="form.DataType" placeholder="Data Type" :disabled="uneditable">
               <el-option v-for="item in dataTypeOptions" :label="item"
                          :value="item"></el-option>
             </el-select>
@@ -16,7 +16,7 @@
       </el-col>
       <el-col :span="12">
         <el-form-item label="SurveyType">
-          <el-select v-model="form.SurveyType" placeholder="Survey Type">
+          <el-select v-model="form.SurveyType" placeholder="Survey Type" :disabled="uneditable">
             <el-option v-for="item in surveyTypeOptions"
                        :label="item" :value="item"></el-option>
           </el-select>
@@ -26,7 +26,7 @@
     <el-row>
       <el-col :span="12">
           <el-form-item label="MonthStart">
-            <el-select v-model="form.MonthStart" placeholder="Month Start">
+            <el-select v-model="form.MonthStart" placeholder="Month Start" :disabled="uneditable">
               <el-option v-for="item in monthOptions"
                          :label="item" :value="item"></el-option>
             </el-select>
@@ -34,7 +34,7 @@
       </el-col>
       <el-col :span="12">
         <el-form-item label="MonthFinish">
-          <el-select v-model="form.MonthFinish" placeholder="Month Finish">
+          <el-select v-model="form.MonthFinish" placeholder="Month Finish" :disabled="uneditable">
             <el-option v-for="item in monthOptions"
                        :label="item" :value="item"></el-option>
           </el-select>
@@ -44,25 +44,34 @@
     <el-row>
       <el-col :span="12">
           <el-form-item label="YearStart">
-            <el-input v-model="form.YearStart"></el-input>
+            <el-input v-model="form.YearStart" :disabled="uneditable"></el-input>
           </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="YearFinish">
-          <el-input v-model="form.YearFinish"></el-input>
+          <el-input v-model="form.YearFinish" :disabled="uneditable"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-form-item label="Note">
-      <el-input type="textarea" v-model="form.Note2"></el-input>
+      <el-input type="textarea" v-model="form.Note2" :disabled="uneditable"></el-input>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="onNext">Next</el-button>
-      <el-button @click="onSave">Save</el-button>
-      <el-button @click="onCancel">Cancel</el-button>
-      <el-button @click="onAdd">Add Survey</el-button>
+      <el-button type="primary" @click="onNext" v-show="editable">Next</el-button>
+      <el-button @click="onSave" v-show="editable">Save</el-button>
+      <el-button @click="onAdd" v-show="editable">Add Survey</el-button>
+      <el-button @click="onCancel" v-show="editable">Cancel</el-button>
+      <el-button @click="onDelete" v-show="editable" icon="delete">Delete</el-button>
     </el-form-item>
   </el-form>
+
+  <el-dialog :title="dialogMsg" v-model="dialogVisible" size="small">
+    <span>此操作将无法撤销</span>
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="dialogVisible = false">取 消</el-button>
+      <el-button type="danger" @click="deleteConfrim">删 除</el-button>
+    </span>
+  </el-dialog>
 </div>
 </template>
 
@@ -89,7 +98,8 @@ export default {
       },
       dataTypeOptions: detailData.surveyDetail.dataTypeOptions,
       surveyTypeOptions: detailData.surveyDetail.surveyTypeOptions,
-      monthOptions: detailData.surveyDetail.monthOptions
+      monthOptions: detailData.surveyDetail.monthOptions,
+      dialogVisible: false
     }
   },
   computed: {
@@ -100,6 +110,15 @@ export default {
       set(v) {
         this.$store.commit('updateTreeID', v)
       }
+    },
+    uneditable: function() {
+      return this.$store.state.opt === 'view'
+    },
+    editable: function() {
+      return this.$store.state.opt !== 'view'
+    },
+    dialogMsg: function() {
+      return '确认删除Survey ' + this.nodeID + '？'
     }
   },
   methods: {
@@ -122,14 +141,14 @@ export default {
     },
     //  回退上一节点，删除本节点
     onCancel() {
-      var curNode = this.tree.currentNode.node
-      var parent = curNode.parent
-      var len = parent.childNodes.length
-      var that = this
-      setTimeout(function() {
-        that.tree.currentNode.$parent.handleClick()
-      }, 0)
-      curNode.store.remove(curNode.data)
+      util.deleteNode(this.tree.currentNode)
+    },
+    onDelete() {
+      this.dialogVisible = true
+    },
+    deleteConfrim() {
+      this.dialogVisible = false
+      api.delete.call(this, this.nodeID, 'Survey Description')
     },
     onAdd() {
       //  TODO: 从服务器端取回ID进行替换

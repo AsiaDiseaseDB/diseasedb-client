@@ -8,38 +8,38 @@
     <el-row>
       <el-col :span="12">
         <el-form-item label="ADM1">
-          <el-input v-model="form.ADM1"></el-input>
+          <el-input v-model="form.ADM1" :disabled="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="ADM2">
-          <el-input v-model="form.ADM2"></el-input>
+          <el-input v-model="form.ADM2" :disabled="uneditable"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="12">
         <el-form-item label="ADM3">
-          <el-input v-model="form.ADM3"></el-input>
+          <el-input v-model="form.ADM3" :disabled="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="PointName">
-          <el-input v-model="form.PointName"></el-input>
+          <el-input v-model="form.PointName" :disabled="uneditable"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="12">
         <el-form-item label="PointType">
-          <el-select v-model="form.PointType" placeholder="Point Type">
+          <el-select v-model="form.PointType" placeholder="Point Type" :disabled="uneditable">
             <el-option v-for="item in pointTypeOptions" :label="item" :value="item"></el-option>
           </el-select>
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="GeoRef">
-          <el-select v-model="form.GeoReferenceSources" placeholder="Point Type">
+          <el-select v-model="form.GeoReferenceSources" placeholder="Point Type" :disabled="uneditable">
             <el-option v-for="item in grSourceOptions" :label="item" :value="item"></el-option>
           </el-select>
         </el-form-item>
@@ -48,25 +48,34 @@
     <el-row>
       <el-col :span="12">
         <el-form-item label="Latitude">
-          <el-input v-model="form.Latitude"></el-input>
+          <el-input v-model="form.Latitude" :disabled="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="Longitude">
-          <el-input v-model="form.Longitude"></el-input>
+          <el-input v-model="form.Longitude" :disabled="uneditable"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-form-item label="note3">
-      <el-input v-model="form.Note3" type="textarea"></el-input>
+      <el-input v-model="form.Note3" type="textarea" :disabled="uneditable"></el-input>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="onNext">Next</el-button>
-      <el-button @click="onSave">Save</el-button>
-      <el-button @click="onCancel">Cancel</el-button>
-      <el-button @click="onAdd">Add Location</el-button>
+      <el-button type="primary" @click="onNext" v-show="editable">Next</el-button>
+      <el-button @click="onSave" v-show="editable">Save</el-button>
+      <el-button @click="onAdd" v-show="editable">Add Location</el-button>
+      <el-button @click="onCancel" v-show="editable">Cancel</el-button>
+      <el-button @click="onDelete" v-show="editable" icon="delete">Delete</el-button>
     </el-form-item>
   </el-form>
+
+  <el-dialog :title="dialogMsg" v-model="dialogVisible" size="small">
+    <span>此操作将无法撤销</span>
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="dialogVisible = false">取 消</el-button>
+      <el-button type="danger" @click="deleteConfrim">删 除</el-button>
+    </span>
+  </el-dialog>
 </div>
 </template>
 
@@ -95,7 +104,8 @@ export default {
         Note3: ''
       },
       grSourceOptions: detailData.locationDetail.grSourceOptions,
-      pointTypeOptions: detailData.locationDetail.pointTypeOptions
+      pointTypeOptions: detailData.locationDetail.pointTypeOptions,
+      dialogVisible: false
     }
   },
   computed: {
@@ -106,6 +116,15 @@ export default {
       set(v) {
         this.$store.commit('updateTreeID', v)
       }
+    },
+    uneditable: function() {
+      return this.$store.state.opt === 'view'
+    },
+    editable: function() {
+      return this.$store.state.opt !== 'view'
+    },
+    dialogMsg: function() {
+      return '确认删除Location ' + this.nodeID + '？'
     }
   },
   methods: {
@@ -127,14 +146,14 @@ export default {
       this.$router.push('/home')
     },
     onCancel() {
-      var curNode = this.tree.currentNode.node
-      var parent = curNode.parent
-      var len = parent.childNodes.length
-      var that = this
-      setTimeout(function() {
-        that.tree.currentNode.$parent.handleClick()
-      }, 0)
-      curNode.store.remove(curNode.data)
+      util.deleteNode(this.tree.currentNode)
+    },
+    onDelete() {
+      this.dialogVisible = true
+    },
+    deleteConfrim() {
+      this.dialogVisible = false
+      api.delete.call(this, this.nodeID, 'Location Information')
     },
     onAdd() {
       api.getId('Location Information')
