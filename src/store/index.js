@@ -12,6 +12,8 @@ export default new Vuex.Store({
     islogin: false,    //  标记登录状态
     authority: null,   //  用户权限
     opt: '',           //  'new | edit | view |' 确定了进入detail页面时的相应初始化操作
+    homeTableBuff: null,
+    homeConditionsBuff: null,
     editOpt: {
       editID: -1       //  标记编辑哪一条report
     },
@@ -25,6 +27,8 @@ export default new Vuex.Store({
     updateAuthority: (state, value) => state.authority = value,
     updateOpt: (state, opt) => state.opt = opt,
     updateEditID: (state, id) => state.editOpt.editID = id,
-    updateViewID: (state, id) => state.viewOpt.viewID = id
+    updateViewID: (state, id) => state.viewOpt.viewID = id,
+    updateHomeTableBuff: (state, newBuff) => { state.homeTableBuff = newBuff },
+    updateHomeConditionsBuff: (state, conditions) => { state.homeConditionsBuff = conditions}
   }
 })

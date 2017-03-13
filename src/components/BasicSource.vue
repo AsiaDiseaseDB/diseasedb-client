@@ -108,6 +108,7 @@
   </el-form>
 
   <el-dialog :title="dialogMsg" v-model="dialogVisible" size="small">
+    <i class="el-icon-information"></i>
     <span>此操作将无法撤销</span>
     <span slot="footer" class="dialog-footer">
       <el-button @click="dialogVisible = false">取 消</el-button>

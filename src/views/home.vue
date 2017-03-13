@@ -4,24 +4,24 @@
     <h1>Home Page</h1>
     <el-row id="input_row" :gutter="10">
       <el-col v-bind:span="4">
-        <el-input placeholder="Report ID" v-model="searchID"></el-input>
+        <el-input placeholder="Report ID" v-model="conditions.searchID"></el-input>
       </el-col>
       <el-col :span="4">
-        <el-select v-model="d_value" placeholder="Disease" clearable>
+        <el-select v-model="conditions.d_value" placeholder="Disease" clearable>
           <el-option v-for="item in diseaseOptions" v-bind:label="item" v-bind:value="item"></el-option>
         </el-select>
       </el-col>
       <el-col :span="4">
-        <el-select v-model="c_value" placeholder="Country" clearable>
+        <el-select v-model="conditions.c_value" placeholder="Country" clearable>
           <el-option v-for="item in countryOptions" v-bind:label="item" v-bind:value="item"></el-option>
         </el-select>
       </el-col>
       <el-col :span="6">
-        <el-date-picker v-model="y_value" align="right" type="year" placeholder="Year">
+        <el-date-picker v-model="conditions.y_value" align="right" type="year" placeholder="Year">
         </el-date-picker>
       </el-col>
       <el-col :span="6">
-        <el-select v-model="double_click" placeholder="Double Click" clearable>
+        <el-select v-model="conditions.double_click" placeholder="Double Click" clearable>
           <el-option v-for="item in clickOptions" v-bind:label="item" v-bind:value="item"></el-option>
         </el-select>
       </el-col>
@@ -40,10 +40,11 @@
     </el-row>
     <el-table id="result-table" :data="tableData" highlight-current-row align="center" height="350"
       @current-change="handleCurrentChange" @row-dblclick="doubleClickEvent"
-      style="width: 100%"
+      style="width: 100%" @selection-change="handleSelectionChange"
       v-loading="isLoading" element-loading-text="Searching">
-      <el-table-column property="id" label="id" width="100"></el-table-column>
-      <el-table-column property="title" label="Title" width="180"></el-table-column>
+      <el-table-column type="selection" width="55"></el-table-column>
+      <el-table-column property="id" label="id" width="90"></el-table-column>
+      <el-table-column property="title" label="Title" width="160"></el-table-column>
       <el-table-column property="author" label="Author" width="110"></el-table-column>
       <el-table-column property="disease" label="Disease" width="200"></el-table-column>
       <el-table-column property="reporter" label="Reporter" width="110"></el-table-column>
@@ -62,11 +63,13 @@ export default {
   data() {
     return {
       //  search conditions
-      searchID: null,
-      d_value: '',
-      c_value: '',
-      y_value: '',
-      double_click: '',
+      conditions: {
+        searchID: null,
+        d_value: '',
+        c_value: '',
+        y_value: '',
+        double_click: ''
+      },
       //  options
       diseaseOptions: detailData.basicDetail.diseaseOptions,
       countryOptions: detailData.basicDetail.countryOptions,
@@ -74,7 +77,8 @@ export default {
       // table
       tableData: [],
       currentRow: null,
-      isLoading: false
+      isLoading: false,
+      resultMultipleSelection: []
     }
   },
   computed: {
@@ -98,6 +102,10 @@ export default {
     //  记录当前选中的行
     handleCurrentChange(val) {
       this.currentRow = val
+    },
+    //  记录当前选中的所有行(多选)
+    handleSelectionChange(val) {
+      this.resultMultipleSelection = val
     },
     onBatchInput() {
       //  TODO 批量导入
@@ -136,16 +144,25 @@ export default {
     onSearch() {
       var that = this
       that.isLoading = true
-      var yearArr = String(this.y_value).split(' ')
-      console.log(yearArr[3])
-      api.query(this.searchID, {
-        disease: this.d_value == '' ? null : this.d_value,
-        country: this.c_value == '' ? null : this.c_value,
-        year: this.y_value == '' ? null : parseInt(yearArr[3]),
-        doubleClick: this.double_click == '' ? null : (this.double_click == 'Yes' ? 'Yes' : 'No')
+      var yearArr = String(this.conditions.y_value).split(' ')
+      api.query(this.conditions.searchID, {
+        disease: this.conditions.d_value == '' ? null : this.conditions.d_value,
+        country: this.conditions.c_value == '' ? null : this.conditions.c_value,
+        year: this.conditions.y_value == '' ? null : parseInt(yearArr[3]),
+        doubleClick: this.conditions.double_click == '' ? null : (this.conditions.double_click == 'Yes' ? 'Yes' : 'No')
       }, that)
     }
-  }
+  },
+  created: function() {
+    if (this.$store.state.homeTableBuff !== null) {
+      this.tableData = this.$store.state.homeTableBuff
+      this.conditions = this.$store.state.homeConditionsBuff
+    }
+  },
+  beforeDestroy: function() {
+    this.$store.commit('updateHomeTableBuff', this.tableData)
+    this.$store.commit('updateHomeConditionsBuff', this.conditions)
+  },
 }
 </script>
 
