@@ -84,6 +84,10 @@ function getHandledData(type, data) {
 export default {
   login: function(name, password) {
     const url = '/loginReq'
+    return axios.post(url, {
+      username: name,
+      password: password
+    })
   },
   getId: function(type) {
     const url = '/getid'
@@ -111,8 +115,8 @@ export default {
       condition: condition
     }).then(function(res) {
       console.log(res)
+      context.tableData = []  //  清空上次搜索结果
       if (res.data.result !== null && res.data.result !== undefined) {
-        context.tableData = []  //  清空上次搜索结果
         for (let i in res.data.result) {
           context.tableData.push({
             id: res.data.result[i].ReportID,
@@ -124,7 +128,11 @@ export default {
           })
         }
       } else {
-        console.log('>> /query Error \n' + res.data.err)
+        context.$notify({
+          title: 'Not Found',
+          message: '未查询到相应结果',
+          type: 'warning'
+        });
       }
       context.isLoading = false
     }).catch(function(err) {
@@ -152,7 +160,7 @@ export default {
                 message: '提交了一条' + type,
                 type: 'success'
             })
-          }, 2000)
+          }, 500)
         } else {
           //  若是由于重复id导致的错误，调用editAPI进行更新数据的操作
           if (res.data.err.errno == 1062) {
@@ -185,7 +193,7 @@ export default {
                 message: '修改了一条' + type,
                 type: 'success'
             })
-          }, 2000)
+          }, 500)
         } else {
           console.log('>> /edit Error:')
           console.log(res.data.err)

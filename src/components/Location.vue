@@ -67,6 +67,7 @@
       <el-button @click="onAdd">Add Location</el-button>
     </el-form-item>
   </el-form>
+</div>
 </template>
 
 <script>

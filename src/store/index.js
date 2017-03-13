@@ -8,12 +8,12 @@ const debug = process.env.NODE_ENV !== 'production'
 export default new Vuex.Store({
   strict: debug,
   state: {
-    treeID: 1,      //  作为树形视图的唯一标识
-    islogin: true,  //  标记登录状态
-    authority: 0,   //  用户权限
-    opt: '',         //  'new | edit | search |' 确定了进入detail页面时的相应初始化操作
+    treeID: 1,         //  作为树形视图的唯一标识
+    islogin: false,    //  标记登录状态
+    authority: null,   //  用户权限
+    opt: '',           //  'new | edit | search |' 确定了进入detail页面时的相应初始化操作
     editOpt: {
-      editID: '-1'  //  标记编辑哪一条report
+      editID: '-1'     //  标记编辑哪一条report
     }
   },
   mutations: {
