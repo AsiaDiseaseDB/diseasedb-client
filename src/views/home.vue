@@ -7,21 +7,21 @@
         <el-input placeholder="Report ID" v-model="conditions.searchID"></el-input>
       </el-col>
       <el-col :span="4">
-        <el-select v-model="conditions.d_value" placeholder="Disease" clearable>
+        <el-select v-model="conditions.dValue" placeholder="Disease" clearable>
           <el-option v-for="item in diseaseOptions" v-bind:label="item" v-bind:value="item"></el-option>
         </el-select>
       </el-col>
       <el-col :span="4">
-        <el-select v-model="conditions.c_value" placeholder="Country" clearable>
+        <el-select v-model="conditions.cValue" placeholder="Country" clearable>
           <el-option v-for="item in countryOptions" v-bind:label="item" v-bind:value="item"></el-option>
         </el-select>
       </el-col>
       <el-col :span="6">
-        <el-date-picker v-model="conditions.y_value" align="right" type="year" placeholder="Year">
+        <el-date-picker v-model="conditions.yValue" align="right" type="year" placeholder="Year">
         </el-date-picker>
       </el-col>
       <el-col :span="6">
-        <el-select v-model="conditions.double_click" placeholder="Double Click" clearable>
+        <el-select v-model="conditions.doubleClick" placeholder="Double Click" clearable>
           <el-option v-for="item in clickOptions" v-bind:label="item" v-bind:value="item"></el-option>
         </el-select>
       </el-col>
@@ -65,10 +65,10 @@ export default {
       //  search conditions
       conditions: {
         searchID: null,
-        d_value: '',
-        c_value: '',
-        y_value: '',
-        double_click: ''
+        dValue: '',
+        cValue: '',
+        yValue: '',
+        doubleClick: ''
       },
       //  options
       diseaseOptions: detailData.basicDetail.diseaseOptions,
@@ -144,19 +144,23 @@ export default {
     onSearch() {
       var that = this
       that.isLoading = true
-      var yearArr = String(this.conditions.y_value).split(' ')
+      var yearArr = String(this.conditions.yValue).split(' ')
       api.query(this.conditions.searchID, {
-        disease: this.conditions.d_value == '' ? null : this.conditions.d_value,
-        country: this.conditions.c_value == '' ? null : this.conditions.c_value,
-        year: this.conditions.y_value == '' ? null : parseInt(yearArr[3]),
-        doubleClick: this.conditions.double_click == '' ? null : (this.conditions.double_click == 'Yes' ? 'Yes' : 'No')
+        disease: this.conditions.dValue == '' ? null : this.conditions.dValue,
+        country: this.conditions.cValue == '' ? null : this.conditions.cValue,
+        year: this.conditions.yValue == '' ? null : parseInt(yearArr[3]),
+        doubleClick: this.conditions.doubleClick == '' ? null : (this.conditions.doubleClick == 'Yes' ? 'Yes' : 'No')
       }, that)
     }
   },
   created: function() {
     if (this.$store.state.homeTableBuff !== null) {
       this.tableData = this.$store.state.homeTableBuff
-      this.conditions = this.$store.state.homeConditionsBuff
+      this.conditions.searchID = this.$store.state.homeConditionsBuff.searchID
+      this.conditions.dValue = this.$store.state.homeConditionsBuff.dValue
+      this.conditions.cValue = this.$store.state.homeConditionsBuff.cValue
+      this.conditions.yValue = this.$store.state.homeConditionsBuff.yValue
+      this.conditions.doubleClick = this.$store.state.homeConditionsBuff.doubleClick
     }
   },
   beforeDestroy: function() {

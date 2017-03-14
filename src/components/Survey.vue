@@ -133,8 +133,8 @@ export default {
         })
     },
     onSave() {
-      let that = this
-      api.add('Survey Description', this.form, that)
+      console.log(this.form)
+      api.add('Survey Description', this.form, this)
     },
     onMenu() {
       this.$router.push('/home')

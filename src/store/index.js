@@ -13,7 +13,13 @@ export default new Vuex.Store({
     authority: null,   //  用户权限
     opt: '',           //  'new | edit | view |' 确定了进入detail页面时的相应初始化操作
     homeTableBuff: null,
-    homeConditionsBuff: null,
+    homeConditionsBuff: {
+      searchID: null,
+      dValue: '',
+      cValue: '',
+      yValue: '',
+      doubleClick: ''
+    },
     editOpt: {
       editID: -1       //  标记编辑哪一条report
     },
@@ -22,13 +28,19 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-    updateTreeID: (state, newId) => state.treeID = newId,
-    updateIslogin: (state, islogin) => state.islogin = islogin,
-    updateAuthority: (state, value) => state.authority = value,
-    updateOpt: (state, opt) => state.opt = opt,
-    updateEditID: (state, id) => state.editOpt.editID = id,
-    updateViewID: (state, id) => state.viewOpt.viewID = id,
+    updateTreeID: (state, newId) => { state.treeID = newId },
+    updateIslogin: (state, islogin) => { state.islogin = islogin },
+    updateAuthority: (state, value) => { state.authority = value },
+    updateOpt: (state, opt) => { state.opt = opt },
+    updateEditID: (state, id) => { state.editOpt.editID = id },
+    updateViewID: (state, id) => { state.viewOpt.viewID = id },
     updateHomeTableBuff: (state, newBuff) => { state.homeTableBuff = newBuff },
-    updateHomeConditionsBuff: (state, conditions) => { state.homeConditionsBuff = conditions}
+    updateHomeConditionsBuff: (state, conditions) => {
+      state.homeConditionsBuff.searchID = conditions.searchID
+      state.homeConditionsBuff.dValue = conditions.dValue
+      state.homeConditionsBuff.cValue = conditions.cValue
+      state.homeConditionsBuff.yValue = conditions.yValue
+      state.homeConditionsBuff.doubleClick = conditions.doubleClick
+    }
   }
 })
