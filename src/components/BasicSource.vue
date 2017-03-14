@@ -122,6 +122,7 @@
 import detailData from '../static/detailData.js'
 import api from '../model/api.js'
 import util from '../model/util.js'
+import checker from '../model/format-checker.js'
 
 export default {
   name: 'app',
@@ -138,10 +139,10 @@ export default {
         Title: '',
         Authors: '',
         YearOfPub: '',
-        Volume: '',
-        Issue: '',
-        PageFrom: '',
-        PageTo: '',
+        Volume: null,
+        Issue: null,
+        PageFrom: null,
+        PageTo: null,
         AuthorContactNeeded: '',
         OpenAccess: '',
         Checked: '',
@@ -189,6 +190,12 @@ export default {
         })
     },
     onSave() {
+      var msg = checker.checkBasicSources(this.form)
+      // console.log(msg)
+      if (msg !== '') {
+        console.log(msg)
+        return
+      }
       api.add('Basic Sources', this.form, this)
     },
     onMenu() {
@@ -219,8 +226,8 @@ export default {
       this.form = {
         ReportID: this.nodeID, Reporter: '', Disease: '', Country: '',
         DocumentCategory: '', Journal: '', Title: '', Authors: '',
-        YearOfPub: '', Volume: '', Issue: '', PageFrom: '',
-        PageTo: '', AuthorContactNeeded: '', OpenAccess: '', Checked: '',
+        YearOfPub: '', Volume: null, Issue: null, PageFrom: null,
+        PageTo: null, AuthorContactNeeded: '', OpenAccess: '', Checked: '',
         Note1: ''
       }
     },

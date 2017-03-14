@@ -1,7 +1,11 @@
 <!-- 编辑数据库条目界面 -->
 <template>
 <div id="detail">
-  <h1>Detail Page</h1>
+  <el-menu id="top-menu" :default-active="activeIndex2" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+    <el-menu-item index="1"><i class="el-icon-menu"></i>Menu</el-menu-item>
+    <el-menu-item index="2"><i class="el-icon-setting"></i>Work Bench</el-menu-item>
+  </el-menu>
+  <!-- <h1>Detail Page</h1> -->
   <div id="detail-page-container">
     <el-row>
       <el-col id="detail-left-part" :span="7">
@@ -42,7 +46,10 @@ export default {
       treeId: 2,
       idPath: [],
       nodeID: -1,
-      buff: { 'B': {}, 'S': {}, 'L': {}, 'D': {}, 'I': {} }
+      buff: { 'B': {}, 'S': {}, 'L': {}, 'D': {}, 'I': {} },
+      //  导航菜单
+      activeIndex: '1',
+      activeIndex2: '1'
     }
   },
   computed: {
@@ -64,6 +71,12 @@ export default {
     }
   },
   methods: {
+    //  顶部导航菜单
+    handleSelect(key, keyPath) {
+      if (key == 1) {  // menu
+        this.$router.push('/home')
+      }
+    },
     //  点击树状视图，进行导航操作
     clickEvent(data, node, tree) {
       var curNode = this.tree.currentNode.node
@@ -191,6 +204,8 @@ export default {
 
 <style>
 #detail-page-container {
+  position: relative;
+  top: 40px;
   text-align: left;
   border-style: solid;
   border-radius: 4px;
@@ -198,7 +213,7 @@ export default {
 }
 
 #detail-left-part {
-  height: 500px;
+  height: 550px;
   overflow: scroll;
   border-right-width: 2px;
   border-right-style: solid;
@@ -206,7 +221,7 @@ export default {
 }
 
 #detail-right-part {
-  height: 500px;
+  height: 550px;
   overflow: scroll;
   padding: 20px;
 }
@@ -219,5 +234,17 @@ export default {
 
 #detail-tree {
   border-width: 0;
+}
+
+#top-menu {
+  z-index: 100;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 0;
+  /*width: auto;*/
 }
 </style>
