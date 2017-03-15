@@ -83,6 +83,7 @@
 import detailData from '../static/detailData.js'
 import api from '../model/api.js'
 import util from '../model/util.js'
+import checker from '../model/format-checker.js'
 
 export default {
   name: 'app',
@@ -139,8 +140,16 @@ export default {
         })
     },
     onSave() {
-      let that = this
-      api.add('Location Information', this.form, that)
+      var msg = checker.checkForm(this.form, 'Location Information')
+      if (msg !== '') {
+        this.$notify({
+          title: '警告',
+          message: msg,
+          type: 'warning'
+        })
+        return
+      }
+      api.add('Location Information', this.form, this)
     },
     onMenu() {
       this.$router.push('/home')

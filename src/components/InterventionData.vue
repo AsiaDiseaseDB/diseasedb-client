@@ -132,6 +132,7 @@
 import detailData from '../static/detailData.js'
 import api from '../model/api.js'
 import util from '../model/util.js'
+import checker from '../model/format-checker.js'
 
 export default {
   name: 'app',
@@ -187,8 +188,16 @@ export default {
   },
   methods: {
     onSave() {
-      let that = this
-      api.add('Intervention Data', this.form, that)
+      var msg = checker.checkForm(this.form, 'Intervention Data')
+      if (msg !== '') {
+        this.$notify({
+          title: '警告',
+          message: msg,
+          type: 'warning'
+        })
+        return
+      }
+      api.add('Intervention Data', this.form, this)
     },
     onMenu() {
       this.$router.push('/home')

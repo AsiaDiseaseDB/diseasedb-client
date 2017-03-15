@@ -2,7 +2,7 @@ import axios from 'axios'
 
 import util from './util'
 
-//  为form中的属性值前后加上单引号
+//  为form中的属性值前后加上单引号，不会改变原有的表格值
 function addQuote (form, ex) {
   var newObj = {}
   for (let i in form) {
@@ -11,6 +11,14 @@ function addQuote (form, ex) {
     } else {
       newObj[i] = form[i]
     }
+  }
+  return newObj
+}
+
+function empty2Null (form) {
+  var newObj = {}
+  for (let i in form) {
+    newObj[i] = form[i] === '' || form[i] === null || form[i] === '\'\'' ? 'null' : form[i]
   }
   return newObj
 }
@@ -60,15 +68,15 @@ function getHandledData (type, data) {
   }
   switch (type) {
     case 'Basic Sources':
-      return addQuote(data, ex.basicSources)
+      return empty2Null(addQuote(data, ex.basicSources))
     case 'Survey Description':
-      return addQuote(data, ex.survey)
+      return empty2Null(addQuote(data, ex.survey))
     case 'Location Information':
-      return addQuote(data, ex.location)
+      return empty2Null(addQuote(data, ex.location))
     case 'Disease Data':
-      return addQuote(data, ex.disease)
+      return empty2Null(addQuote(data, ex.disease))
     case 'Intervention Data':
-      return addQuote(data, ex.intervention)
+      return empty2Null(addQuote(data, ex.intervention))
     default:
       console.log('type error')
   }
@@ -169,7 +177,7 @@ export default {
   },
   edit: function (type, id, data, context) {
     const url = '/edit'
-    var handledData = data
+    var handledData = empty2Null(data)
     axios.post(url, {
       type: type,
       id: id,

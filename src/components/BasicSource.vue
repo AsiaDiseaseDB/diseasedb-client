@@ -190,10 +190,13 @@ export default {
         })
     },
     onSave() {
-      var msg = checker.checkBasicSources(this.form)
-      // console.log(msg)
+      var msg = checker.checkForm(this.form, 'Basic Sources')
       if (msg !== '') {
-        console.log(msg)
+        this.$notify({
+          title: '警告',
+          message: msg,
+          type: 'warning'
+        })
         return
       }
       api.add('Basic Sources', this.form, this)

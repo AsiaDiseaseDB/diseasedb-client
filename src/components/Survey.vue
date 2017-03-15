@@ -79,6 +79,7 @@
 import detailData from '../static/detailData.js'
 import api from '../model/api.js'
 import util from '../model/util.js'
+import checker from '../model/format-checker.js'
 
 export default {
   name: 'app',
@@ -133,7 +134,16 @@ export default {
         })
     },
     onSave() {
-      console.log(this.form)
+      var msg = checker.checkForm(this.form, 'Survey Description')
+      if (msg !== '') {
+        // console.log(msg)
+        this.$notify({
+          title: '警告',
+          message: msg,
+          type: 'warning'
+        })
+        return
+      }
       api.add('Survey Description', this.form, this)
     },
     onMenu() {

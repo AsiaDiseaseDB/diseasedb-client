@@ -18,16 +18,55 @@ export default {
     }
     return false
   },
-  checkBasicSources (form) {
-    var requiredCols = [
-      'ReportID', 'Reporter', 'Disease', 'Country',
-      'DocumentCategory', 'Journal', 'Title', 'Authors',
-      'YearOfPub', 'AuthorContactNeeded', 'OpenAccess'
-    ]
-    var intCols = [
-      'ReportID', 'YearOfPub', 'Volume',
-      'Issue', 'PageFrom', 'PageTo'
-    ]
+  checkForm (form, type) {
+    var requiredCols = []
+    var intCols = []
+    var floatCols = []
+    switch (type) {
+      case 'Basic Sources':
+        requiredCols = [
+          'ReportID', 'Reporter', 'Disease', 'Country', 'DocumentCategory', 'Journal',
+          'Title', 'Authors', 'YearOfPub', 'AuthorContactNeeded', 'OpenAccess'
+        ]
+        intCols = [ 'ReportID', 'YearOfPub', 'Volume', 'Issue', 'PageFrom', 'PageTo' ]
+        break
+      case 'Survey Description':
+        requiredCols = [ 'SurveyID', 'BasicSourcesReportID', 'DataType', 'SurveyType' ]
+        intCols = [ 'SurveyID', 'BasicSourcesReportID' ]
+        break
+      case 'Location Information':
+        requiredCols = [ 'LocationID', 'SurveyDescriptionBasicSourcesReportID', 'SurveyDescriptionSurveyID' ]
+        intCols = [ 'LocationID', 'SurveyDescriptionBasicSourcesReportID', 'SurveyDescriptionSurveyID' ]
+        floatCols = [ 'Latitude', 'Longitude' ]
+        break
+      case 'Disease Data':
+        requiredCols = [
+          'DiseaseID', 'Species', 'LReportID',
+          'LocationInformationSurveyDescriptionSurveyID',
+          'LocationInformationLocationID', 'LocationInformationLocationID1'
+        ]
+        intCols = [
+          'LocationInformationSurveyDescriptionSurveyID',
+          'LocationInformationLocationID1', 'LReportID',
+          'DiseaseID', 'NumPositiveMale', 'NumPositiveFemale',
+          'NumPositive', 'NumExamineMale', 'NumExamineFemale',
+          'NumExamine', 'AgeUpper', 'AgeLower'
+        ]
+        floatCols = [ 'PercentPositiveMale', 'PercentPositiveFemale', 'PercentPositive' ]
+        break
+      case 'Intervention Data':
+        requiredCols = [
+          'InterventionID', 'DiseaseDataDiseaseID', 'DiseaseDataLocationInformationLocationID1',
+          'DiseaseDataLReportID', 'DiseaseDataLocationInformationSurveyDescriptionSurveyID'
+        ]
+        intCols = [
+          'InterventionID', 'DiseaseDataDiseaseID', 'DiseaseDataLocationInformationLocationID1',
+          'DiseaseDataLReportID', 'DiseaseDataLocationInformationSurveyDescriptionSurveyID',
+          'MonthsAfterBaseline', 'FrequencyPerYear', 'PeriodMonths', 'INumExamine',
+          'INumPositive', 'INumExamineMale', 'INumPositiveMale', 'INumExamineFemale', 'INumPositiveFemale'
+        ]
+        floatCols = [ 'Coverage', 'IPercentPositive', 'IPercentPositiveMale', 'IPercentPositiveFemale' ]
+    }
     var msg = ''
     for (let i in form) {
       if (this.contains(requiredCols, i)) {
@@ -42,66 +81,13 @@ export default {
           return msg
         }
       }
+      if (this.contains(floatCols, i)) {
+        if (!isNaN(form[i]) && form[i] !== '' && form[i] !== null) {
+          msg = i + '必须是数字'
+          return msg
+        }
+      }
     }
     return msg
-  },
-  checkSurvey (form) {
-    var requiredCols = [
-      'SurveyID', 'BasicSourcesReportID',
-      'DataType', 'SurveyType'
-    ]
-    var intCols = [
-      'SurveyID', 'BasicSourcesReportID'
-    ]
-  },
-  checkLocation (form) {
-    var requiredCols = [
-      'LocationID', 'SurveyDescriptionBasicSourcesReportID',
-      'SurveyDescriptionSurveyID'
-    ]
-    var intCols = [
-      'LocationID', 'SurveyDescriptionBasicSourcesReportID',
-      'SurveyDescriptionSurveyID'
-    ]
-    var floatCols = [
-      'Latitude', 'Longitude'
-    ]
-  },
-  checkDisease (form) {
-    var requiredCols = [
-      'DiseaseID', 'Species', 'LReportID',
-      'LocationInformationSurveyDescriptionSurveyID',
-      'LocationInformationLocationID',
-      'LocationInformationLocationID1'
-     ]
-     var intCols = [
-       'LocationInformationSurveyDescriptionSurveyID',
-       'LocationInformationLocationID1', 'LReportID',
-       'DiseaseID', 'NumPositiveMale', 'NumPositiveFemale',
-       'NumPositive', 'NumExamineMale', 'NumExamineFemale',
-       'NumExamine', 'AgeUpper', 'AgeLower'
-     ]
-     var floatCols = [
-       'PercentPositiveMale', 'PercentPositiveFemale', 'PercentPositive'
-     ]
-  },
-  checkIntervention (form) {
-    var requiredCols = [
-      'InterventionID', 'DiseaseDataDiseaseID',
-      'DiseaseDataLocationInformationLocationID1',
-      'DiseaseDataLReportID',
-      'DiseaseDataLocationInformationSurveyDescriptionSurveyID'
-    ]
-    var intCols = [
-      'InterventionID', 'DiseaseDataDiseaseID', 'DiseaseDataLocationInformationLocationID1',
-      'DiseaseDataLReportID', 'DiseaseDataLocationInformationSurveyDescriptionSurveyID',
-      'MonthsAfterBaseline', 'FrequencyPerYear', 'PeriodMonths', 'INumExamine',
-      'INumPositive', 'INumExamineMale', 'INumPositiveMale', 'INumExamineFemale',
-      'INumPositiveFemale'
-    ]
-    var floatCols = [
-      'Coverage', 'IPercentPositive',
-      'IPercentPositiveMale', 'IPercentPositiveFemale'
-    ]
   }
 }
