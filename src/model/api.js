@@ -23,24 +23,6 @@ function empty2Null (form) {
   return newObj
 }
 
-//  返回对应类型数据表的ID，若type对应表不存在，返回-1
-function getID (type, data) {
-  switch (type) {
-    case 'Basic Sources':
-      return data.ReportID
-    case 'Survey Description':
-      return data.SurveyID
-    case 'Location Information':
-      return data.LocationID
-    case 'Disease Data':
-      return data.DiseaseID
-    case 'Intervention Data':
-      return data.InterventionID
-    default:
-      return -1
-  }
-}
-
 //  依照type对data中的属性值前后加上单引号
 function getHandledData (type, data) {
   var ex = {
@@ -165,7 +147,7 @@ export default {
         } else {
           //  若是由于重复id导致的错误，调用editAPI进行更新数据的操作
           if (res.data.err.errno === 1062) {
-            that.edit(type, getID(type, data), data, context)
+            that.edit(type, util.getID(type, data), data, context)
           } else {
             console.log('>> /add Error: \n' + res.data.err)
           }
@@ -230,6 +212,30 @@ export default {
       .catch((err) => {
         console.log('>> /delete catch Error')
         console.log(err)
+      })
+  },
+  checkModified (operation, type, context) {
+    this.getIdContent(context.nodeID, type)
+      .then((res) => {
+        var flag = false
+        if (res.data.data == null) {
+          flag = true
+        } else {
+          flag = util.isEqual(res.data.data, context.form)
+        }
+        if (flag) {
+          operation()
+        } else {
+          context.$notify({
+            title: '警告',
+            message: '需要先保存当前条目才能继续创建',
+            type: 'warning'
+          })
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+        console.log('>> err: on next catch error')
       })
   }
 }

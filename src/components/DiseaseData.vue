@@ -211,14 +211,16 @@ export default {
   },
   methods: {
     onNext() {
-      api.getId('Intervention Data')
-        .then((res) => {
-          var cur = this.tree.currentNode
-          util.appendNode.call(this, cur, res.data.id, 'Intervention')
-        })
-        .catch((err) => {
-          console.log(err)
-        })
+      api.checkModified(() => {
+        api.getId('Intervention Data')
+          .then((res) => {
+            var cur = this.tree.currentNode
+            util.appendNode.call(this, cur, res.data.id, 'Intervention')
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      }, 'Disease Data', this)
     },
     onSave() {
       var msg = checker.checkForm(this.form, 'Disease Data')

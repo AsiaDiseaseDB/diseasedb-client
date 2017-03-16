@@ -99,7 +99,7 @@
                 :disabled="uneditable"></el-input>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="onNext" v-show="editable">Next</el-button>
+      <el-button type="primary" @click="onNext" v-show="editable" :disabled="isModified">Next</el-button>
       <el-button @click="onSave" v-show="editable">Save</el-button>
       <el-button @click="onAdd" v-show="editable">Add Report</el-button>
       <el-button @click="onMenu">Menu</el-button>
@@ -160,36 +160,41 @@ export default {
   },
   computed: {
     id: {
-      get() {
+      get () {
         return this.$store.state.treeID
       },
-      set(v) {
+      set (v) {
         this.$store.commit('updateTreeID', v)
       }
     },
-    uneditable: function() {
+    uneditable: function () {
       return this.$store.state.opt === 'view'
     },
-    editable: function() {
+    editable: function () {
       return this.$store.state.opt !== 'view'
     },
-    dialogMsg: function() {
+    dialogMsg: function () {
       return '确认删除Report ' + this.nodeID + '？'
+    },
+    isModified: function () {
+      return false
     }
   },
   methods: {
-    onNext() {
-      api.getId('Survey Description')
-        .then((res) => {
-          var nextId = res.data.id
-          var cur = this.tree.currentNode
-          util.appendNode.call(this, cur, res.data.id, 'Survey')
-        })
-        .catch((err) => {
-          console.log(err)
-        })
+    onNext () {
+      api.checkModified(() => {
+        api.getId('Survey Description')
+          .then((res) => {
+            var nextId = res.data.id
+            var cur = this.tree.currentNode
+            util.appendNode.call(this, cur, res.data.id, 'Survey')
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      }, 'Basic Sources', this)
     },
-    onSave() {
+    onSave () {
       var msg = checker.checkForm(this.form, 'Basic Sources')
       if (msg !== '') {
         this.$notify({
@@ -201,17 +206,17 @@ export default {
       }
       api.add('Basic Sources', this.form, this)
     },
-    onMenu() {
+    onMenu () {
       this.$router.push('/home')
     },
-    onDelete() {
+    onDelete () {
       this.dialogVisible = true
     },
-    deleteConfrim() {
+    deleteConfrim () {
       this.dialogVisible = false
       api.delete.call(this, this.nodeID, 'Basic Sources')
     },
-    onAdd() {
+    onAdd () {
       api.getId('Basic Sources')
         .then((res) => {
           var parent = this.tree.currentNode.$parent
@@ -221,11 +226,11 @@ export default {
           console.log(err)
         })
     },
-    removeTest() {
+    removeTest () {
       var curNode = this.tree.currentNode.node
       curNode.store.remove(curNode.data)
     },
-    initForm() {
+    initForm () {
       this.form = {
         ReportID: this.nodeID, Reporter: '', Disease: '', Country: '',
         DocumentCategory: '', Journal: '', Title: '', Authors: '',
@@ -235,7 +240,7 @@ export default {
       }
     },
     //  根据ReportID更新当前页面上的数据
-    updateData() {
+    updateData () {
       if (this.buff.B[this.nodeID] !== undefined) {
         this.form = this.buff.B[this.nodeID]
       } else {
@@ -254,16 +259,21 @@ export default {
       }
     }
   },
-  created: function() {
+  created: function () {
     this.updateData()
   },
-  beforeDestroy: function() {
+  beforeDestroy: function () {
     this.$emit('getBuffer', 'B', this.nodeID, this.form)
   },
   watch: {
-    nodeID: function(val, oldVal) {
+    nodeID: function (val, oldVal) {
       this.$emit('getBuffer', 'B', oldVal, this.form)
       this.updateData()
+    },
+    form: {
+      handler: function (val, oldVal) {
+      },
+      deep: true
     }
   }
 }

@@ -82,7 +82,7 @@ export default {
         }
       }
       if (this.contains(floatCols, i)) {
-        if (!isNaN(form[i]) && form[i] !== '' && form[i] !== null) {
+        if (isNaN(form[i]) && form[i] !== '' && form[i] !== null) {
           msg = i + '必须是数字'
           return msg
         }

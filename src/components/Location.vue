@@ -130,14 +130,16 @@ export default {
   },
   methods: {
     onNext() {
-      api.getId('Disease Data')
-        .then((res) => {
-          var cur = this.tree.currentNode
-          util.appendNode.call(this, cur, res.data.id, 'Disease')
-        })
-        .catch((err) => {
-          console.log(err)
-        })
+      api.checkModified(() => {
+        api.getId('Disease Data')
+          .then((res) => {
+            var cur = this.tree.currentNode
+            util.appendNode.call(this, cur, res.data.id, 'Disease')
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      }, 'Location Information', this)
     },
     onSave() {
       var msg = checker.checkForm(this.form, 'Location Information')
