@@ -154,21 +154,21 @@ response: {
 ### 删除操作
 
 ```javascript
-url: '/delete'
+url: '/delete'(post)
 request: {  //  递归地删除掉下层所有的表
   type: enum('Survey Description', 'Location Information', 'Disease Data', 'Intervention Data')
   id: number  //  type表的id
 }
 response: {    //  格式:没有空格或下划线，首字母大写的CamelCase
   success: bool,
-  err: string  // 错误信息，若成功设为null
+  err: err  // 错误信息，若成功设为null
 }
 ```
 
 ### 编辑操作
 
 ```javascript
-url: '/edit'
+url: '/edit'(post)
 request: {  //  递归地删除掉下层所有的表
   type: enum('Survey Description', 'Location Information', 'Disease Data', 'Intervention Data'),
   id: number,  //  type表的id
@@ -178,6 +178,30 @@ request: {  //  递归地删除掉下层所有的表
 }
 response: {
   success: bool,
-  err: string  // 错误信息，若成功设为null
+  err: err  // 错误信息，若成功设为null
+}
+```
+
+### 批量导出
+```javascript
+url: '/exportexcel'(get)
+request: {
+  ids: [ id1, id2, ... ]  //  report ids
+}
+response: {
+  success: bool,
+  err: err
+}
+```
+
+### 批量导入
+```javascript
+url: '/importexcel'(post)
+request: {
+  xlsx/xls
+}
+response {
+  success: bool,
+  err: err
 }
 ```

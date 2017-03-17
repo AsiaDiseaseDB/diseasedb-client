@@ -51,6 +51,20 @@
       <el-table-column property="time" label="Year of publish"></el-table-column>
     </el-table>
   </div>
+  <el-dialog title="Batch Input" v-model="dialogUploadVisible">
+      <el-upload
+        class="upload-demo"
+        drag
+        action="//localhost:3000/importexcel"
+        name="report"
+        mutiple>
+      <i class="el-icon-upload"></i>
+      <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+      <div class="el-upload__tip" slot="tip">只能上传xls/xlsx文件</div>
+    </el-upload>
+  </el-dialog>
+  <!--  用于为用户提供下载文档功能  -->
+  <a id="getexcel" href=""></a>
 </div>
 </template>
 
@@ -78,7 +92,9 @@ export default {
       tableData: [],
       currentRow: null,
       isLoading: false,
-      resultMultipleSelection: []
+      resultMultipleSelection: [],
+      // dialog
+      dialogUploadVisible: false
     }
   },
   computed: {
@@ -108,9 +124,32 @@ export default {
       this.resultMultipleSelection = val
     },
     onBatchInput() {
+      this.dialogUploadVisible = true
       //  TODO 批量导入
     },
     onBatchExport() {
+      var ids = []
+      for (let i in this.resultMultipleSelection) {
+        ids.push(this.resultMultipleSelection[i].id)
+      }
+      if (ids.length === 0) {
+        this.$alert('请选中需要导出的条目', '未选中任何条目', {
+          confirmButtonText: '确定',
+          callback: action => {}
+        })
+        return
+      }
+      var url = 'http://localhost:3000/exportexcel?'
+      for (let i in ids) {
+        url += 'id' + i + '=' + ids[i]
+        if (i != ids.length - 1) {
+          url += '&'
+        }
+      }
+      console.log(url)
+      var x = document.getElementById("getexcel")
+      x.href = url
+      x.click()
       //  TODO 批量导出
     },
     onView() {
