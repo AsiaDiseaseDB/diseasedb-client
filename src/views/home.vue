@@ -51,17 +51,32 @@
       <el-table-column property="time" label="Year of publish"></el-table-column>
     </el-table>
   </div>
-  <el-dialog title="Batch Input" v-model="dialogUploadVisible">
+  <el-dialog id="dialog" :title="dialogTitle"
+    v-model="dialogUploadVisible" size="small"
+    @close="onCloseDialog">
       <el-upload
-        class="upload-demo"
-        drag
+        v-show="canUpload"
+        class="upload-demo" drag
         action="//localhost:3000/importexcel"
         name="report"
+        :show-file-list="showlist"
+        :on-success="onUploadSuccess"
+        :data="payload"
         mutiple>
       <i class="el-icon-upload"></i>
       <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-      <div class="el-upload__tip" slot="tip">只能上传xls/xlsx文件</div>
+      <div class="el-upload__tip" slot="tip">{{ uploadHint }}</div>
     </el-upload>
+    <div v-show="!canUpload">{{ uploadHint }}</div>
+    <div id="upload-steps">
+      <el-steps :space="110" :active="active" finish-status="success" :center="center">
+        <el-step title="Step 1"></el-step>
+        <el-step title="Step 2"></el-step>
+        <el-step title="Step 3" ></el-step>
+        <el-step title="Step 4"></el-step>
+        <el-step title="Step 5"></el-step>
+      </el-steps>
+    </div>
   </el-dialog>
   <!--  用于为用户提供下载文档功能  -->
   <a id="getexcel" href=""></a>
@@ -94,7 +109,13 @@ export default {
       isLoading: false,
       resultMultipleSelection: [],
       // dialog
-      dialogUploadVisible: false
+      dialogUploadVisible: false,
+      // upload
+      showlist: false,
+      // steps
+      active: 0,
+      center: true,
+      hints: [ 'Basic Sources', 'Survey', 'Location', 'Disease', 'Intervention' ]
     }
   },
   computed: {
@@ -109,21 +130,47 @@ export default {
     viewID: {
       get() { return this.$store.state.viewID },
       set(v) { this.$store.commit('updateViewID', v) }
+    },
+    dialogTitle: function() {
+      if (this.active >= 5) {
+        return 'Done~'
+      }
+      return 'Please Upload ' + this.hints[this.active]
+    },
+    uploadHint: function() {
+      if (this.active >= 5) {
+        return 'You can close this dialog now'
+      }
+      return this.hints[this.active] + ' file needed, .xls/.xlsx support only'
+    },
+    canUpload: function() {
+      return this.active < 5
+    },
+    payload: function() {
+      return { id: this.active }
     }
   },
   methods: {
+    // dialog
+    onCloseDialog () {
+      console.log('close')
+    },
+    // upload
+    onUploadSuccess (response, file, fileList) {
+      if (this.active++ > 4) this.active = 0;
+    },
+    // table
     doubleClickEvent(row, e) {
       this.onView()
     },
-    //  记录当前选中的行
-    handleCurrentChange(val) {
+    handleCurrentChange(val) {  //  记录当前选中的行
       this.currentRow = val
     },
-    //  记录当前选中的所有行(多选)
-    handleSelectionChange(val) {
+    handleSelectionChange(val) {  //  记录当前选中的所有行(多选)
       this.resultMultipleSelection = val
     },
     onBatchInput() {
+      this.active = 0
       this.dialogUploadVisible = true
       //  TODO 批量导入
     },
@@ -222,8 +269,18 @@ export default {
   border-radius: 4px;
 }
 
+#dialog {
+  user-select: none;
+}
+
 #result-table {
   user-select: none;
+}
+
+#upload-steps {
+  margin-top: 30px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .btn-container {

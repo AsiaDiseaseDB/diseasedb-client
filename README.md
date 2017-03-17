@@ -194,11 +194,24 @@ response: {
 }
 ```
 
+### 终止导入
+```javascript
+url: '/exitimport'
+request: {
+  operation: number  //  0: 终止并退出; 1: 保存并退出
+}
+response {
+  success: bool,
+  err: err
+}
+```
+
 ### 批量导入
 ```javascript
 url: '/importexcel'(post)
 request: {
-  xlsx/xls
+  (file) xlsx/xls
+  id: number
 }
 response {
   success: bool,
