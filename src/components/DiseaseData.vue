@@ -131,11 +131,16 @@
       <el-input v-model="form.Note4" type="textarea" :disabled="uneditable"></el-input>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="onNext" v-show="editable">Next</el-button>
-      <el-button @click="onSave" v-show="editable">Save</el-button>
-      <el-button @click="onAdd" v-show="editable">Add Disease</el-button>
-      <el-button @click="onCancel" v-show="editable">Cancel</el-button>
-      <el-button @click="onDelete" v-show="editable" icon="delete">Delete</el-button>
+      <el-button-group>
+        <el-button type="primary" @click="onSave" v-show="editable">Save</el-button>
+        <el-button @click="onNext" v-show="editable">Next</el-button>
+        <el-button @click="onAdd" v-show="editable">Add Disease</el-button>
+        <el-button @click="onCancel" v-show="editable">Cancel</el-button>
+        <el-button @click="onDelete" v-show="editable" icon="delete">Delete</el-button>
+      </el-button-group>
+      <el-button-group id="disease-import-group">
+        <el-button @click="onImport" v-show="editable" icon="upload2">Import</el-button>
+      <el-button-group>
     </el-form-item>
   </el-form>
 
@@ -145,6 +150,23 @@
       <el-button @click="dialogVisible = false">取 消</el-button>
       <el-button type="danger" @click="deleteConfrim">删 除</el-button>
     </span>
+  </el-dialog>
+
+  <el-dialog id="disease-upload" title="Upload"
+    v-model="dialogUploadVisible" size="small"
+    :close-on-click-modal="false">
+    <el-upload
+        drag
+        action="//localhost:3000/importtable"
+        name="report"
+        :show-file-list="showlist"
+        :on-success="onUploadSuccess"
+        :data="payload"
+        mutiple>
+      <i class="el-icon-upload"></i>
+      <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+      <div class="el-upload__tip" slot="tip">只支持.xls/.xlsx格式</div>
+    </el-upload>
   </el-dialog>
 </div>
 </template>
@@ -187,7 +209,11 @@ export default {
         LocationInformationLocationID1: -1
       },
       informationOptions: detailData.diseaseDetail.informationOptions,
-      dialogVisible: false
+      dialogVisible: false,
+      //  upload dialog
+      dialogUploadVisible: false,
+      payload: null,
+      showlist: false
     }
   },
   computed: {
@@ -210,6 +236,25 @@ export default {
     }
   },
   methods: {
+    onUploadSuccess (response, file, fileList) {
+      console.log(response)
+      if (!response.success) {
+        this.dialogUploadVisible = false
+        this.$alert('上传失败', '解析Excel时发生错误', {
+          confirmButtonText: '确定',
+          callback: action => {}
+        })
+      } else {
+        this.dialogUploadVisible = false
+        this.$notify({
+          title: '上传成功',
+          message: '批量导入了一系列Intervention',
+          type: 'success'
+        })
+        this.$router.push('/home')
+      }
+      if (this.active++ > 4) this.active = 0
+    },
     onNext() {
       api.checkModified(() => {
         api.getId('Intervention Data')
@@ -242,6 +287,16 @@ export default {
     },
     onDelete() {
       this.dialogVisible = true
+    },
+    onImport () {
+      this.dialogUploadVisible = true
+      this.payload = {
+        type: 'Disease Data',
+        bid: this.idPath[0],
+        sid: this.idPath[1],
+        lid: this.idPath[2],
+        did: this.idPath[3]
+      }
     },
     deleteConfrim() {
       this.dialogVisible = false
@@ -311,3 +366,13 @@ export default {
   }
 }
 </script>
+
+<style>
+#disease-import-group {
+  margin-left: 15px;
+}
+
+#disease-upload {
+  text-align: center;
+}
+</style>

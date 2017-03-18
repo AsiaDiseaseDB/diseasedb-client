@@ -53,8 +53,9 @@
   </div>
   <el-dialog id="dialog" :title="dialogTitle"
     v-model="dialogUploadVisible" size="small"
+    :close-on-click-modal="false"
     @close="onCloseDialog">
-      <el-upload
+    <el-upload
         v-show="canUpload"
         class="upload-demo" drag
         action="//localhost:3000/importexcel"
@@ -157,7 +158,15 @@ export default {
     },
     // upload
     onUploadSuccess (response, file, fileList) {
-      if (this.active++ > 4) this.active = 0;
+      console.log(response)
+      if (!response.success) {
+        this.dialogUploadVisible = false
+        this.$alert('上传失败', '解析Excel时发生错误', {
+          confirmButtonText: '确定',
+          callback: action => {}
+        })
+      }
+      if (this.active++ > 4) this.active = 0
     },
     // table
     doubleClickEvent(row, e) {

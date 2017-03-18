@@ -123,9 +123,6 @@ export default {
       context.isLoading = false
     })
   },
-  queryNext: function (type, id) {
-    // const url = '/querynext'
-  },
   add: function (type, data, context) {
     var that = this
     const url = '/add'
@@ -159,7 +156,7 @@ export default {
   },
   edit: function (type, id, data, context) {
     const url = '/edit'
-    var handledData = empty2Null(data)
+    var handledData = getHandledData(type, data)
     axios.post(url, {
       type: type,
       id: id,
@@ -217,9 +214,10 @@ export default {
   checkModified (operation, type, context) {
     this.getIdContent(context.nodeID, type)
       .then((res) => {
+        console.log(res.data)
         var flag = false
         if (res.data.data == null) {
-          flag = true
+          flag = false
         } else {
           flag = util.isEqual(res.data.data, context.form)
         }

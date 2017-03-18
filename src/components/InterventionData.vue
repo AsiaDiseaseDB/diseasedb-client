@@ -111,10 +111,12 @@
       <el-input v-model="form.Note5" type="textarea" :disabled="uneditable"></el-input>
     </el-form-item>
     <el-form-item>
-      <el-button @click="onSave" v-show="editable">Save</el-button>
-      <el-button @click="onAdd" v-show="editable">Add Intervention</el-button>
-      <el-button @click="onCancel" v-show="editable">Cancel</el-button>
-      <el-button @click="onDelete" v-show="editable" icon="delete">Delete</el-button>
+      <el-button-group>
+        <el-button type="primary" @click="onSave" v-show="editable">Save</el-button>
+        <el-button @click="onAdd" v-show="editable">Add Intervention</el-button>
+        <el-button @click="onCancel" v-show="editable">Cancel</el-button>
+        <el-button @click="onDelete" v-show="editable" icon="delete">Delete</el-button>
+      </el-button-group>
     </el-form-item>
   </el-form>
 
