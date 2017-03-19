@@ -1,11 +1,11 @@
 <template>
 <div id="location">
   <span class="dt-title">Location Information</span>
-  <el-form ref="form" :model="form" label-width="80px" label-position="center">
-    <el-form-item label="Location ID">
+  <el-form ref="form" :model="form" label-width="80px" label-position="top">
+    <el-form-item>
       <el-input v-model="form.LocationID" :disabled="true"></el-input>
     </el-form-item>
-    <el-row>
+    <el-row :gutter="10">
       <el-col :span="12">
         <el-form-item label="ADM1">
           <el-input v-model="form.ADM1" :disabled="uneditable"></el-input>
@@ -17,7 +17,7 @@
         </el-form-item>
       </el-col>
     </el-row>
-    <el-row>
+    <el-row :gutter="10">
       <el-col :span="12">
         <el-form-item label="ADM3">
           <el-input v-model="form.ADM3" :disabled="uneditable"></el-input>
@@ -29,7 +29,7 @@
         </el-form-item>
       </el-col>
     </el-row>
-    <el-row>
+    <el-row :gutter="10">
       <el-col :span="12">
         <el-form-item label="PointType">
           <el-select v-model="form.PointType" placeholder="Point Type" :disabled="uneditable">
@@ -45,7 +45,7 @@
         </el-form-item>
       </el-col>
     </el-row>
-    <el-row>
+    <el-row :gutter="10">
       <el-col :span="12">
         <el-form-item label="Latitude">
           <el-input v-model="form.Latitude" :disabled="uneditable"></el-input>

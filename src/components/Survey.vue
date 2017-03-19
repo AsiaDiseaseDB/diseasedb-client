@@ -1,11 +1,11 @@
 <template>
 <div id="survey">
   <span class="dt-title">Survey Description</span>
-  <el-form ref="form" :model="form" label-width="80px" label-position="center">
-    <el-form-item label="Survey ID">
+  <el-form ref="form" :model="form" label-width="80px" label-position="top">
+    <el-form-item>
       <el-input v-model="form.SurveyID" :disabled="true"></el-input>
     </el-form-item>
-    <el-row>
+    <el-row :gutter="10">
       <el-col :span="12">
           <el-form-item label="DataType">
             <el-select v-model="form.DataType" placeholder="Data Type" :disabled="uneditable">
@@ -23,7 +23,7 @@
         </el-form-item>
       </el-col>
     </el-row>
-    <el-row>
+    <el-row :gutter="10">
       <el-col :span="12">
           <el-form-item label="MonthStart">
             <el-select v-model="form.MonthStart" placeholder="Month Start" :disabled="uneditable">
@@ -41,7 +41,7 @@
         </el-form-item>
       </el-col>
     </el-row>
-    <el-row>
+    <el-row :gutter="10">
       <el-col :span="12">
           <el-form-item label="YearStart">
             <el-input v-model="form.YearStart" :disabled="uneditable"></el-input>

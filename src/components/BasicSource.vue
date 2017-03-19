@@ -1,31 +1,43 @@
 <template>
 <div id="basic_source">
   <span class="dt-title">Basic Source</span>
-  <el-form ref="form" :model="form" label-width="80px" label-position="center">
-    <el-form-item label="ReportID">
+  <el-form ref="form" :model="form" label-width="80px" label-position="top">
+    <el-form-item>
       <el-input v-model="form.ReportID" :disabled="true"></el-input>
     </el-form-item>
-    <el-form-item label="Reporter">
-      <el-select v-model="form.Reporter" placeholder="Reporter" :disabled="uneditable">
-        <el-option v-for="item in reporterOptions" :label="item" :value="item"></el-option>
-      </el-select>
-    </el-form-item>
-    <el-form-item label="Disease">
-      <el-select v-model="form.Disease" placeholder="Disease" :disabled="uneditable">
-        <el-option v-for="item in diseaseOptions" :label="item" :value="item"></el-option>
-      </el-select>
-    </el-form-item>
-    <el-form-item label="Country">
-      <el-select v-model="form.Country" placeholder="Country" :disabled="uneditable">
-        <el-option v-for="item in countryOptions" v-bind:label="item" v-bind:value="item"></el-option>
-      </el-select>
-    </el-form-item>
-    <el-form-item label="Document Category">
-      <el-select v-model="form.DocumentCategory" placeholder="DocumentCategory" :disabled="uneditable">
-        <el-option v-for="item in documentCategoryOptions" :label="item" :value="item"></el-option>
-      </el-select>
-    </el-form-item>
-    <el-row>
+    <el-row :gutter="10">
+      <el-col :span="8">
+        <el-form-item label="Reporter">
+          <el-select v-model="form.Reporter" placeholder="Reporter" :disabled="uneditable">
+            <el-option v-for="item in reporterOptions" :label="item" :value="item"></el-option>
+          </el-select>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item label="Disease">
+          <el-select v-model="form.Disease" placeholder="Disease" :disabled="uneditable">
+            <el-option v-for="item in diseaseOptions" :label="item" :value="item"></el-option>
+          </el-select>
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <el-row :gutter="10">
+      <el-col :span="8">
+        <el-form-item label="Country">
+          <el-select v-model="form.Country" placeholder="Country" :disabled="uneditable">
+            <el-option v-for="item in countryOptions" v-bind:label="item" v-bind:value="item"></el-option>
+          </el-select>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item label="Document Category">
+          <el-select v-model="form.DocumentCategory" placeholder="DocumentCategory" :disabled="uneditable">
+            <el-option v-for="item in documentCategoryOptions" :label="item" :value="item"></el-option>
+          </el-select>
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <el-row :gutter="10">
       <el-col :span="12">
         <el-form-item label="Journal">
           <el-input v-model="form.Journal" :disabled="uneditable"></el-input>
@@ -37,7 +49,7 @@
         </el-form-item>
       </el-col>
     </el-row>
-    <el-row>
+    <el-row :gutter="10">
       <el-col :span="12">
         <el-form-item label="Authors">
           <el-input v-model="form.Authors" :disabled="uneditable"></el-input>
@@ -49,7 +61,7 @@
         </el-form-item>
       </el-col>
     </el-row>
-    <el-row>
+    <el-row :gutter="10">
       <el-col :span="12">
         <el-form-item label="Volume">
           <el-input v-model="form.Volume" :disabled="uneditable"></el-input>
@@ -61,7 +73,7 @@
         </el-form-item>
       </el-col>
     </el-row>
-    <el-row>
+    <el-row :gutter="10">
       <el-col :span="12">
         <el-form-item label="Page From">
           <el-input v-model="form.PageFrom" :disabled="uneditable"></el-input>
@@ -78,7 +90,7 @@
         <el-option v-for="item in contactNeededOptions" :label="item" :value="item"></el-option>
       </el-select>
     </el-form-item>
-    <el-row>
+    <el-row :gutter="10">
       <el-col :span="12">
         <el-form-item label="Open Access">
           <el-select v-model="form.OpenAccess" placeholder="Open Access" :disabled="uneditable">

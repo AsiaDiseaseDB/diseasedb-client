@@ -1,11 +1,11 @@
 <template>
 <div id="intervention">
   <span class="dt-title">Intervention Data</span>
-  <el-form ref="form" :model="form" label-width="80px" label-position="center">
-    <el-form-item label="Intervention ID">
+  <el-form ref="form" :model="form" label-width="80px" label-position="top">
+    <el-form-item>
       <el-input v-model="form.InterventionID" :disabled="true"></el-input>
     </el-form-item>
-    <el-row>
+    <el-row :gutter="10">
       <el-col :span="8">
         <el-form-item label="Group">
           <el-select v-model="form.Group" placeholder="Group" :disabled="uneditable">
@@ -20,7 +20,7 @@
         </el-form-item>
       </el-col>
     </el-row>
-    <el-row>
+    <el-row :gutter="10">
       <el-col :span="12">
         <el-form-item label="Drug">
           <el-input placeholder="Drug" v-model="form.Drug" :disabled="uneditable"></el-input>
@@ -32,7 +32,7 @@
         </el-form-item>
       </el-col>
     </el-row>
-    <el-row>
+    <el-row :gutter="10">
       <el-col :span="12">
         <el-form-item label="Period">
           <el-input placeholder="Period" v-model="form.PeriodMonths" :disabled="uneditable"></el-input>
@@ -44,64 +44,64 @@
         </el-form-item>
       </el-col>
     </el-row>
-    <el-row>
+    <el-row :gutter="10">
       <el-form-item label="Other Method">
         <el-input placeholder="Other Method" v-model="form.OtherMethod" :disabled="uneditable"></el-input>
       </el-form-item>
     </el-row>
-    <el-row>
+    <el-row :gutter="10">
       <el-col :span="8">
-        <el-form-item label-width="10px">
+        <el-form-item label="Num Examine">
           <el-input placeholder="Num_examine" v-model="form.INumExamine" :disabled="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label-width="10px">
+        <el-form-item label="Num Positive">
           <el-input placeholder="Num_positive" v-model="form.INumPositive" :disabled="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label-width="10px">
+        <el-form-item label="Percent Positive">
           <el-input placeholder="Percent_positive" :disabled="uneditable"
                     v-model="form.IPercentPositive"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
-    <el-row>
+    <el-row :gutter="10">
       <el-col :span="8">
-        <el-form-item label-width="10px">
+        <el-form-item label="Num Examine Male">
           <el-input placeholder="Num_examine_male" v-model="form.INumExamineMale"
                     :disabled="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label-width="10px">
+        <el-form-item label="Num Positive Male">
           <el-input placeholder="Num_positive_male" v-model="form.INumPositiveMale"
                     :disabled="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label-width="10px">
+        <el-form-item label="Percent Positive Male">
           <el-input placeholder="Percent_positive_male" :disabled="uneditable"
                     v-model="form.IPercentPositiveMale"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
-    <el-row>
+    <el-row :gutter="10">
       <el-col :span="8">
-        <el-form-item label-width="10px">
+        <el-form-item label="Num Examine Female">
           <el-input placeholder="Num_examine_female" :disabled="uneditable"
                     v-model="form.INumExamineFemale"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label-width="10px">
+        <el-form-item label="Num Positive Female">
           <el-input placeholder="Num_positive_female" :disabled="uneditable"
                     v-model="form.INumPositiveFemale"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label-width="10px">
+        <el-form-item label="Percent Positive Female">
           <el-input placeholder="Percent_positive_female" :disabled="uneditable"
                     v-model="form.IPercentPositiveFemale"></el-input>
         </el-form-item>

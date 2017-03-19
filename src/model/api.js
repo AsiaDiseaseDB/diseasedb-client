@@ -1,4 +1,5 @@
 import axios from 'axios'
+import md5 from 'md5'
 
 import util from './util'
 
@@ -69,7 +70,15 @@ export default {
     const url = '/loginReq'
     return axios.post(url, {
       username: name,
-      password: password
+      password: md5(password)
+    })
+  },
+  register: function (name, password, authority) {
+    const url = '/register'
+    return axios.post(url, {
+      username: name,
+      password: md5(password),
+      authority: authority
     })
   },
   getId: function (type) {
@@ -91,11 +100,12 @@ export default {
       type: type
     })
   },
-  query: function (id, condition, context) {
+  query: function (id, condition, authority, context) {
     const url = '/query'
     axios.post(url, {
       id: id,
-      condition: condition
+      condition: condition,
+      authority: authority
     }).then(function (res) {
       console.log(res)
       context.tableData = []  //  清空上次搜索结果
@@ -202,7 +212,7 @@ export default {
             this.$router.push('/home')
           }
         } else {
-          console.log('>> /add Error: \n' + res.data.err)
+          console.log('>> /delete Error: \n' + res.data.err)
           console.log(res.data.err)
         }
       })

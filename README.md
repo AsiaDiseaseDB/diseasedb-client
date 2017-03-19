@@ -29,6 +29,7 @@ request: {
 }
 response: {
   success: bool,
+  id: number,
   authority: {  //  若success为false，返回null
     write: bool,
     query: bool,
@@ -36,6 +37,20 @@ response: {
     extract: bool
   },
   err: string  //  登录失败时返回的提示信息（密码错误、用户名不存在...)
+}
+```
+
+### 注册
+```javascript
+url: '/register'(post)
+request: {
+  username: string,
+  password: string,
+  authority: number
+}
+response: {
+  success: bool,
+  err: err
 }
 ```
 
@@ -49,9 +64,10 @@ request: {
     disease: string,    //  如果未指定则设为null
     country: string,    //  如果未指定则设为null
     year: number,       //  如果未指定则设为null
-    doubleClick: bool  //  如果未指定则设为null
+    doubleClick: bool   //  如果未指定则设为null
     //  不会出现四个都为null的情况
-  }
+  },
+  authority: number     //  根据权限确定用户可检索的范围
 }
 response: {
   result: [{  //  如果查不到，返回null

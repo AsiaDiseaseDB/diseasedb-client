@@ -1,7 +1,12 @@
 <template>
 <div id="home">
+  <el-menu id="top-menu" :default-active="activeIndex2" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+    <el-menu-item index="1"><i class="el-icon-menu"></i>Menu</el-menu-item>
+    <el-menu-item index="2"><i class="el-icon-setting"></i>Work Bench</el-menu-item>
+    <el-menu-item index="3"><i class="el-icon-close"></i>Log Out</el-menu-item>
+  </el-menu>
   <div id="page-container">
-    <h1>Home Page</h1>
+    <h1>{{ helloMsg }}</h1>
     <el-row id="input_row" :gutter="10">
       <el-col v-bind:span="4">
         <el-input placeholder="Report ID" v-model="conditions.searchID"></el-input>
@@ -31,9 +36,9 @@
         <el-button-group>
           <el-button @click="onSearch" icon="search">Search</el-button>
           <el-button @click="onBatchExport" icon="share">Export</el-button>
-          <el-button @click="onBatchInput" icon="upload2">Batch Input</el-button>
+          <el-button @click="onBatchInput" icon="upload2" v-show="canEdit">Batch Input</el-button>
           <el-button @click="onView" icon="view">View</el-button>
-          <el-button @click="onEdit" icon="edit">Edit</el-button>
+          <el-button @click="onEdit" icon="edit" v-show="canEdit">Edit</el-button>
           <el-button type="primary" @click="onNew" icon="plus">New</el-button>
         </el-button-group>
       </el-col>
@@ -116,10 +121,16 @@ export default {
       // steps
       active: 0,
       center: true,
-      hints: [ 'Basic Sources', 'Survey', 'Location', 'Disease', 'Intervention' ]
+      hints: [ 'Basic Sources', 'Survey', 'Location', 'Disease', 'Intervention' ],
+      //  导航菜单
+      activeIndex: '1',
+      activeIndex2: '1'
     }
   },
   computed: {
+    helloMsg: function() {
+      return 'Hello, ' + this.$store.state.userInfo.username
+    },
     opt: {
       get() { return this.$store.state.opt },
       set(v) { this.$store.commit('updateOpt', v) }
@@ -149,16 +160,44 @@ export default {
     },
     payload: function() {
       return { id: this.active }
+    },
+    canEdit: function() {
+      return this.$store.state.userInfo.authority <= 3
     }
   },
   methods: {
+    //  顶部导航菜单
+    handleSelect(key, keyPath) {
+      if (key == 1) {  // menu
+        this.$router.push('/home')
+      } else if (key == 2) {
+        this.$notify({
+          title: '',
+          message: '管理功能暂未开放',
+          type: 'warning'
+        })
+      } else if (key == 3) {
+        this.conditions = {
+          searchID: null,
+          dValue: '',
+          cValue: '',
+          yValue: '',
+          doubleClick: ''
+        }
+        this.tableData = []
+        this.$router.push('/login')
+      }
+    },
+    isEmpty (ele) {
+      return ele === undefined || ele === null || ele === ''
+    },
     // dialog
     onCloseDialog () {
-      console.log('close')
+      // console.log('close')
     },
     // upload
     onUploadSuccess (response, file, fileList) {
-      console.log(response)
+      // console.log(response)
       if (!response.success) {
         this.dialogUploadVisible = false
         this.$alert('上传失败', '解析Excel时发生错误', {
@@ -181,7 +220,6 @@ export default {
     onBatchInput() {
       this.active = 0
       this.dialogUploadVisible = true
-      //  TODO 批量导入
     },
     onBatchExport() {
       var ids = []
@@ -202,11 +240,9 @@ export default {
           url += '&'
         }
       }
-      console.log(url)
       var x = document.getElementById("getexcel")
       x.href = url
       x.click()
-      //  TODO 批量导出
     },
     onView() {
       if (this.currentRow == null) {
@@ -237,6 +273,11 @@ export default {
       this.$router.push('/detail')
     },
     onSearch() {
+      if (this.isEmpty(this.conditions.searchID) && this.isEmpty(this.conditions.dValue) &&
+          this.isEmpty(this.conditions.cValue) && this.isEmpty(this.conditions.yValue) &&
+          this.isEmpty(this.conditions.doubleClick)) {
+        return
+      }
       var that = this
       that.isLoading = true
       var yearArr = String(this.conditions.yValue).split(' ')
@@ -245,7 +286,7 @@ export default {
         country: this.conditions.cValue == '' ? null : this.conditions.cValue,
         year: this.conditions.yValue == '' ? null : parseInt(yearArr[3]),
         doubleClick: this.conditions.doubleClick == '' ? null : (this.conditions.doubleClick == 'Yes' ? 'Yes' : 'No')
-      }, that)
+      }, this.$store.state.userInfo.authority, that)
     }
   },
   created: function() {
@@ -257,6 +298,7 @@ export default {
       this.conditions.yValue = this.$store.state.homeConditionsBuff.yValue
       this.conditions.doubleClick = this.$store.state.homeConditionsBuff.doubleClick
     }
+    this.onSearch()
   },
   beforeDestroy: function() {
     this.$store.commit('updateHomeTableBuff', this.tableData)
@@ -272,6 +314,8 @@ export default {
 }
 
 #page-container {
+  position: relative;
+  top: 40px;
   padding: 5px;
   border: solid;
   border-width: 1px;

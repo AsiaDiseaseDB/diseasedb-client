@@ -10,7 +10,6 @@ export default new Vuex.Store({
   state: {
     treeID: 1,         //  作为树形视图的唯一标识
     islogin: false,    //  标记登录状态
-    authority: null,   //  用户权限
     opt: '',           //  'new | edit | view |' 确定了进入detail页面时的相应初始化操作
     homeTableBuff: null,
     homeConditionsBuff: {
@@ -25,6 +24,11 @@ export default new Vuex.Store({
     },
     viewOpt: {
       viewID: -1
+    },
+    userInfo: {
+      username: '',
+      id: -1,
+      authority: -1  //  1->管理员 2->内部人员 3->外部录入人员 4->访客
     }
   },
   mutations: {
@@ -41,6 +45,11 @@ export default new Vuex.Store({
       state.homeConditionsBuff.cValue = conditions.cValue
       state.homeConditionsBuff.yValue = conditions.yValue
       state.homeConditionsBuff.doubleClick = conditions.doubleClick
+    },
+    updateUserInfo: (state, payload) => {
+      state.userInfo.username = payload.username
+      state.userInfo.id = payload.id
+      state.userInfo.authority = payload.authority
     }
   }
 })
