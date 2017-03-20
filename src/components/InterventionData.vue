@@ -3,19 +3,20 @@
   <span class="dt-title">Intervention Data</span>
   <el-form ref="form" :model="form" label-width="80px" label-position="top">
     <el-form-item>
-      <el-input v-model="form.InterventionID" :disabled="true"></el-input>
+      <el-input v-model="form.InterventionID" :readonly="true"></el-input>
     </el-form-item>
     <el-row :gutter="10">
       <el-col :span="8">
         <el-form-item label="Group">
-          <el-select v-model="form.Group" placeholder="Group" :disabled="uneditable">
+          <el-select v-model="form.Group" placeholder="Group" :readonly="uneditable" v-if="!uneditable">
             <el-option v-for="item in groupOptions" :label="item" :value="item"></el-option>
           </el-select>
+          <el-input v-model="form.Group" :readonly="uneditable" v-else></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="16">
         <el-form-item label="Months">
-          <el-input v-model="form.MonthsAfterBaseline" :disabled="uneditable"
+          <el-input v-model="form.MonthsAfterBaseline" :readonly="uneditable"
                     placeholder="Months after baseline"></el-input>
         </el-form-item>
       </el-col>
@@ -23,46 +24,46 @@
     <el-row :gutter="10">
       <el-col :span="12">
         <el-form-item label="Drug">
-          <el-input placeholder="Drug" v-model="form.Drug" :disabled="uneditable"></el-input>
+          <el-input placeholder="Drug" v-model="form.Drug" :readonly="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="Frequency">
-          <el-input placeholder="Frequency" v-model="form.FrequencyPerYear" :disabled="uneditable"></el-input>
+          <el-input placeholder="Frequency" v-model="form.FrequencyPerYear" :readonly="uneditable"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="10">
       <el-col :span="12">
         <el-form-item label="Period">
-          <el-input placeholder="Period" v-model="form.PeriodMonths" :disabled="uneditable"></el-input>
+          <el-input placeholder="Period" v-model="form.PeriodMonths" :readonly="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="Coverage">
-          <el-input placeholder="Coverage" v-model="form.Coverage" :disabled="uneditable"></el-input>
+          <el-input placeholder="Coverage" v-model="form.Coverage" :readonly="uneditable"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="10">
       <el-form-item label="Other Method">
-        <el-input placeholder="Other Method" v-model="form.OtherMethod" :disabled="uneditable"></el-input>
+        <el-input placeholder="Other Method" v-model="form.OtherMethod" :readonly="uneditable"></el-input>
       </el-form-item>
     </el-row>
     <el-row :gutter="10">
       <el-col :span="8">
         <el-form-item label="Num Examine">
-          <el-input placeholder="Num_examine" v-model="form.INumExamine" :disabled="uneditable"></el-input>
+          <el-input placeholder="Num_examine" v-model="form.INumExamine" :readonly="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label="Num Positive">
-          <el-input placeholder="Num_positive" v-model="form.INumPositive" :disabled="uneditable"></el-input>
+          <el-input placeholder="Num_positive" v-model="form.INumPositive" :readonly="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label="Percent Positive">
-          <el-input placeholder="Percent_positive" :disabled="uneditable"
+          <el-input placeholder="Percent_positive" :readonly="uneditable"
                     v-model="form.IPercentPositive"></el-input>
         </el-form-item>
       </el-col>
@@ -71,18 +72,18 @@
       <el-col :span="8">
         <el-form-item label="Num Examine Male">
           <el-input placeholder="Num_examine_male" v-model="form.INumExamineMale"
-                    :disabled="uneditable"></el-input>
+                    :readonly="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label="Num Positive Male">
           <el-input placeholder="Num_positive_male" v-model="form.INumPositiveMale"
-                    :disabled="uneditable"></el-input>
+                    :readonly="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label="Percent Positive Male">
-          <el-input placeholder="Percent_positive_male" :disabled="uneditable"
+          <el-input placeholder="Percent_positive_male" :readonly="uneditable"
                     v-model="form.IPercentPositiveMale"></el-input>
         </el-form-item>
       </el-col>
@@ -90,25 +91,25 @@
     <el-row :gutter="10">
       <el-col :span="8">
         <el-form-item label="Num Examine Female">
-          <el-input placeholder="Num_examine_female" :disabled="uneditable"
+          <el-input placeholder="Num_examine_female" :readonly="uneditable"
                     v-model="form.INumExamineFemale"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label="Num Positive Female">
-          <el-input placeholder="Num_positive_female" :disabled="uneditable"
+          <el-input placeholder="Num_positive_female" :readonly="uneditable"
                     v-model="form.INumPositiveFemale"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label="Percent Positive Female">
-          <el-input placeholder="Percent_positive_female" :disabled="uneditable"
+          <el-input placeholder="Percent_positive_female" :readonly="uneditable"
                     v-model="form.IPercentPositiveFemale"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-form-item label="Note">
-      <el-input v-model="form.Note5" type="textarea" :disabled="uneditable"></el-input>
+      <el-input v-model="form.Note5" type="textarea" :readonly="uneditable"></el-input>
     </el-form-item>
     <el-form-item>
       <el-button-group>

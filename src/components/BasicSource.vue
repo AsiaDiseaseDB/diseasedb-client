@@ -3,117 +3,126 @@
   <span class="dt-title">Basic Source</span>
   <el-form ref="form" :model="form" label-width="80px" label-position="top">
     <el-form-item>
-      <el-input v-model="form.ReportID" :disabled="true"></el-input>
+      <el-input v-model="form.ReportID" :readonly="true"></el-input>
     </el-form-item>
     <el-row :gutter="10">
       <el-col :span="8">
         <el-form-item label="Reporter">
-          <el-select v-model="form.Reporter" placeholder="Reporter" :disabled="uneditable">
+          <el-select v-model="form.Reporter" placeholder="Reporter" v-if="!uneditable">
             <el-option v-for="item in reporterOptions" :label="item" :value="item"></el-option>
           </el-select>
+          <el-input v-model="form.Reporter" :readonly="uneditable" v-else></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label="Disease">
-          <el-select v-model="form.Disease" placeholder="Disease" :disabled="uneditable">
+          <el-select v-model="form.Disease" placeholder="Disease" v-if="!uneditable">
             <el-option v-for="item in diseaseOptions" :label="item" :value="item"></el-option>
           </el-select>
+          <el-input v-model="form.Disease" :readonly="uneditable" v-else></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="10">
       <el-col :span="8">
         <el-form-item label="Country">
-          <el-select v-model="form.Country" placeholder="Country" :disabled="uneditable">
+          <el-select v-model="form.Country" placeholder="Country" v-if="!uneditable">
             <el-option v-for="item in countryOptions" v-bind:label="item" v-bind:value="item"></el-option>
           </el-select>
+          <el-input v-model="form.Country" :readonly="uneditable" v-else></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label="Document Category">
-          <el-select v-model="form.DocumentCategory" placeholder="DocumentCategory" :disabled="uneditable">
+          <el-select v-model="form.DocumentCategory" placeholder="DocumentCategory" v-if="!uneditable">
             <el-option v-for="item in documentCategoryOptions" :label="item" :value="item"></el-option>
           </el-select>
+          <el-input v-model="form.DocumentCategory" :readonly="uneditable" v-else></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="10">
       <el-col :span="12">
         <el-form-item label="Journal">
-          <el-input v-model="form.Journal" :disabled="uneditable"></el-input>
+          <el-input v-model="form.Journal" :readonly="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="Title">
-          <el-input v-model="form.Title" :disabled="uneditable"></el-input>
+          <el-input v-model="form.Title" :readonly="uneditable"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="10">
       <el-col :span="12">
         <el-form-item label="Authors">
-          <el-input v-model="form.Authors" :disabled="uneditable"></el-input>
+          <el-input v-model="form.Authors" :readonly="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="Year of Pub">
-          <el-input v-model="form.YearOfPub" :disabled="uneditable"></el-input>
+          <el-input v-model="form.YearOfPub" :readonly="uneditable"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="10">
       <el-col :span="12">
         <el-form-item label="Volume">
-          <el-input v-model="form.Volume" :disabled="uneditable"></el-input>
+          <el-input v-model="form.Volume" :readonly="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="Issue">
-          <el-input v-model="form.Issue" :disabled="uneditable"></el-input>
+          <el-input v-model="form.Issue" :readonly="uneditable"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="10">
       <el-col :span="12">
         <el-form-item label="Page From">
-          <el-input v-model="form.PageFrom" :disabled="uneditable"></el-input>
+          <el-input v-model="form.PageFrom" :readonly="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="Page To">
-          <el-input v-model="form.PageTo" :disabled="uneditable"></el-input>
+          <el-input v-model="form.PageTo" :readonly="uneditable"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
-    <el-form-item label="Author Contact Needed">
-      <el-select v-model="form.AuthorContactNeeded" placeholder="Author Contact Needed" :disabled="uneditable">
-        <el-option v-for="item in contactNeededOptions" :label="item" :value="item"></el-option>
-      </el-select>
-    </el-form-item>
     <el-row :gutter="10">
-      <el-col :span="12">
-        <el-form-item label="Open Access">
-          <el-select v-model="form.OpenAccess" placeholder="Open Access" :disabled="uneditable">
-            <el-option v-for="item in openAccessOptions" :label="item" :value="item"></el-option>
+      <el-col :span="8">
+        <el-form-item label="Author Contact Needed">
+          <el-select v-model="form.AuthorContactNeeded" placeholder="Author Contact Needed" v-if="!uneditable">
+            <el-option v-for="item in contactNeededOptions" :label="item" :value="item"></el-option>
           </el-select>
+          <el-input v-model="form.AuthorContactNeeded" :readonly="uneditable" v-else></el-input>
         </el-form-item>
       </el-col>
-      <el-col :span="12">
+      <el-col :span="8">
+        <el-form-item label="Open Access">
+          <el-select v-model="form.OpenAccess" placeholder="Open Access" v-if="!uneditable">
+            <el-option v-for="item in openAccessOptions" :label="item" :value="item"></el-option>
+          </el-select>
+          <el-input v-model="form.OpenAccess" :readonly="uneditable" v-else></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
         <el-form-item label="Checked">
-          <el-select v-model="form.Checked" placeholder="Checked" :disabled="uneditable">
+          <el-select v-model="form.Checked" placeholder="Checked" v-if="!uneditable">
             <el-option v-for="item in checkedOptions" :label="item" :value="item"></el-option>
           </el-select>
+          <el-input v-model="form.Checked" :readonly="uneditable" v-else></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-form-item label="Note">
       <el-input type="textarea" :rows="2" placeholder="Note" v-model="form.Note1"
-                :disabled="uneditable"></el-input>
+                :readonly="uneditable"></el-input>
     </el-form-item>
     <el-form-item>
       <el-button-group>
         <el-button type="primary" @click="onSave" v-show="editable">Save</el-button>
-        <el-button @click="onNext" v-show="editable" :disabled="isModified">Next</el-button>
+        <el-button @click="onNext" v-show="editable" :readonly="isModified">Next</el-button>
         <el-button @click="onAdd" v-show="editable">Add Report</el-button>
         <el-button @click="onDelete" v-show="editable" icon="delete">Delete</el-button>
       </el-button-group>

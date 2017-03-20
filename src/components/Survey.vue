@@ -3,58 +3,62 @@
   <span class="dt-title">Survey Description</span>
   <el-form ref="form" :model="form" label-width="80px" label-position="top">
     <el-form-item>
-      <el-input v-model="form.SurveyID" :disabled="true"></el-input>
+      <el-input v-model="form.SurveyID" :readonly="true"></el-input>
     </el-form-item>
     <el-row :gutter="10">
       <el-col :span="12">
           <el-form-item label="DataType">
-            <el-select v-model="form.DataType" placeholder="Data Type" :disabled="uneditable">
+            <el-select v-model="form.DataType" placeholder="Data Type" :readonly="uneditable" v-if="!uneditable">
               <el-option v-for="item in dataTypeOptions" :label="item"
                          :value="item"></el-option>
             </el-select>
+            <el-input v-model="form.DataType" :readonly="uneditable" v-else></el-input>
           </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="SurveyType">
-          <el-select v-model="form.SurveyType" placeholder="Survey Type" :disabled="uneditable">
+          <el-select v-model="form.SurveyType" placeholder="Survey Type" :readonly="uneditable" v-if="!uneditable">
             <el-option v-for="item in surveyTypeOptions"
                        :label="item" :value="item"></el-option>
           </el-select>
+          <el-input v-model="form.SurveyType" :readonly="uneditable" v-else></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="10">
       <el-col :span="12">
           <el-form-item label="MonthStart">
-            <el-select v-model="form.MonthStart" placeholder="Month Start" :disabled="uneditable">
+            <el-select v-model="form.MonthStart" placeholder="Month Start" :readonly="uneditable" v-if="!uneditable">
               <el-option v-for="item in monthOptions"
                          :label="item" :value="item"></el-option>
             </el-select>
+            <el-input v-model="form.MonthStart" :readonly="uneditable" v-else></el-input>
           </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="MonthFinish">
-          <el-select v-model="form.MonthFinish" placeholder="Month Finish" :disabled="uneditable">
+          <el-select v-model="form.MonthFinish" placeholder="Month Finish" :readonly="uneditable" v-if="!uneditable">
             <el-option v-for="item in monthOptions"
                        :label="item" :value="item"></el-option>
           </el-select>
+          <el-input v-model="form.MonthFinish" :readonly="uneditable" v-else></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="10">
       <el-col :span="12">
           <el-form-item label="YearStart">
-            <el-input v-model="form.YearStart" :disabled="uneditable"></el-input>
+            <el-input v-model="form.YearStart" :readonly="uneditable"></el-input>
           </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="YearFinish">
-          <el-input v-model="form.YearFinish" :disabled="uneditable"></el-input>
+          <el-input v-model="form.YearFinish" :readonly="uneditable"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-form-item label="Note">
-      <el-input type="textarea" v-model="form.Note2" :disabled="uneditable"></el-input>
+      <el-input type="textarea" v-model="form.Note2" :readonly="uneditable"></el-input>
     </el-form-item>
     <el-form-item>
       <el-button-group>

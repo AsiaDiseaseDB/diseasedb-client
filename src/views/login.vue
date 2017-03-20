@@ -33,11 +33,12 @@
       <el-form-item label="确认密码" prop="confirm">
         <el-input type="password" class="register-input" v-model="register.confirm"></el-input>
       </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="addUser('register')">注 册</el-button>
-        <el-button @click="dialogVisible = false">取 消</el-button>
-      </el-form-item>
     </el-form>
+    <span class="hint">*注册的用户只具有浏览权限，如需录入请与管理员联系</span>
+    <span slot="footer" class="dialog-footer">
+      <el-button type="primary" @click="addUser('register')">注 册</el-button>
+      <el-button @click="dialogVisible = false">取 消</el-button>
+    </span>
   </el-dialog>
 </div>
 </template>
@@ -201,5 +202,12 @@ export default {
   width: 55%;
   margin-left: auto;
   margin-right: auto;
+}
+
+.hint {
+  color: #99A9BF;
+  text-align: right;
+  position: absolute;
+  right: 20px;
 }
 </style>

@@ -39,7 +39,7 @@
           <el-button @click="onBatchInput" icon="upload2" v-show="canEdit">Batch Input</el-button>
           <el-button @click="onView" icon="view">View</el-button>
           <el-button @click="onEdit" icon="edit" v-show="canEdit">Edit</el-button>
-          <el-button type="primary" @click="onNew" icon="plus">New</el-button>
+          <el-button type="primary" @click="onNew" icon="plus" v-show="canEdit">New</el-button>
         </el-button-group>
       </el-col>
     </el-row>
