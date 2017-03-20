@@ -1,12 +1,26 @@
 <template>
 <div id="login">
   <h1>Welcome to Disease Database</h1>
-  <el-input id="username_input" v-model="username_input" placeholder="请输入用户名"></el-input>
-  <el-input type="password" id="password_input" v-model="password_input" placeholder="请输入密码"></el-input>
-  <el-row>
-    <el-button type="primary" @click="login">登录</el-button>
-    <el-button @click="onRegister">注册</el-button>
-  </el-row>
+  <el-form :model="loginForm" :rules="loginRules" ref="loginForm" label-width="60px">
+    <div id="username-input">
+      <el-form-item label="帐号" prop="usernameInput">
+        <el-input v-model="loginForm.usernameInput" @keyup.enter.native="login('loginForm')">
+        </el-input>
+      </el-form-item>
+    </div>
+    <div id="password-input">
+      <el-form-item label="密码" prop="passwordInput">
+        <el-input type="password" v-model="loginForm.passwordInput" @keyup.enter.native="login('loginForm')">
+        </el-input>
+      </el-form-item>
+    </div>
+    <el-form-item>
+      <div id="login-button">
+        <el-button type="primary" @click="login('loginForm')">登录</el-button>
+        <el-button @click="onRegister">注册</el-button>
+      </div>
+    </el-form-item>
+  </el-form>
 
   <el-dialog title="新用户注册" v-model="dialogVisible" size="small">
     <el-form :model="register" :rules="registerRules" ref="register" label-width="100px">
@@ -20,8 +34,8 @@
         <el-input type="password" class="register-input" v-model="register.confirm"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="addUser('register')">注 册</el-button>
+        <el-button @click="dialogVisible = false">取 消</el-button>
       </el-form-item>
     </el-form>
   </el-dialog>
@@ -54,10 +68,20 @@ export default {
       }
     }
     return {
-      msg: 'Welcome to Your Vue.js App',
-      username_input: '',
-      password_input: '',
       dialogVisible: false,
+      //  login
+      loginForm: {
+        usernameInput: '',
+        passwordInput: '',
+      },
+      loginRules: {
+        usernameInput: [
+          { required: true, message: '请输入用户名', trigger: 'blur' }
+        ],
+        passwordInput: [
+          { required: true, message: '请输入密码', trigger: 'blur' }
+        ]
+      },
       //  register
       register: {
         userame: '',
@@ -66,11 +90,12 @@ export default {
       },
       registerRules: {
         username: [
-            { required: true, message: '请输入用户名', trigger: 'blur' },
-            { min: 3, max: 15, message: '长度在 3 到 15 个字符', trigger: 'blur' }
+          { required: true, message: '请输入用户名', trigger: 'blur' },
+          { min: 8, max: 20, message: '长度在 8 到 20 个字符', trigger: 'blur' }
         ],
         password: [
-          { validator: validatePass1, trigger: 'blur' }
+          { validator: validatePass1, trigger: 'blur' },
+          { min: 8, max: 20, message: '长度在 8 到 20 个字符', trigger: 'blur' }
         ],
         confirm: [
           { validator: validatePass2, trigger: 'blur' }
@@ -79,32 +104,44 @@ export default {
     }
   },
   methods: {
-    login () {
-      api.login(this.username_input, this.password_input)
-        .then((res) => {
-          if (res.data.success == true) {
-            console.log(res.data)
-            this.$store.commit('updateIslogin', true)
-            this.$store.commit('updateUserInfo', {
-              authority: res.data.authority,
-              id: res.data.id,
-              username: res.data.username
+    login (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          api.login(this.loginForm.usernameInput, this.loginForm.passwordInput)
+            .then((res) => {
+              if (res.data.success == true) {
+                console.log(res.data)
+                this.$store.commit('updateIslogin', true)
+                this.$store.commit('updateUserInfo', {
+                  authority: res.data.authority,
+                  id: res.data.id,
+                  username: res.data.username
+                })
+                this.$router.push('/home')
+              } else {
+                this.$notify({
+                  title: '登录失败',
+                  message: '用户名或密码错误',
+                  type: 'warning'
+                })
+              }
             })
-            this.$router.push('/home')
-          } else {
-            console.log('Err: Username or Password Error')
-          }
-        })
-        .catch((err) => {
-          console.log(err)
-        })
+            .catch((err) => {
+              this.$notify({
+                title: '',
+                message: '登录失败',
+                type: '网络异常'
+              })
+            })
+        } else {
+          return false
+        }
+      })
     },
     onRegister () {
       this.dialogVisible = true
     },
     addUser (formName) {
-      console.log(formName)
-      console.log(this.register)
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.dialogVisible = false
@@ -134,7 +171,7 @@ export default {
               })
             })
         } else {
-          console.log('error submit!!');
+          // console.log('error submit!!');
           return false;
         }
       })
@@ -145,17 +182,24 @@ export default {
 
 <style>
 #login {
-    margin-top: 15%;
+  margin-top: 15%;
 }
 
-#username_input {
-  width: 85%;
-  margin-bottom: 5px;
+#username-input {
+  width: 55%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-#password_input {
-  width: 85%;
-  margin-bottom: 10px;
+#password-input {
+  width: 55%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
+#login-button {
+  width: 55%;
+  margin-left: auto;
+  margin-right: auto;
+}
 </style>

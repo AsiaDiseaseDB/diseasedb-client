@@ -63,7 +63,7 @@
     <el-upload
         v-show="canUpload"
         class="upload-demo" drag
-        action="//localhost:3000/importexcel"
+        action="//172.18.215.237:3000/importexcel"
         name="report"
         :show-file-list="showlist"
         :on-success="onUploadSuccess"
@@ -233,7 +233,7 @@ export default {
         })
         return
       }
-      var url = 'http://localhost:3000/exportexcel?'
+      var url = 'http://' + this.$store.state.baseHost + ':3000/exportexcel?'
       for (let i in ids) {
         url += 'id' + i + '=' + ids[i]
         if (i != ids.length - 1) {

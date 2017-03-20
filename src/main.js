@@ -10,7 +10,7 @@ import store from './store/index.js'
 Vue.use(ElementUI)
 
 //  配置baseURL
-axios.defaults.baseURL = 'http://localhost:3000';
+axios.defaults.baseURL = 'http://172.18.215.237:3000'
 
 var app = new Vue({
   el: '#app',
