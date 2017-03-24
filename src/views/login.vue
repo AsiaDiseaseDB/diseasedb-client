@@ -1,45 +1,57 @@
 <template>
 <div id="login">
-  <h1>Welcome to Disease Database</h1>
-  <el-form :model="loginForm" :rules="loginRules" ref="loginForm" label-width="60px">
+  <h1 id="login-title">Hello, Again</h1>
+  <el-form :model="loginForm" :rules="loginRules" ref="loginForm" label-width="0px">
     <div id="username-input">
-      <el-form-item label="帐号" prop="usernameInput">
-        <el-input v-model="loginForm.usernameInput" @keyup.enter.native="login('loginForm')">
+      <el-form-item label="" prop="usernameInput">
+        <el-input v-model="loginForm.usernameInput" @keyup.enter.native="login('loginForm')" size="large">
         </el-input>
       </el-form-item>
     </div>
     <div id="password-input">
-      <el-form-item label="密码" prop="passwordInput">
-        <el-input type="password" v-model="loginForm.passwordInput" @keyup.enter.native="login('loginForm')">
+      <el-form-item label="" prop="passwordInput">
+        <el-input id="login-password-input" type="password" v-model="loginForm.passwordInput"
+                  @keyup.enter.native="login('loginForm')" size="large">
         </el-input>
       </el-form-item>
     </div>
     <el-form-item>
       <div id="login-button">
-        <el-button type="primary" @click="login('loginForm')">登录</el-button>
-        <el-button @click="onRegister">注册</el-button>
+        <el-button id="login-login-btn" type="primary" @click="login('loginForm')">登录</el-button>
+        <el-button id="login-register-btn" @click="onRegister">注册</el-button>
       </div>
     </el-form-item>
   </el-form>
 
-  <el-dialog title="新用户注册" v-model="dialogVisible" size="small">
-    <el-form :model="register" :rules="registerRules" ref="register" label-width="100px">
-      <el-form-item label="用户名" prop="username">
-        <el-input class="register-input" v-model="register.username"></el-input>
-      </el-form-item>
-      <el-form-item label="用户密码" prop="password">
-        <el-input type="password" class="register-input" v-model="register.password"></el-input>
-      </el-form-item>
-      <el-form-item label="确认密码" prop="confirm">
-        <el-input type="password" class="register-input" v-model="register.confirm"></el-input>
-      </el-form-item>
-    </el-form>
-    <span class="hint">*注册的用户只具有浏览权限，如需录入请与管理员联系</span>
+  <el-dialog  title="新用户注册" v-model="dialogVisible" size="small">
+    <div id="login-dialog">
+      <el-form :model="register" :rules="registerRules" ref="register" label-width="100px">
+        <el-form-item label="用户名" prop="username">
+          <el-input class="register-input" v-model="register.username"></el-input>
+        </el-form-item>
+        <el-form-item label="用户密码" prop="password">
+          <el-input type="password" class="register-input" v-model="register.password"></el-input>
+        </el-form-item>
+        <el-form-item label="确认密码" prop="confirm">
+          <el-input type="password" class="register-input" v-model="register.confirm"></el-input>
+        </el-form-item>
+      </el-form>
+      <span class="hint">*注册的用户只具有浏览权限，如需录入请与管理员联系</span>
+    </div>
     <span slot="footer" class="dialog-footer">
       <el-button type="primary" @click="addUser('register')">注 册</el-button>
       <el-button @click="dialogVisible = false">取 消</el-button>
     </span>
   </el-dialog>
+
+  <div id="login-info-container">
+    <el-row>
+      <span>Asia Disease Database</span>
+    </el-row>
+    <el-row>
+      <span>Version 1.10</span>
+    </el-row>
+  </div>
 </div>
 </template>
 
@@ -182,21 +194,61 @@ export default {
 </script>
 
 <style>
-#login {
+body {
+
+}
+
+#login-title {
+  font-size: 40px;
   margin-top: 15%;
-  /*background-image: url(/background1.jpg);*/
+  color: #FFFFFF;
+  font-family:'Raleway9a5510a661882e';
+}
+
+#login-login-btn {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-style: none;
+  width: 10%;
+}
+
+#login-login-btn:hover {
+  background-color: rgba(184, 78, 52, 0.7);
+}
+
+#login-register-btn {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-style: none;
+  color: #FFFFFF;
+  width: 10%;
+}
+
+#login-register-btn:hover {
+  background-color: rgba(184, 78, 52, 0.7);
+}
+
+#login {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-image: url('../assets/background1.jpg');
+  background-size: cover;
 }
 
 #username-input {
-  width: 55%;
+  width: 35%;
   margin-left: auto;
   margin-right: auto;
+  /*margin-bottom: 20px;*/
+  font-family:'Source-Han-Ligh9a55273ca1882e';
 }
 
 #password-input {
-  width: 55%;
+  width: 35%;
   margin-left: auto;
   margin-right: auto;
+  font-family:'Source-Han-Ligh9a55273ca1882e';
 }
 
 #login-button {
@@ -205,10 +257,23 @@ export default {
   margin-right: auto;
 }
 
+#login-dialog {
+  background-color: #F9FAFC;
+}
+
 .hint {
   color: #99A9BF;
   text-align: right;
   position: absolute;
   right: 20px;
+}
+
+#login-info-container {
+  text-align: left;
+  font-family: cursive;
+  position: absolute;
+  color: rgba(255, 255, 255, 0.5);
+  left: 20px;
+  bottom: 20px;
 }
 </style>

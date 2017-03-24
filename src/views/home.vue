@@ -321,7 +321,7 @@ export default {
 
 #page-container {
   position: relative;
-  top: 40px;
+  top: 20px;
   padding: 5px;
   border: solid;
   border-width: 1px;
