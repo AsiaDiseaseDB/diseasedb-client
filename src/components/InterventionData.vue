@@ -215,7 +215,11 @@ export default {
           util.appendNode.call(this, parent, res.data.id, 'Intervention')
         })
         .catch((err) => {
-          console.log(err)
+          this.$notify({
+            title: '',
+            message: '网络错误',
+            type: 'warning'
+          })
         })
     },
     onDelete() {

@@ -87,7 +87,7 @@
     :close-on-click-modal="false">
     <el-upload
         drag
-        action="//localhost:3000/importtable"
+        :action="uploadUrl"
         name="report"
         :show-file-list="showlist"
         :on-success="onUploadSuccess"
@@ -106,15 +106,17 @@ import detailData from '../static/detailData.js'
 import api from '../model/api.js'
 import util from '../model/util.js'
 import checker from '../model/format-checker.js'
+import config from '../config.js'
 
 export default {
   name: 'app',
   props: ['tree', 'idPath', 'nodeID', 'buff'],
   data() {
     return {
+      uploadUrl: '//' + config.baseURL + '/importtable',
       form: {
         SurveyID: -1,                // survey id, 自动生成的随机值，从数据库获取
-        BasicSourcesReportID: -1,   //  get from father
+        BasicSourcesReportID: -1,    // get from father
         DataType: '',
         SurveyType: '',
         MonthStart: '',
@@ -155,7 +157,6 @@ export default {
   methods: {
     // upload
     onUploadSuccess (response, file, fileList) {
-      console.log(response)
       if (!response.success) {
         this.dialogUploadVisible = false
         this.$alert('上传失败', '解析Excel时发生错误', {
@@ -181,12 +182,22 @@ export default {
             util.appendNode.call(this, cur, res.data.id, 'Location')
           })
           .catch((err) => {
-            console.log(err)
+            this.$notify({
+              title: '',
+              message: '网络错误',
+              type: 'warning'
+            })
+            // console.log(err)
           })
       }, 'Survey Description', this)
     },
     onSave() {
       var msg = checker.checkForm(this.form, 'Survey Description')
+      if (msg === '') {
+        if (this.form.YearStart > this.form.YearFinish) {
+          msg = 'YearStart不能早于YearFinish'
+        }
+      }
       if (msg !== '') {
         // console.log(msg)
         this.$notify({
@@ -221,7 +232,6 @@ export default {
       api.delete.call(this, this.nodeID, 'Survey Description')
     },
     onAdd() {
-      //  TODO: 从服务器端取回ID进行替换
       api.getId('Survey Description')
         .then((res) => {
           // var curNode = this.tree.currentNode.node
@@ -229,7 +239,12 @@ export default {
           util.appendNode.call(this, parent, res.data.id, 'Survey')
         })
         .catch((err) => {
-          console.log(err)
+          this.$notify({
+            title: '',
+            message: '网络错误',
+            type: 'warning'
+          })
+          // console.log(err)
         })
     },
     initForm() {

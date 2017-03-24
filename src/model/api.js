@@ -8,7 +8,9 @@ function addQuote (form, ex) {
   var newObj = {}
   for (let i in form) {
     if (ex !== undefined && !ex.includes(i)) {
-      newObj[i] = '\'' + form[i] + '\''
+      if (form[i] !== null && form[i] !== undefined) {
+        newObj[i] = '\'' + form[i] + '\''
+      }
     } else {
       newObj[i] = form[i]
     }
@@ -24,7 +26,7 @@ function empty2Null (form) {
   return newObj
 }
 
-//  依照type对data中的属性值前后加上单引号
+//  依照type对data中的属性值前后加上单引号，若为数字或者null则不进行处理
 function getHandledData (type, data) {
   var ex = {
     basicSources: ['ReportID', 'YearOfPub', 'Volume', 'Issue', 'PageFrom', 'PageTo'],
@@ -107,7 +109,7 @@ export default {
       condition: condition,
       authority: authority
     }).then(function (res) {
-      console.log(res)
+      // console.log(res)
       context.tableData = []  //  清空上次搜索结果
       if (res.data.result !== null && res.data.result !== undefined) {
         for (let i in res.data.result) {
@@ -129,6 +131,36 @@ export default {
       }
       context.isLoading = false
     }).catch(function (err) {
+      console.log('>> /query catch Error \n' + err)
+      context.isLoading = false
+    })
+  },
+  queryAll: function (authority, context) {
+    const url = '/queryAll'
+    axios.post(url, {
+      authority: authority
+    }).then((res) => {
+      context.tableData = []  //  清空上次搜索结果
+      if (res.data.result !== null && res.data.result !== undefined) {
+        for (let i in res.data.result) {
+          context.tableData.push({
+            id: res.data.result[i].ReportID,
+            title: res.data.result[i].Title,
+            author: res.data.result[i].Authors,
+            disease: res.data.result[i].Disease,
+            reporter: res.data.result[i].Reporter,
+            time: res.data.result[i].YearOfPub
+          })
+        }
+      } else {
+        context.$notify({
+          title: 'Not Found',
+          message: '数据库中暂无数据',
+          type: 'warning'
+        })
+      }
+      context.isLoading = false
+    }).catch((err) => {
       console.log('>> /query catch Error \n' + err)
       context.isLoading = false
     })
@@ -166,7 +198,10 @@ export default {
   },
   edit: function (type, id, data, context) {
     const url = '/edit'
+    console.log(data)
+    console.log('---')
     var handledData = getHandledData(type, data)
+    console.log(handledData)
     axios.post(url, {
       type: type,
       id: id,
@@ -185,6 +220,7 @@ export default {
             })
           }, 500)
         } else {
+          console.log(context.form)
           console.log('>> /edit Error:')
           console.log(res.data.err)
         }
@@ -224,7 +260,7 @@ export default {
   checkModified (operation, type, context) {
     this.getIdContent(context.nodeID, type)
       .then((res) => {
-        console.log(res.data)
+        // console.log(res.data)
         var flag = false
         if (res.data.data == null) {
           flag = false

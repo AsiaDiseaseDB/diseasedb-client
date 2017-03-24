@@ -32,7 +32,7 @@ export default {
         break
       case 'Survey Description':
         requiredCols = [ 'SurveyID', 'BasicSourcesReportID', 'DataType', 'SurveyType' ]
-        intCols = [ 'SurveyID', 'BasicSourcesReportID' ]
+        intCols = [ 'SurveyID', 'BasicSourcesReportID', 'YearStart', 'YearFinish' ]
         break
       case 'Location Information':
         requiredCols = [ 'LocationID', 'SurveyDescriptionBasicSourcesReportID', 'SurveyDescriptionSurveyID' ]

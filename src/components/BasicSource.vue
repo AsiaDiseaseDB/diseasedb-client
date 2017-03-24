@@ -146,7 +146,7 @@
     :close-on-click-modal="false">
     <el-upload
         drag
-        action="//localhost:3000/importtable"
+        :action="uploadUrl"
         name="report"
         :show-file-list="showlist"
         :on-success="onUploadSuccess"
@@ -165,12 +165,14 @@ import detailData from '../static/detailData.js'
 import api from '../model/api.js'
 import util from '../model/util.js'
 import checker from '../model/format-checker.js'
+import config from '../config.js'
 
 export default {
   name: 'app',
   props: ['tree', 'idPath', 'nodeID', 'buff'],
   data() {
     return {
+      uploadUrl: '//' + config.baseURL + '/importtable',
       form: {
         ReportID: -1,  //  自动生成的随机值，从数据库获取
         Reporter: '',
@@ -188,7 +190,7 @@ export default {
         AuthorContactNeeded: '',
         OpenAccess: '',
         Checked: '',
-        Note1: null  //  note1
+        Note1: ''  //  note1
       },
       reporterOptions: detailData.basicDetail.reporterOptions,
       diseaseOptions: detailData.basicDetail.diseaseOptions,
@@ -229,7 +231,7 @@ export default {
   methods: {
     // upload
     onUploadSuccess (response, file, fileList) {
-      console.log(response)
+      // console.log(response)
       if (!response.success) {
         this.dialogUploadVisible = false
         this.$alert('上传失败', '解析Excel时发生错误', {
@@ -256,7 +258,12 @@ export default {
             util.appendNode.call(this, cur, res.data.id, 'Survey')
           })
           .catch((err) => {
-            console.log(err)
+            this.$notify({
+              title: '',
+              message: '网络错误',
+              type: 'warning'
+            })
+            // console.log(err)
           })
       }, 'Basic Sources', this)
     },
@@ -296,7 +303,12 @@ export default {
           util.appendNode.call(this, parent, res.data.id, 'Report ID')
         })
         .catch((err) => {
-          console.log(err)
+          // console.log(err)
+          this.$notify({
+            title: '',
+            message: '网络错误',
+            type: 'warning'
+          })
         })
     },
     removeTest () {
@@ -307,8 +319,8 @@ export default {
       this.form = {
         ReportID: this.nodeID, Reporter: '', Disease: '', Country: '',
         DocumentCategory: '', Journal: '', Title: '', Authors: '',
-        YearOfPub: '', Volume: null, Issue: null, PageFrom: null,
-        PageTo: null, AuthorContactNeeded: '', OpenAccess: '', Checked: '',
+        YearOfPub: '', Volume: '', Issue: '', PageFrom: '',
+        PageTo: '', AuthorContactNeeded: '', OpenAccess: '', Checked: '',
         Note1: ''
       }
     },

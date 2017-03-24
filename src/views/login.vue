@@ -184,6 +184,7 @@ export default {
 <style>
 #login {
   margin-top: 15%;
+  /*background-image: url(/background1.jpg);*/
 }
 
 #username-input {

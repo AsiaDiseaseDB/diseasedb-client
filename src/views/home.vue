@@ -52,7 +52,7 @@
       <el-table-column property="title" label="Title" width="160"></el-table-column>
       <el-table-column property="author" label="Author" width="110"></el-table-column>
       <el-table-column property="disease" label="Disease" width="200"></el-table-column>
-      <el-table-column property="reporter" label="Reporter" width="110"></el-table-column>
+      <el-table-column property="reporter" label="Reporter" width="130"></el-table-column>
       <el-table-column property="time" label="Year of publish"></el-table-column>
     </el-table>
   </div>
@@ -63,7 +63,7 @@
     <el-upload
         v-show="canUpload"
         class="upload-demo" drag
-        action="//172.18.215.237:3000/importexcel"
+        :action="importUrl"
         name="report"
         :show-file-list="showlist"
         :on-success="onUploadSuccess"
@@ -92,11 +92,15 @@
 <script>
 import detailData from '../static/detailData.js'
 import api from '../model/api.js'
+import config from '../config.js'
 
 export default {
   name: 'home',
   data() {
     return {
+      //  download url
+      //  //172.18.215.237:3000/importexcel
+      importUrl: '//' + config.baseURL + '/importexcel',
       //  search conditions
       conditions: {
         searchID: null,
@@ -233,7 +237,8 @@ export default {
         })
         return
       }
-      var url = 'http://' + this.$store.state.baseHost + ':3000/exportexcel?'
+      var url = 'http://' + config.baseURL + '/exportexcel?'
+      // var url = 'http://' + this.$store.state.baseHost + ':3000/exportexcel?'
       for (let i in ids) {
         url += 'id' + i + '=' + ids[i]
         if (i != ids.length - 1) {
@@ -276,6 +281,7 @@ export default {
       if (this.isEmpty(this.conditions.searchID) && this.isEmpty(this.conditions.dValue) &&
           this.isEmpty(this.conditions.cValue) && this.isEmpty(this.conditions.yValue) &&
           this.isEmpty(this.conditions.doubleClick)) {
+        api.queryAll(this.authority, this)
         return
       }
       var that = this

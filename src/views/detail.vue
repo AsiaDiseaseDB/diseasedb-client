@@ -152,7 +152,11 @@ export default {
             }, 0)
           })
           .catch((err) => {
-            console.log(err)
+            this.$notify({
+              title: '',
+              message: '网络错误',
+              type: 'warning'
+            })
           })
         break
       case 'edit':
