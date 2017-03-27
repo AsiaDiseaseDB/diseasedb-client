@@ -1,9 +1,9 @@
 <template>
 <div id="disease">
-  <span class="dt-title">Disease Data</span>
   <el-form ref="form" :model="form" label-width="80px" label-position="top">
     <el-form-item>
-      <el-input v-model="form.DiseaseID" :readonly="true"></el-input>
+      <span class="bs-title">DiseaseID:</span>
+      <span class="bs-title">{{ form.DiseaseID }}</span>
     </el-form-item>
     <el-row :gutter="10">
       <el-col :span="12">
@@ -24,22 +24,22 @@
     </el-row>
     <el-row id="diagonstic_info" :gutter="10">
       <el-col :span="6">
-        <el-form-item label-width="10px">
+        <el-form-item label-width="10px" label="Symptoms">
           <el-input placeholder="Symptoms" v-model="form.DiagnosticSymptoms" :readonly="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="6">
-        <el-form-item label-width="10px">
+        <el-form-item label-width="10px" label="Blood">
           <el-input placeholder="Blood" v-model="form.DiagnosticBlood" :readonly="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="6">
-        <el-form-item label-width="10px">
+        <el-form-item label-width="10px" label="Skin">
           <el-input placeholder="Skin" v-model="form.DiagnosticSkin" :readonly="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="6">
-        <el-form-item label-width="10px">
+        <el-form-item label-width="10px" label="Stool">
           <el-input placeholder="Stool" v-model="form.DiagnosticStool" :readonly="uneditable"></el-input>
         </el-form-item>
       </el-col>
@@ -47,43 +47,43 @@
     <el-row :gutter="10">
       <el-col :span="12">
         <el-form-item label="Num_samples">
-          <el-input v-model="form.NumSamples" :readonly="uneditable"></el-input>
+          <el-input v-model="form.NumSamples" :readonly="uneditable" placeholder="Num Samples"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="Num_specimen">
-          <el-input v-model="form.NumSpecimen" :readonly="uneditable"></el-input>
+          <el-input v-model="form.NumSpecimen" :readonly="uneditable" placeholder="Num Specimen"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="10">
       <el-col :span="12">
         <el-form-item label="AgeLower">
-          <el-input v-model="form.AgeLower" :readonly="uneditable"></el-input>
+          <el-input v-model="form.AgeLower" :readonly="uneditable" placeholder="Age Lower"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="AgeUpper">
-          <el-input v-model="form.AgeUpper" :readonly="uneditable"></el-input>
+          <el-input v-model="form.AgeUpper" :readonly="uneditable" placeholder="Age Upper"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="10">
       <el-col :span="8">
         <el-form-item label="Num Examine">
-          <el-input placeholder="Num_examine"
+          <el-input placeholder="Num Examine"
                     v-model="form.NumExamine" :readonly="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label="Num Positive">
-          <el-input placeholder="Num_positive"
+          <el-input placeholder="Num Positive"
                     v-model="form.NumPositive" :readonly="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label="Percent Positive">
-          <el-input placeholder="Percent_positive" :readonly="uneditable"
+          <el-input placeholder="Percent Positive" :readonly="uneditable"
                     v-model="form.PercentPositive"></el-input>
         </el-form-item>
       </el-col>
@@ -91,19 +91,19 @@
     <el-row :gutter="10">
       <el-col :span="8">
         <el-form-item label="Num Examine Male">
-          <el-input placeholder="Num_examine_male" :readonly="uneditable"
+          <el-input placeholder="Num Examine Male" :readonly="uneditable"
                     v-model="form.NumExamineMale"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label="Num Positive Male">
-          <el-input placeholder="Num_positive_male" :readonly="uneditable"
+          <el-input placeholder="Num Positive Male" :readonly="uneditable"
                     v-model="form.NumPositiveMale"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label="Percent Positive Male">
-          <el-input placeholder="Percent_positive_male" :readonly="uneditable"
+          <el-input placeholder="Percent Positive Male" :readonly="uneditable"
                     v-model="form.PercentPositiveMale"></el-input>
         </el-form-item>
       </el-col>
@@ -111,25 +111,25 @@
     <el-row :gutter="10">
       <el-col :span="8">
         <el-form-item label="Num Examine Female">
-          <el-input placeholder="Num_examine_female" :readonly="uneditable"
+          <el-input placeholder="Num Examine Female" :readonly="uneditable"
                     v-model="form.NumExamineFemale"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label="Num Positive Female">
-          <el-input placeholder="Num_positive_female" :readonly="uneditable"
+          <el-input placeholder="Num Positive Female" :readonly="uneditable"
                     v-model="form.NumPositiveFemale"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label="Percent Positive Female">
-          <el-input placeholder="Percent_positive_female" :readonly="uneditable"
+          <el-input placeholder="Percent Positive Female" :readonly="uneditable"
                     v-model="form.PercentPositiveFemale"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-form-item label="Note">
-      <el-input v-model="form.Note4" type="textarea" :readonly="uneditable"></el-input>
+      <el-input placeholder="Note" v-model="form.Note4" type="textarea" :readonly="uneditable"></el-input>
     </el-form-item>
     <el-form-item>
       <el-button-group>

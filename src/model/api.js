@@ -240,7 +240,7 @@ export default {
         if (res.data.success) {
           this.$notify({
             title: '删除成功',
-            message: '删除了一条' + type,
+            message: '删除了' + type + ' ID:' + id,
             type: 'success'
           })
           util.deleteNode(this.tree.currentNode)

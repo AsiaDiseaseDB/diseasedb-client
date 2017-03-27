@@ -39,6 +39,7 @@
           <el-button @click="onBatchInput" icon="upload2" v-show="canEdit">Batch Input</el-button>
           <el-button @click="onView" icon="view">View</el-button>
           <el-button @click="onEdit" icon="edit" v-show="canEdit">Edit</el-button>
+          <el-button @click="onDelete" icon="delete" v-show="canEdit">Delete</el-button>
           <el-button type="primary" @click="onNew" icon="plus" v-show="canEdit">New</el-button>
         </el-button-group>
       </el-col>
@@ -49,10 +50,10 @@
       v-loading="isLoading" element-loading-text="Searching">
       <el-table-column type="selection" width="55"></el-table-column>
       <el-table-column property="id" label="id" width="90"></el-table-column>
-      <el-table-column property="title" label="Title" width="160"></el-table-column>
-      <el-table-column property="author" label="Author" width="110"></el-table-column>
-      <el-table-column property="disease" label="Disease" width="200"></el-table-column>
-      <el-table-column property="reporter" label="Reporter" width="130"></el-table-column>
+      <el-table-column property="title" label="Title" width="200"></el-table-column>
+      <el-table-column property="author" label="Author" width="200"></el-table-column>
+      <el-table-column property="disease" label="Disease" width="190"></el-table-column>
+      <el-table-column property="reporter" label="Reporter" width="160"></el-table-column>
       <el-table-column property="time" label="Year of publish"></el-table-column>
     </el-table>
   </div>
@@ -83,9 +84,13 @@
         <el-step title="Step 5"></el-step>
       </el-steps>
     </div>
+    <div>
+      <el-button id="download-demo" @click="downloadDemo" icon="arrow-down" type="primary">Get Demo</el-button>
+    </div>
   </el-dialog>
   <!--  用于为用户提供下载文档功能  -->
   <a id="getexcel" href=""></a>
+  <a id="getdemo" href=""></a>
 </div>
 </template>
 
@@ -197,7 +202,7 @@ export default {
     },
     // dialog
     onCloseDialog () {
-      // console.log('close')
+      this.onSearch()
     },
     // upload
     onUploadSuccess (response, file, fileList) {
@@ -209,7 +214,9 @@ export default {
           callback: action => {}
         })
       }
-      if (this.active++ > 4) this.active = 0
+      if (this.active++ > 4) {
+        this.active = 0
+      }
     },
     // table
     doubleClickEvent(row, e) {
@@ -231,7 +238,7 @@ export default {
         ids.push(this.resultMultipleSelection[i].id)
       }
       if (ids.length === 0) {
-        this.$alert('请选中需要导出的条目', '未选中任何条目', {
+        this.$alert('请在左侧框框中勾选您需要导出的条目', '未选中任何条目', {
           confirmButtonText: '确定',
           callback: action => {}
         })
@@ -266,12 +273,41 @@ export default {
           callback: action => {
             //  do nothing
           }
-        });
+        })
       } else {
         this.opt = 'edit'
         this.editID = this.currentRow.id
         this.$router.push('/detail')
       }
+    },
+    onDelete () {
+      var ids = []
+      var confirmDeleteReports = ''
+      for (let i in this.resultMultipleSelection) {
+        ids.push(this.resultMultipleSelection[i].id)
+        confirmDeleteReports += this.resultMultipleSelection[i].id + ' '
+      }
+      if (ids.length === 0) {
+        this.$alert('请在左侧框框中勾选您需要删除的条目', '未选中任何条目', {
+          confirmButtonText: '确定',
+          type: 'warning',
+          callback: action => {}
+        })
+        return
+      }
+
+      this.$confirm('即将删除Report:  ' + confirmDeleteReports + ', 是否继续?', '警告', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          for (let i in ids) {
+            api.delete.call(this, ids[i], 'Basic Sources')
+          }
+          this.onSearch()
+        }).catch(() => {
+          //  donothing
+        })
     },
     onNew() {
       this.opt = 'new'
@@ -293,6 +329,13 @@ export default {
         year: this.conditions.yValue == '' ? null : parseInt(yearArr[3]),
         doubleClick: this.conditions.doubleClick == '' ? null : (this.conditions.doubleClick == 'Yes' ? 'Yes' : 'No')
       }, this.$store.state.userInfo.authority, that)
+    },
+    downloadDemo () {
+      var url = 'http://' + config.baseURL + '/exportdemo'
+      console.log(url)
+      var x = document.getElementById("getdemo")
+      x.href = url
+      x.click()
     }
   },
   created: function() {
@@ -344,5 +387,9 @@ export default {
 
 .btn-container {
   text-align: right;
+}
+
+#download-demo {
+  margin-top: 15px;
 }
 </style>

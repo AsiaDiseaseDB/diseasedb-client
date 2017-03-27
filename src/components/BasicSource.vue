@@ -1,9 +1,9 @@
 <template>
 <div id="basic_source">
-  <span class="dt-title">Basic Source</span>
   <el-form ref="form" :model="form" label-width="80px" label-position="top">
     <el-form-item>
-      <el-input v-model="form.ReportID" :readonly="true"></el-input>
+      <span class="bs-title">ReportID:</span>
+      <span class="bs-title">{{ form.ReportID }}</span>
     </el-form-item>
     <el-row :gutter="10">
       <el-col :span="8">
@@ -44,48 +44,48 @@
     <el-row :gutter="10">
       <el-col :span="12">
         <el-form-item label="Journal">
-          <el-input v-model="form.Journal" :readonly="uneditable"></el-input>
+          <el-input placeholder="Journal" v-model="form.Journal" :readonly="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="Title">
-          <el-input v-model="form.Title" :readonly="uneditable"></el-input>
+          <el-input placeholder="Title" v-model="form.Title" :readonly="uneditable"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="10">
       <el-col :span="12">
         <el-form-item label="Authors">
-          <el-input v-model="form.Authors" :readonly="uneditable"></el-input>
+          <el-input placeholder="Authors" v-model="form.Authors" :readonly="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="Year of Pub">
-          <el-input v-model="form.YearOfPub" :readonly="uneditable"></el-input>
+          <el-input placeholder="Year of Pub" v-model="form.YearOfPub" :readonly="uneditable"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="10">
       <el-col :span="12">
         <el-form-item label="Volume">
-          <el-input v-model="form.Volume" :readonly="uneditable"></el-input>
+          <el-input placeholder="Volume" v-model="form.Volume" :readonly="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="Issue">
-          <el-input v-model="form.Issue" :readonly="uneditable"></el-input>
+          <el-input placeholder="Issue" v-model="form.Issue" :readonly="uneditable"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="10">
       <el-col :span="12">
         <el-form-item label="Page From">
-          <el-input v-model="form.PageFrom" :readonly="uneditable"></el-input>
+          <el-input placeholder="Page From" v-model="form.PageFrom" :readonly="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="Page To">
-          <el-input v-model="form.PageTo" :readonly="uneditable"></el-input>
+          <el-input placeholder="Page To" v-model="form.PageTo" :readonly="uneditable"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
@@ -111,7 +111,7 @@
           <el-select v-model="form.Checked" placeholder="Checked" v-if="!uneditable">
             <el-option v-for="item in checkedOptions" :label="item" :value="item"></el-option>
           </el-select>
-          <el-input v-model="form.Checked" :readonly="uneditable" v-else></el-input>
+          <el-input placeholder="Checked" v-model="form.Checked" :readonly="uneditable" v-else></el-input>
         </el-form-item>
       </el-col>
     </el-row>
@@ -375,5 +375,10 @@ body {
 
 #basic-upload {
   text-align: center;
+}
+
+.bs-title {
+  font-size: 24px;
+  font-weight: bold;
 }
 </style>

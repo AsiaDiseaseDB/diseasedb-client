@@ -4,14 +4,15 @@
   <el-form :model="loginForm" :rules="loginRules" ref="loginForm" label-width="0px">
     <div id="username-input">
       <el-form-item label="" prop="usernameInput">
-        <el-input v-model="loginForm.usernameInput" @keyup.enter.native="login('loginForm')" size="large">
+        <el-input v-model="loginForm.usernameInput" @keyup.enter.native="login('loginForm')" size="large"
+                  placeholder="请输入用户名">
         </el-input>
       </el-form-item>
     </div>
     <div id="password-input">
       <el-form-item label="" prop="passwordInput">
         <el-input id="login-password-input" type="password" v-model="loginForm.passwordInput"
-                  @keyup.enter.native="login('loginForm')" size="large">
+                  @keyup.enter.native="login('loginForm')" size="large" placeholder="请输入密码">
         </el-input>
       </el-form-item>
     </div>

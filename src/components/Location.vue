@@ -1,31 +1,31 @@
 <template>
 <div id="location">
-  <span class="dt-title">Location Information</span>
   <el-form ref="form" :model="form" label-width="80px" label-position="top">
     <el-form-item>
-      <el-input v-model="form.LocationID" :readonly="true"></el-input>
+      <span class="bs-title">LocationID:</span>
+      <span class="bs-title">{{ form.LocationID }}</span>
     </el-form-item>
     <el-row :gutter="10">
       <el-col :span="12">
         <el-form-item label="ADM1">
-          <el-input v-model="form.ADM1" :readonly="uneditable"></el-input>
+          <el-input placeholder="ADM1" v-model="form.ADM1" :readonly="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="ADM2">
-          <el-input v-model="form.ADM2" :readonly="uneditable"></el-input>
+          <el-input placeholder="ADM2" v-model="form.ADM2" :readonly="uneditable"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="10">
       <el-col :span="12">
         <el-form-item label="ADM3">
-          <el-input v-model="form.ADM3" :readonly="uneditable"></el-input>
+          <el-input placeholder="ADM3" v-model="form.ADM3" :readonly="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="PointName">
-          <el-input v-model="form.PointName" :readonly="uneditable"></el-input>
+          <el-input placeholder="Point Name" v-model="form.PointName" :readonly="uneditable"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
@@ -35,7 +35,7 @@
           <el-select v-model="form.PointType" placeholder="Point Type" :readonly="uneditable" v-if="!uneditable">
             <el-option v-for="item in pointTypeOptions" :label="item" :value="item"></el-option>
           </el-select>
-          <el-input v-model="form.PointType" :readonly="uneditable" v-else></el-input>
+          <el-input placeholder="Point Type" v-model="form.PointType" :readonly="uneditable" v-else></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="12">
@@ -43,24 +43,24 @@
           <el-select v-model="form.GeoReferenceSources" placeholder="Point Type" :readonly="uneditable" v-if="!uneditable">
             <el-option v-for="item in grSourceOptions" :label="item" :value="item"></el-option>
           </el-select>
-          <el-input v-model="form.GeoReferenceSources" :readonly="uneditable" v-else></el-input>
+          <el-input placeholder="Geo Reference Sources" v-model="form.GeoReferenceSources" :readonly="uneditable" v-else></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="10">
       <el-col :span="12">
         <el-form-item label="Latitude">
-          <el-input v-model="form.Latitude" :readonly="uneditable"></el-input>
+          <el-input placeholder="Latitude" v-model="form.Latitude" :readonly="uneditable"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="Longitude">
-          <el-input v-model="form.Longitude" :readonly="uneditable"></el-input>
+          <el-input placeholder="Longitude" v-model="form.Longitude" :readonly="uneditable"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-form-item label="note3">
-      <el-input v-model="form.Note3" type="textarea" :readonly="uneditable"></el-input>
+      <el-input placeholder="Note" v-model="form.Note3" type="textarea" :readonly="uneditable"></el-input>
     </el-form-item>
     <el-form-item>
       <el-button-group>

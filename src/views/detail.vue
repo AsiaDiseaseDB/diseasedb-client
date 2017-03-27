@@ -13,7 +13,6 @@
           node-key="id" default-expand-all :expand-on-click-node="false"
           :highlight-current="true" @node-click="clickEvent" ref="tree"
           accordion>
-          <!-- :render-content="renderContent" -->
         </el-tree>
       </el-col>
       <el-col id="detail-right-part" :span="17">
@@ -40,7 +39,7 @@ export default {
         children: 'children',
         label: 'label'
       },
-      nodeType: ['ReportID', 'Survey', 'Location', 'Disease', 'Intervention'],
+      nodeType: ['ReportID', 'SurveyID', 'LocationID', 'DiseaseID', 'InterventionID'],
       tree: null,
       treedata: [],
       treeId: 2,

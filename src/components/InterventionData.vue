@@ -1,9 +1,9 @@
 <template>
 <div id="intervention">
-  <span class="dt-title">Intervention Data</span>
   <el-form ref="form" :model="form" label-width="80px" label-position="top">
     <el-form-item>
-      <el-input v-model="form.InterventionID" :readonly="true"></el-input>
+      <span class="bs-title">InterventionID:</span>
+      <span class="bs-title">{{ form.InterventionID }}</span>
     </el-form-item>
     <el-row :gutter="10">
       <el-col :span="8">
@@ -109,7 +109,7 @@
       </el-col>
     </el-row>
     <el-form-item label="Note">
-      <el-input v-model="form.Note5" type="textarea" :readonly="uneditable"></el-input>
+      <el-input v-model="form.Note5" type="textarea" :readonly="uneditable" placeholder="Note"></el-input>
     </el-form-item>
     <el-form-item>
       <el-button-group>
