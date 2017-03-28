@@ -203,7 +203,7 @@ body {
   font-size: 40px;
   margin-top: 15%;
   color: #FFFFFF;
-  font-family:'Raleway9a5510a661882e';
+  font-family: 'Hiragino Sans GB';
 }
 
 #login-login-btn {
@@ -242,24 +242,20 @@ body {
   margin-left: auto;
   margin-right: auto;
   /*margin-bottom: 20px;*/
-  font-family:'Source-Han-Ligh9a55273ca1882e';
+  font-family:'Helvetica Neue';
 }
 
 #password-input {
   width: 35%;
   margin-left: auto;
   margin-right: auto;
-  font-family:'Source-Han-Ligh9a55273ca1882e';
+  font-family:'Helvetica Neue';
 }
 
 #login-button {
   width: 55%;
   margin-left: auto;
   margin-right: auto;
-}
-
-#login-dialog {
-  background-color: #F9FAFC;
 }
 
 .hint {
@@ -271,7 +267,7 @@ body {
 
 #login-info-container {
   text-align: left;
-  font-family: cursive;
+  font-family: 'Helvetica Neue';
   position: absolute;
   color: rgba(255, 255, 255, 0.5);
   left: 20px;

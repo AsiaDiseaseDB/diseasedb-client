@@ -1,8 +1,8 @@
 <template>
 <div id="home">
   <el-menu id="top-menu" :default-active="activeIndex2" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-    <el-menu-item index="1"><i class="el-icon-menu"></i>Menu</el-menu-item>
-    <el-menu-item index="2"><i class="el-icon-setting"></i>Work Bench</el-menu-item>
+    <el-menu-item index="1"><i class="el-icon-menu"></i>Home</el-menu-item>
+    <el-menu-item index="2" v-show="canEdit"><i class="el-icon-setting"></i>Management</el-menu-item>
     <el-menu-item index="3"><i class="el-icon-close"></i>Log Out</el-menu-item>
   </el-menu>
   <div id="page-container">
@@ -217,7 +217,11 @@ export default {
     },
     // table
     doubleClickEvent(row, e) {
-      this.onView()
+      if (this.canEdit) {
+        this.onEdit()
+      } else {
+        this.onView()
+      }
     },
     handleCurrentChange (val) {  //  记录当前选中的行
       this.currentRow = val
@@ -353,6 +357,10 @@ export default {
 </script>
 
 <style>
+#top-menu {
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .12), 0 0 6px 0 rgba(0, 0, 0, .04);
+}
+
 #buttons {
   margin-top: 10px;
   margin-bottom: 10px;
@@ -362,9 +370,9 @@ export default {
   position: relative;
   top: 20px;
   padding: 5px;
-  border: solid;
-  border-width: 1px;
+  border: 1px solid #d1dbe5;
   border-radius: 4px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .12), 0 0 6px 0 rgba(0, 0, 0, .04);
 }
 
 #dialog {

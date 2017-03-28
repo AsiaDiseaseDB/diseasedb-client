@@ -2,20 +2,20 @@
 <template>
 <div id="detail">
   <el-menu id="top-menu" :default-active="activeIndex2" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-    <el-menu-item index="1"><i class="el-icon-menu"></i>Menu</el-menu-item>
-    <el-menu-item index="2"><i class="el-icon-setting"></i>Work Bench</el-menu-item>
+    <el-menu-item index="1"><i class="el-icon-menu"></i>Home</el-menu-item>
+    <el-menu-item index="2" v-show="canEdit"><i class="el-icon-setting"></i>Management</el-menu-item>
   </el-menu>
   <!-- <h1>Detail Page</h1> -->
   <div id="detail-page-container">
     <el-row>
-      <el-col id="detail-left-part" :span="7">
+      <el-col id="detail-left-part" :span="6">
         <el-tree id="detail-tree" :data="treedata" :props="defaultProps"
           node-key="id" default-expand-all :expand-on-click-node="false"
           :highlight-current="true" @node-click="clickEvent" ref="tree"
           accordion>
         </el-tree>
       </el-col>
-      <el-col id="detail-right-part" :span="17">
+      <el-col id="detail-right-part" :span="18">
         <!--  向孩子传递参数: tree组件  -->
         <router-view @getBuffer="updateBuff"
           :buff="buff" :tree="tree" :idPath="idPath" :nodeID="nodeID">
@@ -67,6 +67,9 @@ export default {
       set(v) {
         this.$store.commit('updateTreeID', v)
       }
+    },
+    canEdit: function() {
+      return this.$store.state.userInfo.authority <= 3
     }
   },
   methods: {
@@ -74,6 +77,8 @@ export default {
     handleSelect(key, keyPath) {
       if (key == 1) {  // menu
         this.$router.push('/home')
+      } else if (key == 2) {
+        this.$router.push('/manage')
       }
     },
     //  点击树状视图，进行导航操作
@@ -208,19 +213,20 @@ export default {
 <style>
 #detail-page-container {
   position: relative;
-  top: 40px;
+  top: 20px;
   text-align: left;
-  border-style: solid;
+  border: 1px solid #d1dbe5;
   border-radius: 4px;
-  border-width: 1px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .12), 0 0 6px 0 rgba(0, 0, 0, .04);
 }
 
 #detail-left-part {
   height: 550px;
   overflow: scroll;
-  border-right-width: 2px;
+  border-right-width: 1px;
   border-right-style: solid;
-  border-color: #BFCBD9;
+  border-color: #d1dbe5;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .12), 0 0 6px 0 rgba(0, 0, 0, .04);
 }
 
 #detail-right-part {
