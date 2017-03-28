@@ -243,9 +243,11 @@ export default {
             message: '删除了' + type + ' ID:' + id,
             type: 'success'
           })
-          util.deleteNode(this.tree.currentNode)
-          if (type === 'Basic Sources') {
-            this.$router.push('/home')
+          if (this.tree !== undefined) {
+            util.deleteNode(this.tree.currentNode)
+            if (type === 'Basic Sources') {
+              this.$router.push('/home')
+            }
           }
         } else {
           console.log('>> /delete Error: \n' + res.data.err)

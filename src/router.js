@@ -5,7 +5,8 @@ import store from './store/index.js'
 
 Vue.use(VueRouter)
 
-const routes = [{
+const routes = [
+  {
     path: '/home',
     component: require('./views/home.vue'),
     meta: { requireAuth: true },
@@ -34,8 +35,13 @@ const routes = [{
   {
     path: '/login',
     component: require('./views/login.vue')
+  },
+  {
+    path: '/manage',
+    component: require('./views/manage.vue'),
+    mata: { requireAuth: true }
   }
-];
+]
 
 const router = new VueRouter({
   mode: 'history',
@@ -45,7 +51,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   if (to.meta.requireAuth) {    // 判断该路由是否需要登录权限
     if (store.state.islogin) {  // 通过vuex state获取当前的token是否存在
-      next();
+      next()
     } else {
       next({
         path: '/login',
@@ -53,8 +59,8 @@ router.beforeEach((to, from, next) => {
       })
     }
   } else {
-    next();
+    next()
   }
 })
 
-export default router;
+export default router

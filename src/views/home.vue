@@ -47,14 +47,15 @@
     <el-table id="result-table" :data="tableData" highlight-current-row align="center" height="350"
       @current-change="handleCurrentChange" @row-dblclick="doubleClickEvent"
       style="width: 100%" @selection-change="handleSelectionChange"
+      :default-sort = "{ prop: 'id', order: 'descending' }"
       v-loading="isLoading" element-loading-text="Searching">
-      <el-table-column type="selection" width="55"></el-table-column>
-      <el-table-column property="id" label="id" width="90"></el-table-column>
-      <el-table-column property="title" label="Title" width="200"></el-table-column>
-      <el-table-column property="author" label="Author" width="200"></el-table-column>
-      <el-table-column property="disease" label="Disease" width="190"></el-table-column>
-      <el-table-column property="reporter" label="Reporter" width="160"></el-table-column>
-      <el-table-column property="time" label="Year of publish"></el-table-column>
+      <el-table-column type="selection" width="55" sortable></el-table-column>
+      <el-table-column property="id" label="id" width="90" sortable></el-table-column>
+      <el-table-column property="title" label="Title" width="200" sortable></el-table-column>
+      <el-table-column property="author" label="Author" width="200" sortable></el-table-column>
+      <el-table-column property="disease" label="Disease" width="200" sortable></el-table-column>
+      <el-table-column property="reporter" label="Reporter" width="160" sortable></el-table-column>
+      <el-table-column property="time" label="Year of publish" sortable></el-table-column>
     </el-table>
   </div>
   <el-dialog id="dialog" :title="dialogTitle"
@@ -176,15 +177,11 @@ export default {
   },
   methods: {
     //  顶部导航菜单
-    handleSelect(key, keyPath) {
+    handleSelect (key, keyPath) {
       if (key == 1) {  // menu
         this.$router.push('/home')
       } else if (key == 2) {
-        this.$notify({
-          title: '',
-          message: '管理功能暂未开放',
-          type: 'warning'
-        })
+        this.$router.push('/manage')
       } else if (key == 3) {
         this.conditions = {
           searchID: null,
@@ -222,17 +219,17 @@ export default {
     doubleClickEvent(row, e) {
       this.onView()
     },
-    handleCurrentChange(val) {  //  记录当前选中的行
+    handleCurrentChange (val) {  //  记录当前选中的行
       this.currentRow = val
     },
-    handleSelectionChange(val) {  //  记录当前选中的所有行(多选)
+    handleSelectionChange (val) {  //  记录当前选中的所有行(多选)
       this.resultMultipleSelection = val
     },
-    onBatchInput() {
+    onBatchInput () {
       this.active = 0
       this.dialogUploadVisible = true
     },
-    onBatchExport() {
+    onBatchExport () {
       var ids = []
       for (let i in this.resultMultipleSelection) {
         ids.push(this.resultMultipleSelection[i].id)
@@ -256,7 +253,7 @@ export default {
       x.href = url
       x.click()
     },
-    onView() {
+    onView () {
       if (this.currentRow == null) {
         this.$alert('请选中需要查看的条目', '未选中任何条目',
           { confirmButtonText: '确定', callback: action => {} });
@@ -266,7 +263,7 @@ export default {
         this.$router.push('/detail')
       }
     },
-    onEdit() {
+    onEdit () {
       if (this.currentRow == null) {
         this.$alert('请选中需要编辑的条目', '未选中任何条目', {
           confirmButtonText: '确定',
@@ -332,7 +329,6 @@ export default {
     },
     downloadDemo () {
       var url = 'http://' + config.baseURL + '/exportdemo'
-      console.log(url)
       var x = document.getElementById("getdemo")
       x.href = url
       x.click()

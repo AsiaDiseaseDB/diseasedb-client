@@ -163,7 +163,7 @@ export default {
         api.getIdTree(this.$store.state.editOpt.editID)
           .then((res) => {
             if (res.data.err === null) {
-              console.log(res.data.data);
+              // console.log(res.data.data);
               this.initTreeData(res.data.data)
             } else {
               console.log('>> /getidtree Error')

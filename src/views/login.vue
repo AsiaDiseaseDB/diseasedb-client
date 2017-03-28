@@ -124,7 +124,7 @@ export default {
           api.login(this.loginForm.usernameInput, this.loginForm.passwordInput)
             .then((res) => {
               if (res.data.success == true) {
-                console.log(res.data)
+                // console.log(res.data)
                 this.$store.commit('updateIslogin', true)
                 this.$store.commit('updateUserInfo', {
                   authority: res.data.authority,
@@ -168,7 +168,7 @@ export default {
                   type: 'success'
                 })
               } else {
-                console.log(res)
+                // console.log(res)
                 this.$notify({
                   title: '注册失败',
                   message: '用户名重复',

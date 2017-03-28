@@ -8,7 +8,7 @@ const debug = process.env.NODE_ENV !== 'production'
 export default new Vuex.Store({
   strict: debug,
   state: {
-    baseHost: '172.18.215.237',
+    // baseHost: '172.18.215.237',
     treeID: 1,         //  作为树形视图的唯一标识
     islogin: false,    //  标记登录状态
     opt: '',           //  'new | edit | view |' 确定了进入detail页面时的相应初始化操作
