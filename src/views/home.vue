@@ -1,10 +1,6 @@
 <template>
 <div id="home">
-  <el-menu id="top-menu" :default-active="activeIndex2" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-    <el-menu-item index="1"><i class="el-icon-menu"></i>Home</el-menu-item>
-    <el-menu-item index="2" v-show="canEdit"><i class="el-icon-setting"></i>Management</el-menu-item>
-    <el-menu-item index="3"><i class="el-icon-close"></i>Log Out</el-menu-item>
-  </el-menu>
+  <TopBar id="top-menu"></TopBar>
   <div id="page-container">
     <h1>{{ helloMsg }}</h1>
     <el-row id="input_row" :gutter="10">
@@ -98,7 +94,6 @@
 <script>
 import detailData from '../static/detailData.js'
 import api from '../model/api.js'
-import config from '../config.js'
 
 export default {
   name: 'home',
@@ -106,7 +101,7 @@ export default {
     return {
       //  download url
       //  //172.18.215.237:3000/importexcel
-      importUrl: '//' + config.baseURL + '/importexcel',
+      importUrl: '//' + this.$store.state.config.baseURL + '/importexcel',
       //  search conditions
       conditions: {
         searchID: null,
@@ -131,11 +126,11 @@ export default {
       // steps
       active: 0,
       center: true,
-      hints: [ 'Basic Sources', 'Survey', 'Location', 'Disease', 'Intervention' ],
-      //  导航菜单
-      activeIndex: '1',
-      activeIndex2: '1'
+      hints: [ 'Basic Sources', 'Survey', 'Location', 'Disease', 'Intervention' ]
     }
+  },
+  components: {
+    TopBar: require('../components/TopBar.vue')
   },
   computed: {
     helloMsg: function() {
@@ -176,24 +171,6 @@ export default {
     }
   },
   methods: {
-    //  顶部导航菜单
-    handleSelect (key, keyPath) {
-      if (key == 1) {  // menu
-        this.$router.push('/home')
-      } else if (key == 2) {
-        this.$router.push('/manage')
-      } else if (key == 3) {
-        this.conditions = {
-          searchID: null,
-          dValue: '',
-          cValue: '',
-          yValue: '',
-          doubleClick: ''
-        }
-        this.tableData = []
-        this.$router.push('/login')
-      }
-    },
     isEmpty (ele) {
       return ele === undefined || ele === null || ele === ''
     },
@@ -245,7 +222,7 @@ export default {
         })
         return
       }
-      var url = 'http://' + config.baseURL + '/exportexcel?'
+      var url = 'http://' + this.$store.state.config.baseURL + '/exportexcel?'
       // var url = 'http://' + this.$store.state.baseHost + ':3000/exportexcel?'
       for (let i in ids) {
         url += 'id' + i + '=' + ids[i]
@@ -296,7 +273,6 @@ export default {
         })
         return
       }
-
       this.$confirm('即将删除Report:  ' + confirmDeleteReports + ', 是否继续?', '警告', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
@@ -332,7 +308,7 @@ export default {
       }, this.$store.state.userInfo.authority, that)
     },
     downloadDemo () {
-      var url = 'http://' + config.baseURL + '/exportdemo'
+      var url = 'http://' + this.$store.state.config.baseURL + '/exportdemo'
       var x = document.getElementById("getdemo")
       x.href = url
       x.click()
@@ -358,6 +334,11 @@ export default {
 
 <style>
 #top-menu {
+  z-index: 100;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .12), 0 0 6px 0 rgba(0, 0, 0, .04);
 }
 

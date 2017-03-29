@@ -106,14 +106,13 @@ import detailData from '../static/detailData.js'
 import api from '../model/api.js'
 import util from '../model/util.js'
 import checker from '../model/format-checker.js'
-import config from '../config.js'
 
 export default {
   name: 'app',
   props: ['tree', 'idPath', 'nodeID', 'buff'],
   data() {
     return {
-      uploadUrl: '//' + config.baseURL + '/importtable',
+      uploadUrl: '//' + this.$store.state.config.baseURL + '/importtable',
       form: {
         SurveyID: -1,                // survey id, 自动生成的随机值，从数据库获取
         BasicSourcesReportID: -1,    // get from father

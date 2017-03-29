@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import config from './config.js'
+
 Vue.use(Vuex)
 
 const debug = process.env.NODE_ENV !== 'production'
@@ -8,7 +10,9 @@ const debug = process.env.NODE_ENV !== 'production'
 export default new Vuex.Store({
   strict: debug,
   state: {
-    // baseHost: '172.18.215.237',
+    //  app config
+    config: config,
+    //  data
     treeID: 1,         //  作为树形视图的唯一标识
     islogin: false,    //  标记登录状态
     opt: '',           //  'new | edit | view |' 确定了进入detail页面时的相应初始化操作

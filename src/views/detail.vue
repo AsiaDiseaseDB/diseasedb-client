@@ -1,11 +1,7 @@
 <!-- 编辑数据库条目界面 -->
 <template>
 <div id="detail">
-  <el-menu id="top-menu" :default-active="activeIndex2" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-    <el-menu-item index="1"><i class="el-icon-menu"></i>Home</el-menu-item>
-    <el-menu-item index="2" v-show="canEdit"><i class="el-icon-setting"></i>Management</el-menu-item>
-  </el-menu>
-  <!-- <h1>Detail Page</h1> -->
+  <TopBar id="top-menu"></TopBar>
   <div id="detail-page-container">
     <el-row>
       <el-col id="detail-left-part" :span="6">
@@ -45,10 +41,7 @@ export default {
       treeId: 2,
       idPath: [],
       nodeID: -1,
-      buff: { 'B': {}, 'S': {}, 'L': {}, 'D': {}, 'I': {} },
-      //  导航菜单
-      activeIndex: '1',
-      activeIndex2: '1'
+      buff: { 'B': {}, 'S': {}, 'L': {}, 'D': {}, 'I': {} }
     }
   },
   computed: {
@@ -72,15 +65,10 @@ export default {
       return this.$store.state.userInfo.authority <= 3
     }
   },
+  components: {
+    TopBar: require('../components/TopBar.vue')
+  },
   methods: {
-    //  顶部导航菜单
-    handleSelect(key, keyPath) {
-      if (key == 1) {  // menu
-        this.$router.push('/home')
-      } else if (key == 2) {
-        this.$router.push('/manage')
-      }
-    },
     //  点击树状视图，进行导航操作
     clickEvent(data, node, tree) {
       var curNode = this.tree.currentNode.node

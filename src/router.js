@@ -12,6 +12,10 @@ const routes = [
     meta: { requireAuth: true },
     alias: '/'
   }, {
+    path: '/manage',
+    component: require('./views/manage.vue'),
+    meta: { requireAuth: true }
+  }, {
     path: '/detail',
     component: require('./views/detail.vue'),
     mata: { requireAuth: true },
@@ -35,11 +39,6 @@ const routes = [
   {
     path: '/login',
     component: require('./views/login.vue')
-  },
-  {
-    path: '/manage',
-    component: require('./views/manage.vue'),
-    mata: { requireAuth: true }
   }
 ]
 
