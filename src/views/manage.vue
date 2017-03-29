@@ -1,8 +1,8 @@
 <template>
 <div id="manage">
-  <TopBar  id="top-menu"></TopBar>
+  <TopBar id="top-menu"></TopBar>
   <div id="manage-page-container">
-    <el-tabs type="border-card">
+    <el-tabs class="manage-tabs" type="card">
       <el-tab-pane label="用户管理">
         <UserManage></UserManage>
       </el-tab-pane>

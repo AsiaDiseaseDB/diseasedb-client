@@ -1,5 +1,6 @@
 <template>
 <div id="update-log">
+  <div id="update-log-version-hint">Current Version: {{ this.$store.state.config.version }}</div>
   <div>
     <el-table :data="tableData" style="width: 100%" align="center" :show-header="showHead">
       <el-table-column prop="date" label="更新日期" width="180"></el-table-column>
@@ -53,3 +54,20 @@ export default {
   methods: {}
 }
 </script>
+
+<style>
+#update-log {
+  padding-top: 20px;
+  border: 1px solid #d1dbe5;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .12), 0 0 6px 0 rgba(0, 0, 0, .04);
+}
+
+#update-log-version-hint {
+  text-align: left;
+  font-family: 'Helvetica Neue';
+  color: #99A9BF;
+  margin-bottom: 10px;
+  margin-left: 15px;
+}
+</style>

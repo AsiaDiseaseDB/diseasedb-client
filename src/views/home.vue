@@ -54,6 +54,7 @@
       <el-table-column property="time" label="Year of publish" sortable></el-table-column>
     </el-table>
   </div>
+
   <el-dialog id="dialog" :title="dialogTitle"
     v-model="dialogUploadVisible" size="small"
     :close-on-click-modal="false"
@@ -377,4 +378,5 @@ export default {
 #download-demo {
   margin-top: 15px;
 }
+
 </style>

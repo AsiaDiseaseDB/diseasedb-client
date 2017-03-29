@@ -47,10 +47,10 @@
 
   <div id="login-info-container">
     <el-row>
-      <span>Asia Disease Database</span>
+      <span>{{ appName }}</span>
     </el-row>
     <el-row>
-      <span>Version 1.10</span>
+      <span>Version {{ version }}</span>
     </el-row>
   </div>
 </div>
@@ -115,6 +115,14 @@ export default {
           { validator: validatePass2, trigger: 'blur' }
         ]
       }
+    }
+  },
+  computed: {
+    version () {
+      return this.$store.state.config.version
+    },
+    appName () {
+      return this.$store.state.config.appName
     }
   },
   methods: {
@@ -195,10 +203,6 @@ export default {
 </script>
 
 <style>
-body {
-
-}
-
 #login-title {
   font-size: 40px;
   margin-top: 15%;

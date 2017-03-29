@@ -21,6 +21,7 @@ export default {
 
 <style>
 #bottom-bar {
-  background-color: #334056
+  background-color: #EEF1F6;
+  height: 20px;
 }
 </style>

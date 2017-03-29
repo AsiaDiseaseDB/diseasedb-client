@@ -234,3 +234,72 @@ response {
   err: err
 }
 ```
+
+<!-- User Management -->
+### 添加用户
+```javascript
+url: '/manage/addUser'
+request: {
+  username: string,
+  password: string,
+  authority: num,
+  managerInfo: {
+    name: string,
+    password: string
+  }
+}
+response {
+  success: bool,
+  err: err
+}
+```
+
+### 删除用户
+```javascript
+url: '/manage/deleteUser'
+request: {
+  username: string,
+  managerInfo: {
+    name: string,
+    password: string
+  }
+}
+response {
+  success: bool,
+  err: err
+}
+```
+
+### 修改密码
+```javascript
+url: '/manage/modifyPassword'
+request: {
+  username: string,
+  newPassword: string,
+  managerInfo: {
+    name: string,
+    password: string
+  }
+}
+response {
+  success: bool,
+  err: err
+}
+```
+
+### 更改用户权限
+```javascript
+url: '/manage/modifyAuthority'
+request: {
+  username: string,
+  newAuthority: string,
+  managerInfo: {
+    name: string,
+    password: string
+  }
+}
+response {
+  success: bool,
+  err: err
+}
+```
