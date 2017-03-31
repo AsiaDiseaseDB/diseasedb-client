@@ -9,9 +9,9 @@
       <el-tab-pane label="配置管理">
         <ConfigManage></ConfigManage>
       </el-tab-pane>
-      <el-tab-pane label="操作日志">
+      <!-- <el-tab-pane label="操作日志">
         <SystemLog></SystemLog>
-      </el-tab-pane>
+      </el-tab-pane> -->
       <el-tab-pane label="更新日志">
         <UpdateLog></UpdateLog>
       </el-tab-pane>

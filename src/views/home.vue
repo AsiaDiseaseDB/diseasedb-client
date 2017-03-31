@@ -40,9 +40,9 @@
         </el-button-group>
       </el-col>
     </el-row>
-    <el-table id="result-table" :data="tableData" highlight-current-row align="center" height="350"
+    <el-table id="result-table" :data="tableData" highlight-current-row align="center" height="370"
       @current-change="handleCurrentChange" @row-dblclick="doubleClickEvent"
-      style="width: 100%" @selection-change="handleSelectionChange"
+      @selection-change="handleSelectionChange"
       :default-sort = "{ prop: 'id', order: 'descending' }"
       v-loading="isLoading" element-loading-text="Searching">
       <el-table-column type="selection" width="55" sortable></el-table-column>
@@ -363,6 +363,8 @@ export default {
 
 #result-table {
   user-select: none;
+  width: 100%;
+  height: 80%;
 }
 
 #upload-steps {

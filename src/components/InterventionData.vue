@@ -134,8 +134,8 @@
 <script>
 import detailData from '../static/detailData.js'
 import api from '../model/api.js'
-import util from '../model/util.js'
-import checker from '../model/format-checker.js'
+import util from '../lib/util.js'
+import checker from '../lib/format-checker.js'
 
 export default {
   name: 'app',
@@ -212,7 +212,7 @@ export default {
       api.getId('Intervention Data')
         .then((res) => {
           var parent = this.tree.currentNode.$parent
-          util.appendNode.call(this, parent, res.data.id, 'Intervention')
+          util.appendNode.call(this, parent, res.data.id, 'InterventionID')
         })
         .catch((err) => {
           this.$notify({

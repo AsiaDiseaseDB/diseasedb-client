@@ -163,8 +163,8 @@
 <script>
 import detailData from '../static/detailData.js'
 import api from '../model/api.js'
-import util from '../model/util.js'
-import checker from '../model/format-checker.js'
+import util from '../lib/util.js'
+import checker from '../lib/format-checker.js'
 
 export default {
   name: 'app',
@@ -254,7 +254,7 @@ export default {
           .then((res) => {
             var nextId = res.data.id
             var cur = this.tree.currentNode
-            util.appendNode.call(this, cur, res.data.id, 'Survey')
+            util.appendNode.call(this, cur, res.data.id, 'SurveyID')
           })
           .catch((err) => {
             this.$notify({
@@ -299,7 +299,7 @@ export default {
       api.getId('Basic Sources')
         .then((res) => {
           var parent = this.tree.currentNode.$parent
-          util.appendNode.call(this, parent, res.data.id, 'Report ID')
+          util.appendNode.call(this, parent, res.data.id, 'ReportID')
         })
         .catch((err) => {
           // console.log(err)
@@ -318,8 +318,8 @@ export default {
       this.form = {
         ReportID: this.nodeID, Reporter: '', Disease: '', Country: '',
         DocumentCategory: '', Journal: '', Title: '', Authors: '',
-        YearOfPub: '', Volume: '', Issue: '', PageFrom: '',
-        PageTo: '', AuthorContactNeeded: '', OpenAccess: '', Checked: '',
+        YearOfPub: '', Volume: null, Issue: null, PageFrom: null,
+        PageTo: null, AuthorContactNeeded: '', OpenAccess: '', Checked: '',
         Note1: ''
       }
     },

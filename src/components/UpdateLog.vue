@@ -15,6 +15,9 @@ export default {
   data() {
     return {
       tableData: [{
+        date: '2017-03-30',
+        content: '添加了用户管理功能'
+      }, {
         date: '2017-03-29',
         content: '添加了更新日志；修复了manage页面访问控制的问题'
       }, {

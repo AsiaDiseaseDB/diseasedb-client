@@ -79,7 +79,6 @@ export default {
       }
       this.idPath.reverse()
       this.nodeID = this.idPath[node.level - 1]
-      //  TODO: 数据库查询默认数据操作
       switch (node.level) {
         case 1:
           this.$router.push('/detail/basicsource');

@@ -59,7 +59,7 @@
         </el-form-item>
       </el-col>
     </el-row>
-    <el-form-item label="note3">
+    <el-form-item label="Note">
       <el-input placeholder="Note" v-model="form.Note3" type="textarea" :readonly="uneditable"></el-input>
     </el-form-item>
     <el-form-item>
@@ -106,8 +106,8 @@
 <script>
 import detailData from '../static/detailData.js'
 import api from '../model/api.js'
-import util from '../model/util.js'
-import checker from '../model/format-checker.js'
+import util from '../lib/util.js'
+import checker from '../lib/format-checker.js'
 
 export default {
   name: 'app',
@@ -182,7 +182,7 @@ export default {
         api.getId('Disease Data')
           .then((res) => {
             var cur = this.tree.currentNode
-            util.appendNode.call(this, cur, res.data.id, 'Disease')
+            util.appendNode.call(this, cur, res.data.id, 'DiseaseID')
           })
           .catch((err) => {
             this.$notify({
@@ -231,7 +231,7 @@ export default {
       api.getId('Location Information')
         .then((res) => {
           var parent = this.tree.currentNode.$parent
-          util.appendNode.call(this, parent, res.data.id, 'Location')
+          util.appendNode.call(this, parent, res.data.id, 'LocationID')
         })
         .catch((err) => {
           this.$notify({

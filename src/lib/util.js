@@ -79,6 +79,10 @@ export default {
         if (f2[i] !== '' && f2[i] !== null) {
           return false
         }
+      } else if (f2[i] === '' || f2[i] === null) {
+        if (f1[i] !== '' && f1[i] !== null) {
+          return false
+        }
       } else if (!isNaN(f1[i]) && !isNaN(f2[i])) {
         if (parseInt(f1[i]) !== parseInt(f2[i])) {
           return false

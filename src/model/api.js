@@ -1,7 +1,7 @@
 import axios from 'axios'
 import md5 from 'md5'
 
-import util from './util'
+import util from '../lib/util'
 
 //  为form中的属性值前后加上单引号，不会改变原有的表格值
 function addQuote (form, ex) {
@@ -262,11 +262,8 @@ export default {
   checkModified (operation, type, context) {
     this.getIdContent(context.nodeID, type)
       .then((res) => {
-        // console.log(res.data)
         var flag = false
-        if (res.data.data == null) {
-          flag = false
-        } else {
+        if (res.data.data !== null) {
           flag = util.isEqual(res.data.data, context.form)
         }
         if (flag) {
