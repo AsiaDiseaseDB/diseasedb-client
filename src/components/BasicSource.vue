@@ -162,6 +162,7 @@
 
 <script>
 import detailData from '../static/detailData.js'
+import optionManager from '../model/optionManager.js'
 import api from '../model/api.js'
 import util from '../lib/util.js'
 import checker from '../lib/format-checker.js'
@@ -191,7 +192,7 @@ export default {
         Checked: '',
         Note1: ''  //  note1
       },
-      reporterOptions: detailData.basicDetail.reporterOptions,
+      reporterOptions: [],  //  get data from the server
       diseaseOptions: detailData.basicDetail.diseaseOptions,
       countryOptions: detailData.basicDetail.countryOptions,
       documentCategoryOptions: detailData.basicDetail.documentCategoryOptions,
@@ -345,6 +346,11 @@ export default {
   },
   created: function () {
     this.updateData()
+    optionManager.getReportOptions()
+      .then((res) => {
+        console.log(res)
+        this.reporterOptions = res.data.data
+      })
   },
   beforeDestroy: function () {
     this.$emit('getBuffer', 'B', this.nodeID, this.form)

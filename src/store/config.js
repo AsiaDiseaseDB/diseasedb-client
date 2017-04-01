@@ -3,5 +3,5 @@ export default {
   baseURL: '172.18.215.238:3000',
   // baseURL: 'localhost:3000',
   appName: 'Asia Disease Database',
-  version: '1.21'
+  version: '1.30'
 }

@@ -18,21 +18,26 @@ const routes = [
   }, {
     path: '/detail',
     component: require('./views/detail.vue'),
-    mata: { requireAuth: true },
+    meta: { requireAuth: true },
     children: [{
       path: 'basicsource',
+      meta: { requireAuth: true },
       component: require('./components/BasicSource.vue')
     }, {
       path: 'survey',
+      meta: { requireAuth: true },
       component: require('./components/Survey.vue')
     }, {
       path: 'location',
+      meta: { requireAuth: true },
       component: require('./components/Location.vue')
     }, {
       path: 'disease',
+      meta: { requireAuth: true },
       component: require('./components/DiseaseData.vue')
     }, {
       path: 'intervention',
+      meta: { requireAuth: true },
       component: require('./components/InterventionData.vue')
     }]
   },
