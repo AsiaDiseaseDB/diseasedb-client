@@ -226,8 +226,9 @@ response {
 ```javascript
 url: '/importexcel'(post)
 request: {
-  (file) xlsx/xls
-  id: number
+  (file) xlsx/xls,
+  id: number,
+  username: string
 }
 response {
   success: bool,

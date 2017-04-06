@@ -165,7 +165,10 @@ export default {
       return this.active < 5
     },
     payload: function() {
-      return { id: this.active }
+      return {
+        id: this.active,
+        username: this.$store.state.userInfo.username
+      }
     },
     canEdit: function() {
       return this.$store.state.userInfo.authority <= 3

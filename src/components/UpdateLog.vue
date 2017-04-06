@@ -15,8 +15,11 @@ export default {
   data() {
     return {
       tableData: [{
+        date: '2017-04-05',
+        content: 'Version 1.3.1 修复了多用户同时进行批量导入时造成一个用户上传失败的错误'
+      }, {
         date: '2017-04-01',
-        content: 'Version 1.30 添加了Reporter管理功能，现在可以动态添加／删除reporter选项了'
+        content: 'Version 1.3.0 添加了Reporter管理功能，现在可以动态添加／删除reporter选项了'
       }, {
         date: '2017-04-01',
         content: '在顶栏上添加了用于反馈的按钮，可以通过此途径直接发送反馈信息给开发者'
@@ -67,7 +70,7 @@ export default {
         content: '添加只读浏览功能，双击查询结果即可进入对应条目；添加了删除功能'
       }, {
         date: '2017-03-12',
-        content: 'Version 0.90 完成数据库系统主体功能'
+        content: 'Version 0.9.0 完成数据库系统主体功能'
       }, {
         date: '..........',
         content: '..............'
