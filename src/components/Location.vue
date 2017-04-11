@@ -129,7 +129,7 @@ export default {
         GeoReferenceSources: '',
         Note3: ''
       },
-      grSourceOptions: detailData.locationDetail.grSourceOptions,
+      grSourceOptions: [],
       pointTypeOptions: detailData.locationDetail.pointTypeOptions,
       dialogVisible: false,
       //  upload dialog
@@ -277,6 +277,7 @@ export default {
   },
   created: function() {
     this.updateData()
+    this.grSourceOptions = this.$store.getters.grSourceOptions
   },
   beforeDestroy: function() {
     this.$emit('getBuffer', 'L', this.nodeID, this.form)

@@ -3,12 +3,18 @@ import Vuex from 'vuex'
 
 import config from './config.js'
 
+//  modules
+import options from './options.js'
+
 Vue.use(Vuex)
 
 const debug = process.env.NODE_ENV !== 'production'
 
 export default new Vuex.Store({
   strict: debug,
+  modules: {
+    options: options
+  },
   state: {
     //  app config
     config: config,

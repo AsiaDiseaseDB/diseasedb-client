@@ -328,6 +328,10 @@ export default {
       this.conditions.doubleClick = this.$store.state.homeConditionsBuff.doubleClick
     }
     this.onSearch()
+
+    if (this.$store.state.options.options === null) {
+      this.$store.dispatch('updateOpt')
+    }
   },
   beforeDestroy: function() {
     this.$store.commit('updateHomeTableBuff', this.tableData)

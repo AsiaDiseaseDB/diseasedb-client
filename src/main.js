@@ -19,5 +19,5 @@ var app = new Vue({
   render: h => h(App)
 })
 
-console.log(app.$store.state.config.baseURL)
+// console.log(app.$store.state.config.baseURL)
 axios.defaults.baseURL = 'http://' + app.$store.state.config.baseURL

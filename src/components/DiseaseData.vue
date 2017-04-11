@@ -210,7 +210,7 @@ export default {
         LocationInformationSurveyDescriptionSurveyID: -1,
         LocationInformationLocationID1: -1
       },
-      informationOptions: detailData.diseaseDetail.informationOptions,
+      informationOptions: [],
       dialogVisible: false,
       //  upload dialog
       dialogUploadVisible: false,
@@ -362,6 +362,7 @@ export default {
   },
   created: function() {
     this.updateData()
+    this.informationOptions = this.$store.getters.informationOptions
   },
   beforeDestroy: function() {
     this.$emit('getBuffer', 'D', this.nodeID, this.form)

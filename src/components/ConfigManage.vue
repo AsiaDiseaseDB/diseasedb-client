@@ -1,6 +1,6 @@
 <template>
   <div id="config-management">
-    <el-row :gutter="20">
+    <!-- <el-row :gutter="20">
       <el-col id="config-manage-left-part" :span="10">
         <el-table id="config-report-table" :data="reporterForm" style="width: 100%" highlight-current-row
                   align="center" @current-change="handleCurrentChange">
@@ -26,7 +26,8 @@
           </el-form-item>
         </el-form>
       </el-col>
-    </el-row>
+    </el-row> -->
+    <ccpanel :optName="'reporterOptions'" :catagory="'basicDetail'"></ccpanel>
   </div>
 </template>
 
@@ -43,6 +44,9 @@ export default {
         newReporter: null
       }
     }
+  },
+  components: {
+    ccpanel: require('./ConfigControlPanel.vue')
   },
   methods: {
     handleCurrentChange (val) {  //  记录当前选中的行

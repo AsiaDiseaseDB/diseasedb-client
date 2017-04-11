@@ -192,10 +192,10 @@ export default {
         Checked: '',
         Note1: ''  //  note1
       },
-      reporterOptions: [],  //  get data from the server
-      diseaseOptions: detailData.basicDetail.diseaseOptions,
-      countryOptions: detailData.basicDetail.countryOptions,
-      documentCategoryOptions: detailData.basicDetail.documentCategoryOptions,
+      reporterOptions: [],
+      diseaseOptions: [],
+      countryOptions: [],
+      documentCategoryOptions: [],
       contactNeededOptions: ['No', 'Yes', 'Already'],
       openAccessOptions: ['No', 'Yes'],
       checkedOptions: ['No', 'Yes'],
@@ -346,11 +346,10 @@ export default {
   },
   created: function () {
     this.updateData()
-    optionManager.getReportOptions()
-      .then((res) => {
-        console.log(res)
-        this.reporterOptions = res.data.data
-      })
+    this.reporterOptions = this.$store.getters.reporterOptions
+    this.diseaseOptions = this.$store.getters.diseaseOptions
+    this.countryOptions = this.$store.getters.countryOptions
+    this.documentCategoryOptions = this.$store.getters.documentCategoryOptions
   },
   beforeDestroy: function () {
     this.$emit('getBuffer', 'B', this.nodeID, this.form)
