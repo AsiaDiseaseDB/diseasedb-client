@@ -1,5 +1,5 @@
 <template>
-<div id="disease">
+<div id="disease" v-loading="loading">
   <el-form ref="form" :model="form" label-width="80px" label-position="top">
     <el-form-item>
       <span class="bs-title">DiseaseID:</span>
@@ -215,7 +215,9 @@ export default {
       //  upload dialog
       dialogUploadVisible: false,
       payload: null,
-      showlist: false
+      showlist: false,
+
+      loading: false
     }
   },
   computed: {

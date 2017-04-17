@@ -1,5 +1,5 @@
 <template>
-<div id="intervention">
+<div id="intervention" v-loading="loading">
   <el-form ref="form" :model="form" label-width="80px" label-position="top">
     <el-form-item>
       <span class="bs-title">InterventionID:</span>
@@ -167,7 +167,9 @@ export default {
         DiseaseDataLocationInformationSurveyDescriptionSurveyID: -1
       },
       groupOptions: detailData.interventionDetail.groupOptions,
-      dialogVisible: false
+      dialogVisible: false,
+
+      loading: true
     }
   },
   computed: {

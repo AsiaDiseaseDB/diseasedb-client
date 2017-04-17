@@ -1,33 +1,19 @@
 <template>
   <div id="config-management">
-    <!-- <el-row :gutter="20">
-      <el-col id="config-manage-left-part" :span="10">
-        <el-table id="config-report-table" :data="reporterForm" style="width: 100%" highlight-current-row
-                  align="center" @current-change="handleCurrentChange">
-          <el-table-column property="id" type="index" width="100"></el-table-column>
-          <el-table-column property="reporter" label="Reporter" sortable></el-table-column>
-        </el-table>
+    <el-row :gutter="20">
+      <el-col :span="8">
+        <ccpanel :optName="'reporterOptions'" :catagory="'basicDetail'"></ccpanel>
+        <ccpanel :optName="'diseaseOptions'" :catagory="'basicDetail'"></ccpanel>
+        <ccpanel :optName="'documentCategoryOptions'" :catagory="'basicDetail'"></ccpanel>
       </el-col>
-      <el-col :span="14" id="config-manage-right-part">
-        <el-button-group>
-          <el-button @click="onDeleteReporter" icon="delete">Delete</el-button>
-          <el-button @click="onAddReporter" icon="plus">New User</el-button>
-        </el-button-group>
-
-        <el-form :inline="true" :model="operationForm" id="config-manage-reporter-form">
-          <el-form-item v-show="operationType === 'delete'">
-            <el-input readonly v-model="operationForm.reporter" placeholder="请在左侧选中Reporter"></el-input>
-          </el-form-item>
-          <el-form-item v-show="operationType === 'add'">
-            <el-input v-model="operationForm.newReporter" placeholder="请输入要添加的Reporter"></el-input>
-          </el-form-item>
-          <el-form-item v-show="operationType !== null">
-            <el-button type="primary" @click="onSubmit">确定</el-button>
-          </el-form-item>
-        </el-form>
+      <el-col :span="8">
+        <ccpanel :optName="'countryOptions'" :catagory="'basicDetail'"></ccpanel>
+        <ccpanel :optName="'grSourceOptions'" :catagory="'locationDetail'"></ccpanel>
       </el-col>
-    </el-row> -->
-    <ccpanel :optName="'reporterOptions'" :catagory="'basicDetail'"></ccpanel>
+      <el-col :span="8">
+        <ccpanel :optName="'informationOptions'" :catagory="'diseaseDetail'"></ccpanel>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -113,6 +99,10 @@ export default {
 </script>
 
 <style>
+#config-management {
+  margin-right: 10px;
+}
+
 #config-report-table {
   user-select: none;
   border: 1px solid #d1dbe5;

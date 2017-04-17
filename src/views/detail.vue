@@ -1,6 +1,6 @@
 <!-- 编辑数据库条目界面 -->
 <template>
-<div id="detail">
+<div id="detail" v-loading.fullscreen.lock="treeLoading" element-loading-text="数据加载中">
   <TopBar id="top-menu"></TopBar>
   <div id="detail-page-container">
     <el-row>
@@ -39,6 +39,7 @@ export default {
       tree: null,
       treedata: [],
       treeId: 2,
+      treeLoading: true,
       idPath: [],
       nodeID: -1,
       buff: { 'B': {}, 'S': {}, 'L': {}, 'D': {}, 'I': {} }
@@ -127,6 +128,7 @@ export default {
   mounted: function () {
     //  获取树组件的引用
     this.tree = this.$refs.tree
+    this.treeLoading = true
     switch (this.opt) {
       case 'new':
         api.getId('Basic Sources')
@@ -140,6 +142,7 @@ export default {
             }]
             setTimeout(() => {
               this.$refs.tree.$children[0].handleClick()
+              this.treeLoading = false
             }, 0)
           })
           .catch((err) => {
@@ -148,6 +151,7 @@ export default {
               message: '网络错误',
               type: 'warning'
             })
+            this.treeLoading = false
           })
         break
       case 'edit':
@@ -163,10 +167,12 @@ export default {
             }
             setTimeout(() => {
               this.$refs.tree.$children[0].handleClick()
+              this.treeLoading = false
             }, 0)
           }).catch((err) => {
             console.log('>> /getidtree catch Error')
             console.log(err)
+            // this.treeLoading = false
           })
         break
       case 'view':
@@ -181,6 +187,7 @@ export default {
             }
             setTimeout(() => {
               this.$refs.tree.$children[0].handleClick()
+              this.treeLoading = false
             }, 0)
           }).catch((err) => {
             console.log('>> /getidtree catch Error')
@@ -188,7 +195,7 @@ export default {
           })
         break
       default:
-        //  do nothing
+        this.treeLoading = false
     }
   },
   beforeDestroy: function() {

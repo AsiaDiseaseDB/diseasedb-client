@@ -30,15 +30,15 @@ function empty2Null (form) {
 function getHandledData (type, data) {
   var ex = {
     basicSources: ['ReportID', 'YearOfPub', 'Volume', 'Issue', 'PageFrom', 'PageTo'],
-    survey: ['SurveyID', 'BasicSources_ReportID'],
+    survey: ['SurveyID', 'BasicSourcesReportID'],
     location: [
-      'LocationID', 'SurveyDescription_BasicSources_ReportID',
-      'SurveyDescription_SurveyID', 'Latitude', 'Longitude'
+      'LocationID', 'SurveyDescriptionBasicSourcesReportID',
+      'SurveyDescriptionSurveyID', 'Latitude', 'Longitude'
     ],
     disease: [
       'DiseaseID', 'AgeLower', 'AgeUpper',
       'NumExamine', 'NumPositive', 'PercentPositive',
-      'NumExamineMale', 'NumPositiveMale', 'Percent_positive_male',
+      'NumExamineMale', 'NumPositiveMale', 'PercentPositiveMale',
       'NumExamineFemale', 'NumPositiveFemale', 'PercentPositiveFemale'
     ],
     intervention: [
@@ -135,10 +135,12 @@ export default {
       context.isLoading = false
     })
   },
-  queryAll: function (authority, context) {
+  queryAll: function (authority, context, limit) {
     const url = '/queryAll'
+    let lim = limit === undefined ? 100 : limit
     axios.post(url, {
-      authority: authority
+      authority: authority,
+      limit: lim
     }).then((res) => {
       context.tableData = []  //  清空上次搜索结果
       if (res.data.result !== null && res.data.result !== undefined) {
@@ -168,41 +170,46 @@ export default {
   add: function (type, data, context) {
     var that = this
     const url = '/add'
+    context.loading = true
     var handledData = getHandledData(type, data)
-    axios.post(url, {
+    return axios.post(url, {
       type: type,
       data: handledData
     })
       .then(function (res) {
-        console.log(res)
         if (res.data.success === true) {
-          setTimeout(function () {
-            context.$notify({
-              title: '保存成功',
-              message: '提交了一条' + type,
-              type: 'success'
-            })
-          }, 500)
+          context.$notify({
+            title: '保存成功',
+            message: '提交了一条' + type,
+            type: 'success'
+          })
+          context.loading = false
+          return Promise.resolve()
         } else {
           //  若是由于重复id导致的错误，调用editAPI进行更新数据的操作
           if (res.data.err.errno === 1062) {
-            that.edit(type, util.getID(type, data), data, context)
+            return that.edit(type, util.getID(type, data), data, context)
+              .then(() => {
+                context.loading = false
+                return Promise.resolve()
+              })
           } else {
             console.log('>> /add Error: \n' + res.data.err)
+            context.loading = false
+            return Promise.reject(res.data.err)
           }
         }
       })
       .catch((err) => {
         console.log('>> /add catch Error' + err)
+        context.loading = false
+        return Promise.reject(err)
       })
   },
   edit: function (type, id, data, context) {
     const url = '/edit'
-    console.log(data)
-    console.log('---')
     var handledData = getHandledData(type, data)
-    console.log(handledData)
-    axios.post(url, {
+    return axios.post(url, {
       type: type,
       id: id,
       data: handledData
@@ -210,24 +217,25 @@ export default {
     .then(function (res) {
       if (context === undefined) {
         console.log('>> /edit Error: undefined context')
+        return Promise.reject('>> /edit Error: undefined context')
       } else {
         if (res.data.success === true) {
-          setTimeout(function () {
-            context.$notify({
-              title: '更改成功',
-              message: '修改了一条' + type,
-              type: 'success'
-            })
-          }, 500)
+          context.$notify({
+            title: '更改成功',
+            message: '修改了一条' + type,
+            type: 'success'
+          })
+          return Promise.resolve()
         } else {
-          console.log(context.form)
           console.log('>> /edit Error:')
           console.log(res.data.err)
+          return Promise.reject(res.data.err)
         }
       }
     })
     .catch(function (err) {
       console.log('>> /edit catch Error: \n' + err)
+      return Promise.reject(err)
     })
   },
   delete: function (id, type) {

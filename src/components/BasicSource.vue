@@ -1,5 +1,5 @@
 <template>
-<div id="basic_source">
+<div id="basic_source" v-loading="loading">
   <el-form ref="form" :model="form" label-width="80px" label-position="top">
     <el-form-item>
       <span class="bs-title">ReportID:</span>
@@ -203,7 +203,8 @@ export default {
       //  upload dialog
       dialogUploadVisible: false,
       payload: null,
-      showlist: false
+      showlist: false,
+      loading: false
     }
   },
   computed: {
@@ -263,7 +264,6 @@ export default {
               message: '网络错误',
               type: 'warning'
             })
-            // console.log(err)
           })
       }, 'Basic Sources', this)
     },
@@ -330,6 +330,7 @@ export default {
         this.form = this.buff.B[this.nodeID]
       } else {
         //  从服务器取回数据
+        this.loading = true
         api.getIdContent(this.nodeID, 'Basic Sources')
           .then((res) => {
             if (res.data.data == null) {
@@ -337,9 +338,11 @@ export default {
             } else {
               this.form = res.data.data
             }
+            this.loading = false
           })
           .catch((err) => {
             this.initForm()
+            this.loading = false
           })
       }
     }

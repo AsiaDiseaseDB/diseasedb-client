@@ -15,8 +15,23 @@ export default {
   data() {
     return {
       tableData: [{
+        date: '2017-04-17',
+        content: '增添网络访问等待界面'
+      }, {
+        date: '2017-04-16',
+        content: '限制home页面中初始化情况下查询的条目，默认最多显示100条'
+      }, {
+        date: '2017-04-12',
+        content: 'Version 1.4.2 修改了在centos环境下运行可能产生的bug'
+      }, {
+        date: '2017-04-12',
+        content: 'Version 1.4.1 添加了一些动效，提升用户体验'
+      }, {
+        date: '2017-04-11',
+        content: 'Version 1.4.0 添加了更多条目的动态增删功能'
+      }, {
         date: '2017-04-05',
-        content: 'Version 1.3.1 修复了多用户同时进行批量导入时造成一个用户上传失败的错误'
+        content: '修复了多用户同时进行批量导入时造成一个用户上传失败的错误'
       }, {
         date: '2017-04-01',
         content: 'Version 1.3.0 添加了Reporter管理功能，现在可以动态添加／删除reporter选项了'

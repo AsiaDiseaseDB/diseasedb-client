@@ -298,6 +298,7 @@ export default {
       if (this.isEmpty(this.conditions.searchID) && this.isEmpty(this.conditions.dValue) &&
           this.isEmpty(this.conditions.cValue) && this.isEmpty(this.conditions.yValue) &&
           this.isEmpty(this.conditions.doubleClick)) {
+        this.isLoading = true
         api.queryAll(this.authority, this)
         return
       }

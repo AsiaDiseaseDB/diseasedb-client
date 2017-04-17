@@ -46,17 +46,19 @@ export default {
   },
   actions: {
     updateOpt: ({ commit }) => {
-      console.log('dispatch action~')
-      axios.post('/option/getWholeOptions', {})
+      return axios.post('/option/getWholeOptions', {})
         .then((res) => {
           if (res.data.err === null) {
             commit('update', res.data.data)
+            return Promise.resolve()
           } else {
             console.log(res.data.err)
+            return Promise.reject()
           }
         })
         .catch((err) => {
           console.log(err)
+          return Promise.reject()
         })
     }
   }
