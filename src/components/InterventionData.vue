@@ -249,6 +249,7 @@ export default {
     updateData() {
       if (this.buff.I[this.nodeID] !== undefined) {
         this.form = this.buff.I[this.nodeID]
+        this.loading = false
       } else {
         api.getIdContent(this.nodeID, 'Intervention Data')
           .then((res) => {
@@ -257,9 +258,11 @@ export default {
             } else {
               this.form = res.data.data
             }
+            this.loading = false
           })
           .catch((err) => {
             this.initForm()
+            this.loading = false
           })
       }
     }

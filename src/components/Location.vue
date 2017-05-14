@@ -136,8 +136,7 @@ export default {
       dialogUploadVisible: false,
       payload: null,
       showlist: false,
-
-      loading: false
+      loading: true
     }
   },
   computed: {
@@ -262,6 +261,7 @@ export default {
     updateData() {
       if (this.buff.L[this.nodeID] !== undefined) {
         this.form = this.buff.L[this.nodeID]
+        this.loading = false
       } else {
         api.getIdContent(this.nodeID, 'Location Information')
           .then((res) => {
@@ -270,9 +270,11 @@ export default {
             } else {
               this.form = res.data.data
             }
+            this.loading = false
           })
           .catch((err) => {
             this.initForm()
+            this.loading = false
           })
       }
     }

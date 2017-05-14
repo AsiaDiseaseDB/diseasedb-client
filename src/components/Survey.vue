@@ -133,7 +133,7 @@ export default {
       payload: null,
       showlist: false,
 
-      loading: false
+      loading: true
     }
   },
   computed: {
@@ -256,6 +256,7 @@ export default {
     updateData() {
       if (this.buff.S[this.nodeID] !== undefined) {
         this.form = this.buff.S[this.nodeID]
+        this.loading = false
       } else {
         api.getIdContent(this.nodeID, 'Survey Description')
           .then((res) => {
@@ -264,9 +265,11 @@ export default {
             } else {
               this.form = res.data.data
             }
+            this.loading = false
           })
           .catch((err) => {
             this.initForm()
+            this.loading = false
           })
       }
     }

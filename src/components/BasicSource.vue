@@ -204,7 +204,7 @@ export default {
       dialogUploadVisible: false,
       payload: null,
       showlist: false,
-      loading: false
+      loading: true
     }
   },
   computed: {
@@ -328,6 +328,7 @@ export default {
     updateData () {
       if (this.buff.B[this.nodeID] !== undefined) {
         this.form = this.buff.B[this.nodeID]
+        this.loading = false
       } else {
         //  从服务器取回数据
         this.loading = true
