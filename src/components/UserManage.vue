@@ -23,7 +23,7 @@
     <el-col id="user-manage-left-part" :span="10">
       <el-table id="user-table" :data="userData" style="width: 100%" highlight-current-row
                 align="center" @current-change="handleCurrentChange">
-        <el-table-column property="id" type="index" width="100" sortable></el-table-column>
+        <el-table-column property="id" type="index" width="50" sortable></el-table-column>
         <el-table-column property="username" label="Username" width="200" sortable></el-table-column>
         <el-table-column property="authority" label="Authority" sortable></el-table-column>
       </el-table>
@@ -50,7 +50,7 @@
         </el-form-item>
         <el-form-item v-show="operationType === 2 || operationType === 3">
           <el-select v-model="operationForm.authority" placeholder="请选择用户权限">
-            <el-option v-for="item in options" :label="item.label" :value="item.value"></el-option>
+            <el-option v-for="item in options" :key="item.label" :label="item.label" :value="item.value"/>>
           </el-select>
         </el-form-item>
       </el-form-item>

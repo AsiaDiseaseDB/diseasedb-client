@@ -238,16 +238,4 @@ export default {
 #detail-tree {
   border-width: 0;
 }
-
-#top-menu {
-  z-index: 100;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  margin-left: 0;
-  margin-right: 0;
-  margin-top: 0;
-  /*width: auto;*/
-}
 </style>

@@ -14,6 +14,7 @@
   </el-dialog>
 
   <el-menu class="el-menu-demo" mode="horizontal" @select="handleSelect">
+    <el-menu-item id="topbar-welcome" index="5">{{ msg }}</el-menu-item>
     <el-menu-item index="1"><i class="el-icon-menu"></i>Home</el-menu-item>
     <el-menu-item v-show="canManage" index="2"><i class="el-icon-setting"></i>Management</el-menu-item>
     <el-menu-item index="3"><i class="el-icon-message"></i>Bug Report</el-menu-item>
@@ -35,6 +36,9 @@ export default {
   computed: {
     canManage () {
       return this.$store.state.userInfo.authority === 1
+    },
+    msg () {
+      return 'Welcome, ' + this.$store.state.userInfo.username
     }
   },
   methods: {
@@ -87,7 +91,33 @@ export default {
 </script>
 
 <style>
-#bug-report {
+body {
+  margin: 0;
+}
+
+h1 {
+  text-align: center;
+}
+
+#topbar {
+  height: 5vh;
+  z-index: 100;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .12), 0 0 6px 0 rgba(0, 0, 0, .04);
+}
+
+#topbar-welcome {
+  font-weight: bold;
+  font-size: 18px;
+  border: none;
+}
+
+#topbar-welcome:hover {
+  border: none;
+  cursor: default;
+}
+
+#topbar-welcome.el-menu-item.is-active {
+  color: #000000;
 }
 
 .bug-report-hint {

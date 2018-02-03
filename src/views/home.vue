@@ -2,57 +2,86 @@
 <div id="home">
   <TopBar id="top-menu"></TopBar>
   <div id="page-container">
-    <h1>{{ helloMsg }}</h1>
-    <el-row id="input_row" :gutter="10">
-      <el-col :span="4">
-        <el-input placeholder="Report ID" v-model="conditions.searchID"></el-input>
-      </el-col>
-      <el-col :span="4">
-        <el-select v-model="conditions.dValue" placeholder="Disease" clearable>
-          <el-option v-for="item in diseaseOptions" :key="item" :label="item" :value="item"></el-option>
-        </el-select>
-      </el-col>
-      <el-col :span="4">
-        <el-select v-model="conditions.cValue" placeholder="Country" clearable>
-          <el-option v-for="item in countryOptions" :key="item" :label="item" :value="item"></el-option>
-        </el-select>
-      </el-col>
-      <el-col :span="6">
-        <el-date-picker v-model="conditions.yValue" align="right" type="year" placeholder="Year">
-        </el-date-picker>
-      </el-col>
-      <el-col :span="6">
-        <el-select v-model="conditions.doubleClick" placeholder="Double Check" clearable>
-          <el-option v-for="item in clickOptions" :key="item" :label="item" :value="item"></el-option>
-        </el-select>
-      </el-col>
-    </el-row>
-    <el-row id="buttons" type="flex" justify="end" :gutter="10">
-      <el-col :span="20" class="btn-container">
-        <el-button-group>
-          <el-button @click="onSearch" icon="search">Search</el-button>
-          <el-button @click="onBatchExport" icon="share">Export</el-button>
-          <el-button @click="onBatchInput" icon="upload2" v-show="canEdit">Batch Input</el-button>
-          <el-button @click="onView" icon="view">View</el-button>
-          <el-button @click="onEdit" icon="edit" v-show="canEdit">Edit</el-button>
-          <el-button @click="onDelete" icon="delete" v-show="canEdit">Delete</el-button>
-          <el-button type="primary" @click="onNew" icon="plus" v-show="canEdit">New</el-button>
-        </el-button-group>
-      </el-col>
-    </el-row>
-    <el-table id="result-table" :data="tableData" highlight-current-row align="center" height="370"
-      @current-change="handleCurrentChange" @row-dblclick="doubleClickEvent"
-      @selection-change="handleSelectionChange"
-      :default-sort = "{ prop: 'id', order: 'descending' }"
-      v-loading="isLoading" element-loading-text="Searching">
-      <el-table-column type="selection" width="55" sortable></el-table-column>
-      <el-table-column property="id" label="id" width="90" sortable></el-table-column>
-      <el-table-column property="title" label="Title" width="200" sortable></el-table-column>
-      <el-table-column property="author" label="Author" width="200" sortable></el-table-column>
-      <el-table-column property="disease" label="Disease" width="200" sortable></el-table-column>
-      <el-table-column property="reporter" label="Reporter" width="160" sortable></el-table-column>
-      <el-table-column property="time" label="Year of publish" sortable></el-table-column>
-    </el-table>
+    <!-- <h1>{{ helloMsg }}</h1> -->
+    <el-input
+      class="home-short-items"
+      placeholder="Report ID"
+      v-model="conditions.searchID"
+    />
+    <el-select
+      class="home-short-items"
+      v-model="conditions.dValue"
+      placeholder="Disease"
+      clearable
+    >
+      <el-option
+        v-for="item in diseaseOptions"
+        :key="item"
+        :label="item"
+        :value="item"
+      />
+    </el-select>
+    <el-select
+      class="home-short-items"
+      v-model="conditions.cValue"
+      placeholder="Country"
+      clearable
+    >
+      <el-option
+        v-for="item in countryOptions"
+        :key="item"
+        :label="item"
+        :value="item"
+      />
+    </el-select>
+    <el-date-picker
+      id="home-date-select-item"
+      v-model="conditions.yValue"
+      align="right"
+      type="year"
+      placeholder="Year"
+    />
+    <el-select
+      class="home-short-items"
+      v-model="conditions.doubleClick"
+      placeholder="Double Check"
+      clearable>
+      <el-option
+        v-for="item in clickOptions"
+        :key="item"
+        :label="item"
+        :value="item"
+      />
+    </el-select>
+    <el-button-group id="home-button-group">
+      <el-button class="home-button" @click="onSearch" icon="search">Search</el-button>
+      <el-button class="home-button" @click="onBatchExport" icon="share">Export</el-button>
+      <el-button class="home-button" @click="onBatchInput" icon="upload2" v-show="canEdit">Import</el-button>
+      <el-button class="home-button" @click="onView" icon="view">View</el-button>
+      <el-button class="home-button" @click="onEdit" icon="edit" v-show="canEdit">Edit</el-button>
+      <el-button class="home-button" @click="onDelete" icon="delete" v-show="canEdit">Delete</el-button>
+      <el-button class="home-button" type="primary" @click="onNew" icon="plus" v-show="canEdit">New</el-button>
+    </el-button-group>
+    <div class="home-table-container">
+      <el-table
+        id="result-table"
+        :data="tableData"
+        highlight-current-row
+        align="center"
+        @current-change="handleCurrentChange" @row-dblclick="doubleClickEvent"
+        @selection-change="handleSelectionChange"
+        :default-sort = "{ prop: 'id', order: 'descending' }"
+        v-loading="isLoading" element-loading-text="Searching"
+      >
+        <el-table-column type="selection" width="55" sortable></el-table-column>
+        <el-table-column property="id" label="id" width="90" sortable></el-table-column>
+        <el-table-column property="title" label="Title" width="200" sortable></el-table-column>
+        <el-table-column property="author" label="Author" width="200" sortable></el-table-column>
+        <el-table-column property="disease" label="Disease" width="200" sortable></el-table-column>
+        <el-table-column property="reporter" label="Reporter" width="140" sortable></el-table-column>
+        <el-table-column property="time" label="Publish Time" sortable></el-table-column>
+      </el-table>
+    </div>
   </div>
 
   <el-dialog id="dialog" :title="dialogTitle"
@@ -342,26 +371,18 @@ export default {
 </script>
 
 <style>
-#top-menu {
-  z-index: 100;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .12), 0 0 6px 0 rgba(0, 0, 0, .04);
-}
-
 #buttons {
   margin-top: 10px;
   margin-bottom: 10px;
 }
 
 #page-container {
-  position: relative;
-  top: 20px;
-  padding: 5px;
+  height: calc(95vh - 60px);
+  margin-top: 2vh;
+  padding: 1vh;
   border: 1px solid #d1dbe5;
   border-radius: 4px;
+  text-align: left;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .12), 0 0 6px 0 rgba(0, 0, 0, .04);
 }
 
@@ -372,13 +393,16 @@ export default {
 #result-table {
   user-select: none;
   width: 100%;
-  height: 80%;
 }
 
 #upload-steps {
   margin-top: 30px;
   margin-left: auto;
   margin-right: auto;
+}
+
+#home-button-group {
+  margin: 2vh 0;
 }
 
 .btn-container {
@@ -389,4 +413,20 @@ export default {
   margin-top: 15px;
 }
 
+.home-short-items {
+  width: 19vw;
+}
+
+.home-button {
+  width: 14vw;
+}
+
+.home-table-container {
+  height: calc(93vh - 140px);
+  overflow: scroll;
+}
+
+#home-date-select-item {
+  width: 19vw;
+}
 </style>
