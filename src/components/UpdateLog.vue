@@ -15,6 +15,9 @@ export default {
   data() {
     return {
       tableData: [{
+        date: '2018-02-03',
+        content: '增添用户注册邮件提醒功能'
+      }, {
         date: '2017-04-17',
         content: '增添网络访问等待界面'
       }, {

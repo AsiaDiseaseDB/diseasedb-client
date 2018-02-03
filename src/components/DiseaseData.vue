@@ -15,8 +15,12 @@
         <el-form-item label="Information">
           <el-select v-model="form.LocationInformationLocationID" placeholder="Information"
                      :readonly="uneditable" v-if="!uneditable">
-            <el-option v-for="item in informationOptions"
-                       :label="item" :value="item"></el-option>
+            <el-option
+              v-for="item in informationOptions"
+              :key="item"
+              :label="item"
+              :value="item"
+            />
           </el-select>
           <el-input v-model="form.LocationInformationLocationID" :readonly="uneditable" v-else></el-input>
         </el-form-item>
@@ -141,7 +145,7 @@
       </el-button-group>
       <el-button-group id="disease-import-group">
         <el-button @click="onImport" v-show="editable" icon="upload2">Import</el-button>
-      <el-button-group>
+      </el-button-group>
     </el-form-item>
   </el-form>
 

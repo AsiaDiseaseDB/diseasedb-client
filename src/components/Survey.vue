@@ -70,7 +70,7 @@
       </el-button-group>
       <el-button-group id="survey-import-group">
         <el-button @click="onImport" v-show="editable" icon="upload2">Import</el-button>
-      <el-button-group>
+      </el-button-group>
     </el-form-item>
   </el-form>
 

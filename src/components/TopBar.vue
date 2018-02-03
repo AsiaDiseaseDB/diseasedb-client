@@ -5,7 +5,6 @@
     <div class="bug-report-hint">
       <div class="bug-desc">请您具体描述您所遇到的Bug，或对本系统的任何建议😅：</div>
       <div>出现在**哪个页面**，由于**何种操作导致**以及，最好能提供**导致出现bug的数据**</div>
-      <div>您的反馈将以邮件形式通知开发者，我们将第一时间为您修复</div>
     </div>
     <el-input type="textarea" v-model="description" :rows="5"></el-input>
     <span slot="footer" class="dialog-footer">

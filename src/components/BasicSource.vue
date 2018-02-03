@@ -9,7 +9,7 @@
       <el-col :span="8">
         <el-form-item label="Reporter">
           <el-select v-model="form.Reporter" placeholder="Reporter" v-if="!uneditable">
-            <el-option v-for="item in reporterOptions" :label="item" :value="item"></el-option>
+            <el-option v-for="item in reporterOptions" :key="item" :label="item" :value="item"></el-option>
           </el-select>
           <el-input v-model="form.Reporter" :readonly="uneditable" v-else></el-input>
         </el-form-item>
@@ -93,7 +93,7 @@
       <el-col :span="8">
         <el-form-item label="Author Contact Needed">
           <el-select v-model="form.AuthorContactNeeded" placeholder="Author Contact Needed" v-if="!uneditable">
-            <el-option v-for="item in contactNeededOptions" :label="item" :value="item"></el-option>
+            <el-option v-for="item in contactNeededOptions" :key="item" :label="item" :value="item"></el-option>
           </el-select>
           <el-input v-model="form.AuthorContactNeeded" :readonly="uneditable" v-else></el-input>
         </el-form-item>
@@ -101,7 +101,7 @@
       <el-col :span="8">
         <el-form-item label="Open Access">
           <el-select v-model="form.OpenAccess" placeholder="Open Access" v-if="!uneditable">
-            <el-option v-for="item in openAccessOptions" :label="item" :value="item"></el-option>
+            <el-option v-for="item in openAccessOptions" :key="item" :label="item" :value="item"></el-option>
           </el-select>
           <el-input v-model="form.OpenAccess" :readonly="uneditable" v-else></el-input>
         </el-form-item>
@@ -109,7 +109,7 @@
       <el-col :span="8">
         <el-form-item label="Checked">
           <el-select v-model="form.Checked" placeholder="Checked" v-if="!uneditable">
-            <el-option v-for="item in checkedOptions" :label="item" :value="item"></el-option>
+            <el-option v-for="item in checkedOptions" :key="item" :label="item" :value="item"></el-option>
           </el-select>
           <el-input placeholder="Checked" v-model="form.Checked" :readonly="uneditable" v-else></el-input>
         </el-form-item>
@@ -128,7 +128,7 @@
       </el-button-group>
       <el-button-group id="basic-import-group">
         <el-button @click="onImport" v-show="editable" icon="upload2">Import</el-button>
-      <el-button-group>
+      </el-button-group>
     </el-form-item>
   </el-form>
 

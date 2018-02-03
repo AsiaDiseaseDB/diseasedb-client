@@ -24,7 +24,7 @@
     </el-form-item>
   </el-form>
 
-  <el-dialog  title="新用户注册" v-model="dialogVisible" size="small">
+  <el-dialog title="新用户注册" v-model="dialogVisible" size="small">
     <div id="login-dialog">
       <el-form :model="register" :rules="registerRules" ref="register" label-width="100px">
         <el-form-item label="用户名" prop="username">
@@ -58,6 +58,7 @@
 
 <script>
 import api from '../model/api.js'
+import mailSender from '../model/mailSender.js'
 
 export default {
   name: 'login',
@@ -175,14 +176,24 @@ export default {
                   message: '注册成功',
                   type: 'success'
                 })
+                return Promise.resolve()
               } else {
-                // console.log(res)
                 this.$notify({
                   title: '注册失败',
                   message: '用户名重复',
                   type: 'warning'
                 })
+                return Promise.reject()
               }
+            })
+            .then(res => {
+              mailSender.newUserReport(this.register.username)
+                .then(res => {
+                  // send a email
+                })
+                .catch(err => {
+                  console.log(err)
+                })
             })
             .catch((err) => {
               console.log(err)

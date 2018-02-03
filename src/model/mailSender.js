@@ -5,5 +5,10 @@ export default {
     return axios.post('/report/bug', {
       description: description
     })
+  },
+  newUserReport (username) {
+    return axios.post('/report/newuser', {
+      username: username
+    })
   }
 }

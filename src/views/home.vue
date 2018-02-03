@@ -4,17 +4,17 @@
   <div id="page-container">
     <h1>{{ helloMsg }}</h1>
     <el-row id="input_row" :gutter="10">
-      <el-col v-bind:span="4">
+      <el-col :span="4">
         <el-input placeholder="Report ID" v-model="conditions.searchID"></el-input>
       </el-col>
       <el-col :span="4">
         <el-select v-model="conditions.dValue" placeholder="Disease" clearable>
-          <el-option v-for="item in diseaseOptions" v-bind:label="item" v-bind:value="item"></el-option>
+          <el-option v-for="item in diseaseOptions" :key="item" :label="item" :value="item"></el-option>
         </el-select>
       </el-col>
       <el-col :span="4">
         <el-select v-model="conditions.cValue" placeholder="Country" clearable>
-          <el-option v-for="item in countryOptions" v-bind:label="item" v-bind:value="item"></el-option>
+          <el-option v-for="item in countryOptions" :key="item" :label="item" :value="item"></el-option>
         </el-select>
       </el-col>
       <el-col :span="6">
@@ -22,8 +22,8 @@
         </el-date-picker>
       </el-col>
       <el-col :span="6">
-        <el-select v-model="conditions.doubleClick" placeholder="Double Click" clearable>
-          <el-option v-for="item in clickOptions" v-bind:label="item" v-bind:value="item"></el-option>
+        <el-select v-model="conditions.doubleClick" placeholder="Double Check" clearable>
+          <el-option v-for="item in clickOptions" :key="item" :label="item" :value="item"></el-option>
         </el-select>
       </el-col>
     </el-row>
